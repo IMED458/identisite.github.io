@@ -10,6 +10,10 @@ const collections = {
   settings: 'settings',
   services: 'services',
   portfolio: 'portfolio',
+  team: 'team',
+  why: 'why',
+  process: 'process',
+  testimonials: 'testimonials',
   blog: 'blog',
   faq: 'faq'
 };
@@ -101,6 +105,7 @@ async function saveSettings(form) {
     hero_subtitle: fd.get('hero_subtitle') || '',
     contact_email: fd.get('contact_email') || '',
     contact_phone: fd.get('contact_phone') || '',
+    contact_address: fd.get('contact_address') || '',
     updatedAt: nowIso()
   };
 
@@ -113,7 +118,7 @@ function loadSettings() {
   const form = document.getElementById('settings-form');
   if (!form) return;
 
-  ['hero_title', 'hero_subtitle', 'contact_email', 'contact_phone'].forEach((key) => {
+  ['hero_title', 'hero_subtitle', 'contact_email', 'contact_phone', 'contact_address'].forEach((key) => {
     const input = form.elements.namedItem(key);
     if (input) input.value = data[key] || '';
   });
@@ -126,6 +131,10 @@ function listByKind(kind) {
 function humanTitle(kind) {
   if (kind === 'services') return 'სერვისები';
   if (kind === 'portfolio') return 'პორტფოლიო';
+  if (kind === 'team') return 'გუნდი';
+  if (kind === 'why') return 'რატომ ჩვენ';
+  if (kind === 'process') return 'პროცესი';
+  if (kind === 'testimonials') return 'შეფასებები';
   if (kind === 'blog') return 'ბლოგი';
   if (kind === 'faq') return 'FAQ';
   return 'ჩანაწერები';
@@ -149,8 +158,8 @@ function openTab(kind) {
 }
 
 function listMarkup(item) {
-  const main = item.title || item.question || item.hero_title || item.id;
-  const sub = item.description || item.category || item.excerpt || item.answer || '';
+  const main = item.title || item.name || item.question || item.hero_title || item.id;
+  const sub = item.description || item.role || item.position || item.category || item.excerpt || item.answer || item.quote || '';
   const meta = item.date || item.read_time ? `${item.date || ''} ${item.read_time || ''}`.trim() : '';
   return `<article class="list-item">
     <div class="row">
@@ -237,7 +246,7 @@ function bindForms() {
     });
   }
 
-  ['services', 'portfolio', 'blog', 'faq'].forEach((kind) => {
+  ['services', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'].forEach((kind) => {
     const form = document.getElementById(`${kind}-form`);
     if (!form) return;
     form.addEventListener('submit', async (e) => {

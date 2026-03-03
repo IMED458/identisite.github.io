@@ -26,6 +26,10 @@
         <button class="tab active" data-tab="settings" type="button">ძირითადი ტექსტები</button>
         <button class="tab" data-tab="services" type="button">სერვისები</button>
         <button class="tab" data-tab="portfolio" type="button">პორტფოლიო</button>
+        <button class="tab" data-tab="team" type="button">გუნდი</button>
+        <button class="tab" data-tab="why" type="button">რატომ ჩვენ</button>
+        <button class="tab" data-tab="process" type="button">პროცესი</button>
+        <button class="tab" data-tab="testimonials" type="button">შეფასებები</button>
         <button class="tab" data-tab="blog" type="button">ბლოგი</button>
         <button class="tab" data-tab="faq" type="button">FAQ</button>
       </div>
@@ -37,6 +41,7 @@
           <div><label for="hero_subtitle">Hero ქვესათაური</label><textarea id="hero_subtitle" name="hero_subtitle"></textarea></div>
           <div><label for="contact_email">კონტაქტის ელფოსტა</label><input id="contact_email" name="contact_email" type="email"></div>
           <div><label for="contact_phone">კონტაქტის ტელეფონი</label><input id="contact_phone" name="contact_phone"></div>
+          <div><label for="contact_address">მისამართი</label><input id="contact_address" name="contact_address"></div>
           <button class="primary" type="submit">შენახვა</button>
           <p id="settings-msg" class="small"></p>
         </form>
@@ -65,6 +70,54 @@
           <div><label>ტექნოლოგიები (comma)</label><input name="tech_stack"></div>
           <div><label>გარე ლინკი</label><input name="project_url" type="url"></div>
           <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-team" class="tab-panel hidden">
+        <h2>გუნდის წევრი</h2>
+        <form id="team-form" class="grid" data-kind="team">
+          <input type="hidden" name="id">
+          <div><label>სახელი</label><input name="name" required></div>
+          <div><label>პოზიცია</label><input name="role"></div>
+          <div><label>ინიციალები/avatar ტექსტი</label><input name="avatar_text" placeholder="გ.კ"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-why" class="tab-panel hidden">
+        <h2>რატომ ჩვენ - ბლოკი</h2>
+        <form id="why-form" class="grid" data-kind="why">
+          <input type="hidden" name="id">
+          <div><label>სათაური</label><input name="title" required></div>
+          <div><label>აღწერა</label><textarea name="description"></textarea></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-process" class="tab-panel hidden">
+        <h2>პროცესის ნაბიჯი</h2>
+        <form id="process-form" class="grid" data-kind="process">
+          <input type="hidden" name="id">
+          <div><label>სათაური</label><input name="title" required></div>
+          <div><label>აღწერა</label><textarea name="description"></textarea></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-testimonials" class="tab-panel hidden">
+        <h2>შეფასება</h2>
+        <form id="testimonials-form" class="grid" data-kind="testimonials">
+          <input type="hidden" name="id">
+          <div><label>კლიენტის სახელი</label><input name="name" required></div>
+          <div><label>პოზიცია/კომპანია</label><input name="position"></div>
+          <div><label>ინიციალები</label><input name="initials" placeholder="ლ.გ"></div>
+          <div><label>რეიტინგი (1-5)</label><input name="rating" type="number" min="1" max="5" value="5"></div>
+          <div><label>შეფასების ტექსტი</label><textarea name="quote" required></textarea></div>
           <button class="primary" type="submit">შენახვა</button>
           <p class="small" data-msg></p>
         </form>

@@ -265,7 +265,7 @@
      </div><!-- Team Section -->
      <div class="mt-20">
       <h3 class="text-2xl font-bold text-slate-800 text-center mb-12" data-lang="ka">ჩვენი გუნდი</h3>
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div id="teamGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
        <div class="text-center group">
         <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
          გ.კ
@@ -304,7 +304,7 @@
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4" data-lang="ka">რას გთავაზობთ</h2>
       <p class="text-xl text-slate-600 max-w-3xl mx-auto" data-lang="ka">სრული სპექტრი ციფრული გადაწყვეტილებები თქვენი ბიზნესის ზრდისთვის</p>
      </div>
-     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Service 1 -->
+     <div id="servicesGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Service 1 -->
       <div class="group p-8 bg-gradient-to-b from-slate-50 to-white rounded-3xl border border-slate-100 hover-lift">
        <div class="w-14 h-14 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
         <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
@@ -439,7 +439,7 @@
      <div class="text-center mb-16"><span class="inline-block px-4 py-2 bg-[#6B728E] text-[#404258] rounded-full text-sm font-medium mb-4" data-lang="ka">რატომ ჩვენ</span>
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4" data-lang="ka">რატომ IDENTISITE?</h2>
      </div>
-     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+     <div id="whyGrid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div class="text-center p-6">
        <div class="w-16 h-16 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-2xl flex items-center justify-center mx-auto mb-4">
         <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -481,7 +481,7 @@
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4" data-lang="ka">ჩვენი ნამუშევრები</h2>
       <p class="text-xl text-slate-600 max-w-3xl mx-auto" data-lang="ka">გაეცანით ჩვენს წარმატებულ პროექტებს</p>
      </div>
-     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1 -->
+     <div id="portfolioGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"><!-- Project 1 -->
       <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#3C7EFC] to-[#474E68] aspect-[4/3] hover-lift cursor-pointer" onclick="location.href='#contact'" role="link" tabindex="0">
        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
        <div class="absolute inset-0 flex flex-col justify-end p-6 text-white translate-y-8 group-hover:translate-y-0 transition-transform duration-300">
@@ -571,7 +571,7 @@
      </div>
      <div class="relative"><!-- Timeline Line -->
       <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-[#3C7EFC] to-[#474E68] transform -translate-x-1/2"></div>
-      <div class="space-y-12 lg:space-y-0"><!-- Step 1 -->
+      <div id="processTimeline" class="space-y-12 lg:space-y-0"><!-- Step 1 -->
        <div class="relative lg:grid lg:grid-cols-2 lg:gap-16 items-center lg:pb-20">
         <div class="lg:text-right lg:pr-16">
          <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] text-white rounded-full font-bold text-lg mb-4 lg:hidden">
@@ -665,7 +665,7 @@
      <div class="text-center mb-16"><span class="inline-block px-4 py-2 bg-[#6B728E] text-[#404258] rounded-full text-sm font-medium mb-4" data-lang="ka">შეფასებები</span>
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4" data-lang="ka">რას ამბობენ კლიენტები</h2>
      </div>
-     <div class="grid md:grid-cols-3 gap-8">
+     <div id="testimonialsGrid" class="grid md:grid-cols-3 gap-8">
       <div class="p-8 bg-gradient-to-b from-slate-50 to-white rounded-3xl border border-slate-100">
        <div class="flex items-center mb-4">
         <div class="flex text-[#6B728E]">
@@ -780,7 +780,7 @@
       <h2 class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4" data-lang="ka">სიახლეები და სტატიები</h2>
       <p class="text-xl text-slate-600 max-w-3xl mx-auto" data-lang="ka">სასარგებლო ინფორმაცია ვებსაიტების, დიზაინის და ბიზნესის ზრდის შესახებ</p>
      </div>
-     <div class="grid md:grid-cols-3 gap-8">
+     <div id="blogGrid" class="grid md:grid-cols-3 gap-8">
       <article class="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover-lift">
        <div class="aspect-video bg-gradient-to-br from-[#3C7EFC] to-[#474E68]"></div>
        <div class="p-6">
@@ -821,7 +821,7 @@
     </div>
    </section>
    <section class="py-16 bg-white border-t border-slate-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <div id="blogDetails" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
      <article id="blog-post-1" class="p-6 rounded-2xl border border-slate-200 bg-[#FFFFFF]/40">
       <h3 class="text-2xl font-bold text-slate-800 mb-3">2026 წლის ვებ დიზაინის ტრენდები</h3>
       <p class="text-slate-700">მთავარი აქცენტი კეთდება მკაფიო მესიჯინგზე, მაღალი კონტრასტის CTA-ებზე, სწრაფ ჩატვირთვაზე და ნდობის ელემენტებზე. ტრენდული ვიზუალი კარგია მხოლოდ მაშინ, როცა კონვერსიასაც ზრდის.</p>
@@ -894,7 +894,7 @@
          </div>
          <div>
           <h4 class="font-semibold text-slate-800 mb-1" data-lang="ka">მისამართი</h4>
-          <p class="text-slate-600" data-lang="ka">თბილისი, საქართველო</p>
+          <p class="text-slate-600" data-lang="ka" data-contact-address>თბილისი, საქართველო</p>
          </div>
         </div>
        </div><!-- Social Links -->
@@ -990,9 +990,9 @@
       <div>
        <h4 class="font-semibold mb-4" data-lang="ka">კონტაქტი</h4>
        <ul class="space-y-2 text-slate-400 text-sm">
-        <li>info@identisite.ge</li>
-        <li>+995 555 123 456</li>
-        <li data-lang="ka">თბილისი, საქართველო</li>
+        <li id="footerEmail">info@identisite.ge</li>
+        <li id="footerPhone">+995 555 123 456</li>
+        <li id="footerAddress" data-lang="ka">თბილისი, საქართველო</li>
        </ul>
       </div>
      </div>
@@ -1290,6 +1290,264 @@
     document.querySelectorAll('section').forEach(section => {
       observer.observe(section);
     });
+
+    function getCmsList(kind) {
+      try {
+        return JSON.parse(localStorage.getItem(`identisite_${kind}`) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function getCmsSettings() {
+      try {
+        return JSON.parse(localStorage.getItem('identisite_settings') || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    function applyCmsSettings() {
+      const settings = getCmsSettings();
+      if (!settings || typeof settings !== 'object') return;
+
+      const heroTitle = document.getElementById('heroTitle');
+      if (heroTitle && settings.hero_title) {
+        const titleParts = settings.hero_title.trim().split(' ');
+        const firstPart = titleParts.slice(0, 2).join(' ');
+        const secondPart = titleParts.slice(2).join(' ') || '';
+        heroTitle.innerHTML = `<span data-lang="ka">${firstPart}</span><br><span class="gradient-text" data-lang="ka">${secondPart}</span>`;
+      }
+
+      const heroSubtitle = document.getElementById('heroSubtitle');
+      if (heroSubtitle && settings.hero_subtitle) heroSubtitle.textContent = settings.hero_subtitle;
+
+      const emailDisplay = document.getElementById('contactEmailDisplay');
+      if (emailDisplay && settings.contact_email) emailDisplay.textContent = settings.contact_email;
+
+      const phoneDisplay = document.getElementById('contactPhoneDisplay');
+      if (phoneDisplay && settings.contact_phone) phoneDisplay.textContent = settings.contact_phone;
+
+      const addressEl = document.querySelector('#contact [data-contact-address]');
+      if (addressEl && settings.contact_address) addressEl.textContent = settings.contact_address;
+
+      const footerEmail = document.getElementById('footerEmail');
+      if (footerEmail && settings.contact_email) footerEmail.textContent = settings.contact_email;
+
+      const footerPhone = document.getElementById('footerPhone');
+      if (footerPhone && settings.contact_phone) footerPhone.textContent = settings.contact_phone;
+
+      const footerAddress = document.getElementById('footerAddress');
+      if (footerAddress && settings.contact_address) footerAddress.textContent = settings.contact_address;
+    }
+
+    function renderServices() {
+      const services = getCmsList('services');
+      const grid = document.getElementById('servicesGrid');
+      if (!grid || !services.length) return;
+
+      grid.innerHTML = services.map((item) => `
+        <div class="group p-8 bg-gradient-to-b from-slate-50 to-white rounded-3xl border border-slate-100 hover-lift">
+          <div class="w-14 h-14 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+            <span class="text-white font-bold text-lg">${(item.title || 'S').slice(0, 1)}</span>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">${item.title || ''}</h3>
+          <p class="text-slate-600 mb-4">${item.description || ''}</p>
+          <ul class="text-sm text-slate-500 space-y-2 mb-6">
+            ${item.feature_1 ? `<li class="flex items-center space-x-2"><span class="w-2 h-2 rounded-full bg-[#3C7EFC]"></span><span>${item.feature_1}</span></li>` : ''}
+            ${item.feature_2 ? `<li class="flex items-center space-x-2"><span class="w-2 h-2 rounded-full bg-[#3C7EFC]"></span><span>${item.feature_2}</span></li>` : ''}
+          </ul>
+          <a href="#contact" class="inline-flex items-center text-[#474E68] font-medium hover:text-[#404258]">
+            <span>${item.cta_text || 'შეკვეთა'}</span>
+          </a>
+        </div>
+      `).join('');
+    }
+
+    function renderPortfolio() {
+      const items = getCmsList('portfolio');
+      const grid = document.getElementById('portfolioGrid');
+      if (!grid || !items.length) return;
+
+      grid.innerHTML = items.map((item) => {
+        const chips = (item.tech_stack || '').split(',').map((x) => x.trim()).filter(Boolean);
+        const target = item.project_url || '#contact';
+        const title = item.title || '';
+        const category = item.category || '';
+        const bg = item.image
+          ? `background-image:url('${item.image}');background-size:cover;background-position:center;`
+          : 'background: linear-gradient(135deg,#3C7EFC 0%,#474E68 100%);';
+
+        return `
+          <a href="${target}" ${target.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} class="group relative overflow-hidden rounded-3xl aspect-[4/3] hover-lift cursor-pointer block" style="${bg}">
+            <div class="absolute inset-0 bg-black/45"></div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">${title}</h3>
+              <p class="text-white/80 text-sm mb-3">${category}</p>
+              <div class="flex flex-wrap gap-2">
+                ${chips.map((chip) => `<span class="px-2 py-1 bg-white/20 rounded-full text-xs">${chip}</span>`).join('')}
+              </div>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    function renderTeam() {
+      const items = getCmsList('team');
+      const grid = document.getElementById('teamGrid');
+      if (!grid || !items.length) return;
+      grid.innerHTML = items.map((item) => `
+        <div class="text-center group">
+          <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
+            ${(item.avatar_text || item.name || 'A').slice(0, 2)}
+          </div>
+          <h4 class="font-semibold text-slate-800">${item.name || ''}</h4>
+          <p class="text-slate-500 text-sm">${item.role || ''}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderWhyUs() {
+      const items = getCmsList('why');
+      const grid = document.getElementById('whyGrid');
+      if (!grid || !items.length) return;
+      grid.innerHTML = items.map((item) => `
+        <div class="text-center p-6">
+          <div class="w-16 h-16 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <span class="text-white font-bold text-lg">${(item.title || 'W').slice(0, 1)}</span>
+          </div>
+          <h3 class="font-bold text-slate-800 mb-2">${item.title || ''}</h3>
+          <p class="text-slate-600 text-sm">${item.description || ''}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderProcess() {
+      const items = getCmsList('process');
+      const holder = document.getElementById('processTimeline');
+      if (!holder || !items.length) return;
+
+      holder.innerHTML = items.map((item, index) => {
+        const step = index + 1;
+        const odd = index % 2 === 0;
+        return `
+          <div class="relative lg:grid lg:grid-cols-2 lg:gap-16 items-center ${index < items.length - 1 ? 'lg:pb-20' : ''}">
+            ${odd ? `
+              <div class="lg:text-right lg:pr-16">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] text-white rounded-full font-bold text-lg mb-4 lg:hidden">${step}</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">${item.title || ''}</h3>
+                <p class="text-slate-600">${item.description || ''}</p>
+              </div>
+              <div class="hidden lg:flex items-center justify-start pl-16">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] text-white rounded-full flex items-center justify-center font-bold text-lg z-10">${step}</div>
+              </div>
+            ` : `
+              <div class="hidden lg:flex items-center justify-end pr-16">
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] text-white rounded-full flex items-center justify-center font-bold text-lg z-10">${step}</div>
+              </div>
+              <div class="lg:pl-16">
+                <div class="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] text-white rounded-full font-bold text-lg mb-4 lg:hidden">${step}</div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">${item.title || ''}</h3>
+                <p class="text-slate-600">${item.description || ''}</p>
+              </div>
+            `}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderTestimonials() {
+      const items = getCmsList('testimonials');
+      const grid = document.getElementById('testimonialsGrid');
+      if (!grid || !items.length) return;
+      grid.innerHTML = items.map((item) => `
+        <div class="p-8 bg-gradient-to-b from-slate-50 to-white rounded-3xl border border-slate-100">
+          <div class="flex items-center mb-4">
+            <div class="flex text-[#6B728E]">${'<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>'.repeat(Math.min(5, Math.max(1, Number(item.rating || 5))))}</div>
+          </div>
+          <p class="text-slate-600 mb-6">"${item.quote || ''}"</p>
+          <div class="flex items-center">
+            <div class="w-12 h-12 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-full flex items-center justify-center text-white font-bold">
+              ${(item.initials || item.name || 'C').slice(0, 2)}
+            </div>
+            <div class="ml-4">
+              <div class="font-semibold text-slate-800">${item.name || ''}</div>
+              <div class="text-sm text-slate-500">${item.position || ''}</div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderBlog() {
+      const items = getCmsList('blog');
+      const cards = document.getElementById('blogGrid');
+      const details = document.getElementById('blogDetails');
+      if (!cards || !details || !items.length) return;
+
+      cards.innerHTML = items.map((item, index) => {
+        const slug = item.id || `blog-post-${index + 1}`;
+        const media = item.image
+          ? `<div class="aspect-video bg-cover bg-center" style="background-image:url('${item.image}')"></div>`
+          : '<div class="aspect-video bg-gradient-to-br from-[#3C7EFC] to-[#474E68]"></div>';
+        return `
+          <article class="group bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 hover-lift">
+            ${media}
+            <div class="p-6">
+              <div class="flex items-center space-x-4 text-sm text-slate-500 mb-3">
+                <span>${item.date || ''}</span><span>•</span><span>${item.read_time || ''}</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-800 mb-2 group-hover:text-[#474E68] transition-colors">${item.title || ''}</h3>
+              <p class="text-slate-600 text-sm mb-4">${item.excerpt || ''}</p>
+              <a href="#${slug}" class="inline-flex items-center text-[#474E68] font-medium text-sm hover:text-[#404258]">ვრცლად</a>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+      details.innerHTML = items.map((item, index) => {
+        const slug = item.id || `blog-post-${index + 1}`;
+        return `
+          <article id="${slug}" class="p-6 rounded-2xl border border-slate-200 bg-[#FFFFFF]/40">
+            <h3 class="text-2xl font-bold text-slate-800 mb-3">${item.title || ''}</h3>
+            <p class="text-slate-700">${item.content || item.excerpt || ''}</p>
+            <a href="#blog" class="inline-flex mt-4 text-[#474E68] font-semibold hover:text-[#404258]">ბლოგში დაბრუნება</a>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function renderFaq() {
+      const items = getCmsList('faq');
+      const holder = document.getElementById('faqContainer');
+      if (!holder || !items.length) return;
+      holder.innerHTML = items.map((item) => `
+        <div class="faq-item bg-white rounded-2xl border border-slate-100 overflow-hidden">
+          <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-slate-50 transition-colors" onclick="toggleFaq(this)">
+            <span class="font-semibold text-slate-800">${item.question || ''}</span>
+            <svg class="w-5 h-5 text-slate-400 transform transition-transform faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-answer hidden px-6 pb-4">
+            <p class="text-slate-600">${item.answer || ''}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function bootLocalCms() {
+      applyCmsSettings();
+      renderServices();
+      renderPortfolio();
+      renderTeam();
+      renderWhyUs();
+      renderProcess();
+      renderTestimonials();
+      renderBlog();
+      renderFaq();
+    }
+
+    bootLocalCms();
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d6b5353d0cd95a0',t:'MTc3MjU2OTA1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
