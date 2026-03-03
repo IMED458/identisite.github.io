@@ -1,3 +1,11 @@
+import {
+  pullSettingsFromCloud,
+  pushSettingsToCloud,
+  pullCollectionFromCloud,
+  pushItemToCloud,
+  removeItemFromCloud
+} from './firebase-data.js';
+
 const path = window.location.pathname;
 const isLogin = path.endsWith('/admin/login.html') || path.endsWith('admin/login.html');
 const isDashboard = path.endsWith('/admin/dashboard.html') || path.endsWith('admin/dashboard.html');
@@ -120,12 +128,18 @@ async function saveSettings(form) {
   }
 
   setSettings(payload);
+  try {
+    await pushSettingsToCloud(payload);
+  } catch (err) {
+    text(msg, `Firebase შეცდომა: ${err.message}`);
+    return;
+  }
   const preview = document.getElementById('logo-preview');
   if (preview && payload.logo_data_url) {
     preview.src = payload.logo_data_url;
     preview.classList.remove('hidden');
   }
-  text(msg, 'შენახულია (ლოკალურად)');
+  text(msg, 'შენახულია (Firebase + ლოკალურად)');
 }
 
 function loadSettings() {
@@ -239,16 +253,19 @@ async function upsertEntity(form, kind) {
       createdAt: nowIso(),
       ...payload
     };
+    await pushItemToCloud(kind, entity);
     items.push(entity);
     form.reset();
-    text(msg, 'დამატებულია (ლოკალურად)');
+    text(msg, 'დამატებულია (Firebase + ლოკალურად)');
   } else {
-    items[index] = {
+    const merged = {
       ...existing,
       ...payload,
       id: existing.id
     };
-    text(msg, 'განახლებულია (ლოკალურად)');
+    await pushItemToCloud(kind, merged);
+    items[index] = merged;
+    text(msg, 'განახლებულია (Firebase + ლოკალურად)');
   }
 
   setStore(kind, items);
@@ -308,9 +325,17 @@ function bindListActions() {
 
     if (action === 'delete') {
       if (!confirm('წაშლა ნამდვილად გსურთ?')) return;
-      const items = getStore(kind).filter((x) => x.id !== id);
-      setStore(kind, items);
-      renderList();
+      (async () => {
+        try {
+          await removeItemFromCloud(kind, id);
+        } catch (err) {
+          alert(`Firebase წაშლის შეცდომა: ${err.message}`);
+          return;
+        }
+        const items = getStore(kind).filter((x) => x.id !== id);
+        setStore(kind, items);
+        renderList();
+      })();
     }
   });
 }
@@ -353,12 +378,29 @@ function dashboardFlow() {
     return;
   }
 
-  loadSettings();
   bindTabs();
   bindForms();
   bindListActions();
   openTab('settings');
-  renderList();
+
+  (async () => {
+    try {
+      const cloudSettings = await pullSettingsFromCloud();
+      if (cloudSettings && Object.keys(cloudSettings).length) setSettings(cloudSettings);
+
+      const kinds = ['services', 'trusted', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'];
+      for (const kind of kinds) {
+        const cloudItems = await pullCollectionFromCloud(kind);
+        if (Array.isArray(cloudItems)) setStore(kind, cloudItems);
+      }
+    } catch (err) {
+      const msg = document.getElementById('settings-msg');
+      text(msg, `Firebase წაკითხვის შეცდომა: ${err.message}`);
+    }
+
+    loadSettings();
+    renderList();
+  })();
 
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
