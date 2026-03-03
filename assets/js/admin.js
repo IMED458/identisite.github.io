@@ -110,13 +110,12 @@ async function saveSettings(form) {
   const fd = new FormData(form);
   const prev = getSettings();
   const payload = {
+    ...prev,
     hero_title: fd.get('hero_title') || '',
     hero_subtitle: fd.get('hero_subtitle') || '',
     contact_email: fd.get('contact_email') || '',
     contact_phone: fd.get('contact_phone') || '',
     contact_address: fd.get('contact_address') || '',
-    logo_data_url: prev.logo_data_url || '',
-    logo_name: prev.logo_name || '',
     updatedAt: nowIso()
   };
 
@@ -156,6 +155,50 @@ function loadSettings() {
     preview.src = data.logo_data_url;
     preview.classList.remove('hidden');
   }
+
+  const aboutFields = [
+    'about_title',
+    'about_subtitle',
+    'about_history_title',
+    'about_history_text',
+    'about_philosophy_title',
+    'about_point_1',
+    'about_point_2',
+    'about_point_3',
+    'about_point_4'
+  ];
+  aboutFields.forEach((key) => {
+    const aboutInput = document.getElementById(key);
+    if (aboutInput) aboutInput.value = data[key] || '';
+  });
+}
+
+async function saveAbout(form) {
+  const msg = document.getElementById('about-msg');
+  const fd = new FormData(form);
+  const prev = getSettings();
+  const payload = {
+    ...prev,
+    about_title: fd.get('about_title') || '',
+    about_subtitle: fd.get('about_subtitle') || '',
+    about_history_title: fd.get('about_history_title') || '',
+    about_history_text: fd.get('about_history_text') || '',
+    about_philosophy_title: fd.get('about_philosophy_title') || '',
+    about_point_1: fd.get('about_point_1') || '',
+    about_point_2: fd.get('about_point_2') || '',
+    about_point_3: fd.get('about_point_3') || '',
+    about_point_4: fd.get('about_point_4') || '',
+    updatedAt: nowIso()
+  };
+
+  setSettings(payload);
+  try {
+    await pushSettingsToCloud(payload);
+  } catch (err) {
+    text(msg, `Firebase შეცდომა: ${err.message}`);
+    return;
+  }
+  text(msg, 'შენახულია (Firebase + ლოკალურად)');
 }
 
 function listByKind(kind) {
@@ -163,6 +206,7 @@ function listByKind(kind) {
 }
 
 function humanTitle(kind) {
+  if (kind === 'about') return 'ჩვენ შესახებ';
   if (kind === 'services') return 'სერვისები';
   if (kind === 'trusted') return 'ჩვენ გვენდობიან';
   if (kind === 'portfolio') return 'პორტფოლიო';
@@ -213,7 +257,7 @@ function listMarkup(item) {
 function renderList() {
   const holder = document.getElementById('admin-list');
   if (!holder) return;
-  if (state.activeTab === 'settings') {
+  if (state.activeTab === 'settings' || state.activeTab === 'about') {
     holder.innerHTML = '<div class="small">პარამეტრების რედაქტირება ხდება მარცხენა ფორმიდან.</div>';
     state.currentItems = [];
     return;
@@ -280,6 +324,18 @@ function bindForms() {
         await saveSettings(settingsForm);
       } catch (err) {
         text(document.getElementById('settings-msg'), err.message);
+      }
+    });
+  }
+
+  const aboutForm = document.getElementById('about-form');
+  if (aboutForm) {
+    aboutForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try {
+        await saveAbout(aboutForm);
+      } catch (err) {
+        text(document.getElementById('about-msg'), err.message);
       }
     });
   }

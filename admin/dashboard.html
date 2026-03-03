@@ -24,6 +24,7 @@
     <section class="card">
       <div class="tabs">
         <button class="tab active" data-tab="settings" type="button">ძირითადი ტექსტები</button>
+        <button class="tab" data-tab="about" type="button">ჩვენ შესახებ</button>
         <button class="tab" data-tab="services" type="button">სერვისები</button>
         <button class="tab" data-tab="trusted" type="button">ჩვენ გვენდობიან</button>
         <button class="tab" data-tab="portfolio" type="button">პორტფოლიო</button>
@@ -50,6 +51,23 @@
           <img id="logo-preview" class="logo-preview hidden" alt="Logo preview">
           <button class="primary" type="submit">შენახვა</button>
           <p id="settings-msg" class="small"></p>
+        </form>
+      </section>
+
+      <section id="tab-about" class="tab-panel hidden">
+        <h2>ჩვენ შესახებ სექციის მართვა</h2>
+        <form id="about-form" class="grid">
+          <div><label for="about_title">სექციის სათაური</label><input id="about_title" name="about_title"></div>
+          <div><label for="about_subtitle">სექციის ქვესათაური</label><textarea id="about_subtitle" name="about_subtitle"></textarea></div>
+          <div><label for="about_history_title">ისტორიის სათაური</label><input id="about_history_title" name="about_history_title"></div>
+          <div><label for="about_history_text">ისტორიის ტექსტი</label><textarea id="about_history_text" name="about_history_text"></textarea></div>
+          <div><label for="about_philosophy_title">ფილოსოფიის სათაური</label><input id="about_philosophy_title" name="about_philosophy_title"></div>
+          <div><label for="about_point_1">ფილოსოფიის პუნქტი 1</label><input id="about_point_1" name="about_point_1"></div>
+          <div><label for="about_point_2">ფილოსოფიის პუნქტი 2</label><input id="about_point_2" name="about_point_2"></div>
+          <div><label for="about_point_3">ფილოსოფიის პუნქტი 3</label><input id="about_point_3" name="about_point_3"></div>
+          <div><label for="about_point_4">ფილოსოფიის პუნქტი 4</label><input id="about_point_4" name="about_point_4"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p id="about-msg" class="small"></p>
         </form>
       </section>
 
