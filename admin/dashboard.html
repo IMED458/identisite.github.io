@@ -25,6 +25,7 @@
       <div class="tabs">
         <button class="tab active" data-tab="settings" type="button">ძირითადი ტექსტები</button>
         <button class="tab" data-tab="services" type="button">სერვისები</button>
+        <button class="tab" data-tab="trusted" type="button">ჩვენ გვენდობიან</button>
         <button class="tab" data-tab="portfolio" type="button">პორტფოლიო</button>
         <button class="tab" data-tab="team" type="button">გუნდი</button>
         <button class="tab" data-tab="why" type="button">რატომ ჩვენ</button>
@@ -61,6 +62,18 @@
           <div><label>ფიჩერი 1</label><input name="feature_1"></div>
           <div><label>ფიჩერი 2</label><input name="feature_2"></div>
           <div><label>ღილაკის ტექსტი</label><input name="cta_text" value="შეკვეთა"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-trusted" class="tab-panel hidden">
+        <h2>"ჩვენ გვენდობიან" ელემენტი</h2>
+        <form id="trusted-form" class="grid" data-kind="trusted">
+          <input type="hidden" name="id">
+          <div><label>კომპანიის სახელი</label><input name="title" required></div>
+          <div><label>ვებ-მისამართი (არასავალდებულო)</label><input name="company_url" type="url" placeholder="https://example.com"></div>
+          <div><label>ლოგო (არასავალდებულო)</label><input name="imageFile" type="file" accept="image/*"></div>
           <button class="primary" type="submit">შენახვა</button>
           <p class="small" data-msg></p>
         </form>

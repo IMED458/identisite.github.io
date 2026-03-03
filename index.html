@@ -196,7 +196,7 @@
    <section class="py-16 bg-white border-y border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <p class="text-center text-slate-500 mb-8" data-lang="ka">ჩვენ გვენდობიან</p>
-     <div class="flex flex-wrap justify-center items-center gap-12 opacity-60">
+     <div id="trustedGrid" class="flex flex-wrap justify-center items-center gap-12 opacity-60">
       <div class="text-2xl font-bold text-slate-400">
        TechCorp
       </div>
@@ -1374,6 +1374,25 @@
       `).join('');
     }
 
+    function renderTrusted() {
+      const items = getCmsList('trusted');
+      const grid = document.getElementById('trustedGrid');
+      if (!grid || !items.length) return;
+
+      grid.innerHTML = items.map((item) => {
+        const title = item.title || '';
+        const href = item.company_url || '#';
+        const content = item.image
+          ? `<img src="${item.image}" alt="${title}" class="h-10 max-w-[180px] object-contain">`
+          : `<span class="text-2xl font-bold text-slate-400">${title}</span>`;
+
+        if (item.company_url) {
+          return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center hover:opacity-80 transition-opacity">${content}</a>`;
+        }
+        return `<div class="inline-flex items-center">${content}</div>`;
+      }).join('');
+    }
+
     function renderPortfolio() {
       const items = getCmsList('portfolio');
       const grid = document.getElementById('portfolioGrid');
@@ -1547,6 +1566,7 @@
 
     function bootLocalCms() {
       applyCmsSettings();
+      renderTrusted();
       renderServices();
       renderPortfolio();
       renderTeam();

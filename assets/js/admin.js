@@ -9,6 +9,7 @@ const ADMIN_PASS = 'admin123';
 const collections = {
   settings: 'settings',
   services: 'services',
+  trusted: 'trusted',
   portfolio: 'portfolio',
   team: 'team',
   why: 'why',
@@ -150,6 +151,7 @@ function listByKind(kind) {
 
 function humanTitle(kind) {
   if (kind === 'services') return 'სერვისები';
+  if (kind === 'trusted') return 'ჩვენ გვენდობიან';
   if (kind === 'portfolio') return 'პორტფოლიო';
   if (kind === 'team') return 'გუნდი';
   if (kind === 'why') return 'რატომ ჩვენ';
@@ -266,7 +268,7 @@ function bindForms() {
     });
   }
 
-  ['services', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'].forEach((kind) => {
+  ['services', 'trusted', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'].forEach((kind) => {
     const form = document.getElementById(`${kind}-form`);
     if (!form) return;
     form.addEventListener('submit', async (e) => {
