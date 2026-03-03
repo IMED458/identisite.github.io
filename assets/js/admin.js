@@ -8,10 +8,10 @@ const ADMIN_PASS = 'admin123';
 
 const collections = {
   settings: 'settings',
-  performances: 'performances',
-  actors: 'actors',
-  gallery: 'gallery',
-  news: 'news'
+  services: 'services',
+  portfolio: 'portfolio',
+  blog: 'blog',
+  faq: 'faq'
 };
 
 const state = {
@@ -68,7 +68,7 @@ function readFileAsDataUrl(file) {
   });
 }
 
-function collectPayload(form, kind) {
+function collectPayload(form) {
   const fd = new FormData(form);
   const payload = {};
   for (const [key, value] of fd.entries()) {
@@ -98,25 +98,9 @@ async function saveSettings(form) {
   const fd = new FormData(form);
   const payload = {
     hero_title: fd.get('hero_title') || '',
-    hero_title_en: fd.get('hero_title_en') || '',
-    hero_slogan: fd.get('hero_slogan') || '',
-    hero_slogan_en: fd.get('hero_slogan_en') || '',
-    about_title: fd.get('about_title') || '',
-    about_title_en: fd.get('about_title_en') || '',
-    about_text_1: fd.get('about_text_1') || '',
-    about_text_1_en: fd.get('about_text_1_en') || '',
-    about_text_2: fd.get('about_text_2') || '',
-    about_text_2_en: fd.get('about_text_2_en') || '',
-    about_mission_title: fd.get('about_mission_title') || '',
-    about_mission_title_en: fd.get('about_mission_title_en') || '',
-    about_mission_text: fd.get('about_mission_text') || '',
-    about_mission_text_en: fd.get('about_mission_text_en') || '',
-    contact_address: fd.get('contact_address') || '',
-    contact_address_en: fd.get('contact_address_en') || '',
-    contact_phone: fd.get('contact_phone') || '',
+    hero_subtitle: fd.get('hero_subtitle') || '',
     contact_email: fd.get('contact_email') || '',
-    global_ticket_url: fd.get('global_ticket_url') || '',
-    global_ticket_url_en: fd.get('global_ticket_url_en') || '',
+    contact_phone: fd.get('contact_phone') || '',
     updatedAt: nowIso()
   };
 
@@ -129,28 +113,7 @@ function loadSettings() {
   const form = document.getElementById('settings-form');
   if (!form) return;
 
-  [
-    'hero_title',
-    'hero_title_en',
-    'hero_slogan',
-    'hero_slogan_en',
-    'about_title',
-    'about_title_en',
-    'about_text_1',
-    'about_text_1_en',
-    'about_text_2',
-    'about_text_2_en',
-    'about_mission_title',
-    'about_mission_title_en',
-    'about_mission_text',
-    'about_mission_text_en',
-    'contact_address',
-    'contact_address_en',
-    'contact_phone',
-    'contact_email',
-    'global_ticket_url',
-    'global_ticket_url_en'
-  ].forEach((key) => {
+  ['hero_title', 'hero_subtitle', 'contact_email', 'contact_phone'].forEach((key) => {
     const input = form.elements.namedItem(key);
     if (input) input.value = data[key] || '';
   });
@@ -161,10 +124,10 @@ function listByKind(kind) {
 }
 
 function humanTitle(kind) {
-  if (kind === 'performances') return 'რეპერტუარი';
-  if (kind === 'actors') return 'დასი';
-  if (kind === 'gallery') return 'გალერია';
-  if (kind === 'news') return 'სიახლეები';
+  if (kind === 'services') return 'სერვისები';
+  if (kind === 'portfolio') return 'პორტფოლიო';
+  if (kind === 'blog') return 'ბლოგი';
+  if (kind === 'faq') return 'FAQ';
   return 'ჩანაწერები';
 }
 
@@ -186,9 +149,9 @@ function openTab(kind) {
 }
 
 function listMarkup(item) {
-  const main = item.title || item.name || item.hero_title || item.id;
-  const sub = item.director || item.author || item.role || item.type || item.excerpt || item.contact_phone || '';
-  const meta = item.date || item.startTime ? `${item.date || ''} ${item.startTime || ''}`.trim() : '';
+  const main = item.title || item.question || item.hero_title || item.id;
+  const sub = item.description || item.category || item.excerpt || item.answer || '';
+  const meta = item.date || item.read_time ? `${item.date || ''} ${item.read_time || ''}`.trim() : '';
   return `<article class="list-item">
     <div class="row">
       <strong>${main}</strong>
@@ -226,7 +189,7 @@ function renderList() {
 
 async function upsertEntity(form, kind) {
   const msg = form.querySelector('[data-msg]');
-  const { id, file, payload } = collectPayload(form, kind);
+  const { id, file, payload } = collectPayload(form);
 
   const items = getStore(kind);
   const index = id ? items.findIndex((x) => x.id === id) : -1;
@@ -274,7 +237,7 @@ function bindForms() {
     });
   }
 
-  ['performances', 'actors', 'gallery', 'news'].forEach((kind) => {
+  ['services', 'portfolio', 'blog', 'faq'].forEach((kind) => {
     const form = document.getElementById(`${kind}-form`);
     if (!form) return;
     form.addEventListener('submit', async (e) => {

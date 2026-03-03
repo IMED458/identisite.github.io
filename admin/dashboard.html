@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/giotai/telavitheatre/main/vaja%20logo.png">
+  <title>IDENTISITE Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,8 +13,8 @@
   <header class="topbar">
     <div class="container row">
       <div>
-        <h1>თეატრის ადმინისტრირება</h1>
-        <p class="small">სრული კონტროლი კონტენტსა და ბმულებზე</p>
+        <h1>IDENTISITE ადმინისტრირება</h1>
+        <p class="small">კონტენტის მართვა Firebase-ის გარეშე (Local რეჟიმი)</p>
       </div>
       <button id="logout-btn" class="ghost" type="button">გასვლა</button>
     </div>
@@ -24,132 +23,74 @@
   <main class="container grid cols-2">
     <section class="card">
       <div class="tabs">
-        <button class="tab active" data-tab="settings" type="button">საიტის ტექსტები</button>
-        <button class="tab" data-tab="performances" type="button">რეპერტუარი</button>
-        <button class="tab" data-tab="actors" type="button">დასი</button>
-        <button class="tab" data-tab="gallery" type="button">გალერია</button>
-        <button class="tab" data-tab="news" type="button">სიახლეები</button>
+        <button class="tab active" data-tab="settings" type="button">ძირითადი ტექსტები</button>
+        <button class="tab" data-tab="services" type="button">სერვისები</button>
+        <button class="tab" data-tab="portfolio" type="button">პორტფოლიო</button>
+        <button class="tab" data-tab="blog" type="button">ბლოგი</button>
+        <button class="tab" data-tab="faq" type="button">FAQ</button>
       </div>
 
       <section id="tab-settings" class="tab-panel">
         <h2>საიტის ძირითადი პარამეტრები</h2>
         <form id="settings-form" class="grid">
-          <div><label for="hero_title">მთავარი სათაური</label><input id="hero_title" name="hero_title"></div>
-          <div><label for="hero_title_en">Main Title (EN)</label><input id="hero_title_en" name="hero_title_en"></div>
-          <div><label for="hero_slogan">სლოგანი</label><input id="hero_slogan" name="hero_slogan"></div>
-          <div><label for="hero_slogan_en">Slogan (EN)</label><input id="hero_slogan_en" name="hero_slogan_en"></div>
-          <div><label for="about_title">შესახებ სათაური</label><input id="about_title" name="about_title"></div>
-          <div><label for="about_title_en">About Title (EN)</label><input id="about_title_en" name="about_title_en"></div>
-          <div><label for="about_text_1">შესახებ ტექსტი 1</label><textarea id="about_text_1" name="about_text_1"></textarea></div>
-          <div><label for="about_text_1_en">About Text 1 (EN)</label><textarea id="about_text_1_en" name="about_text_1_en"></textarea></div>
-          <div><label for="about_text_2">შესახებ ტექსტი 2</label><textarea id="about_text_2" name="about_text_2"></textarea></div>
-          <div><label for="about_text_2_en">About Text 2 (EN)</label><textarea id="about_text_2_en" name="about_text_2_en"></textarea></div>
-          <div><label for="about_mission_title">მისიის სათაური</label><input id="about_mission_title" name="about_mission_title"></div>
-          <div><label for="about_mission_title_en">Mission Title (EN)</label><input id="about_mission_title_en" name="about_mission_title_en"></div>
-          <div><label for="about_mission_text">მისიის ტექსტი</label><textarea id="about_mission_text" name="about_mission_text"></textarea></div>
-          <div><label for="about_mission_text_en">Mission Text (EN)</label><textarea id="about_mission_text_en" name="about_mission_text_en"></textarea></div>
-          <div><label for="contact_address">მისამართი</label><input id="contact_address" name="contact_address"></div>
-          <div><label for="contact_address_en">Address (EN)</label><input id="contact_address_en" name="contact_address_en"></div>
-          <div><label for="contact_phone">ტელეფონი</label><input id="contact_phone" name="contact_phone"></div>
-          <div><label for="contact_email">ელფოსტა</label><input id="contact_email" name="contact_email" type="email"></div>
-          <div><label for="global_ticket_url">გლობალური ბილეთის ბმული</label><input id="global_ticket_url" name="global_ticket_url" type="url"></div>
-          <div><label for="global_ticket_url_en">Global Ticket URL (EN)</label><input id="global_ticket_url_en" name="global_ticket_url_en" type="url"></div>
+          <div><label for="hero_title">Hero სათაური</label><input id="hero_title" name="hero_title"></div>
+          <div><label for="hero_subtitle">Hero ქვესათაური</label><textarea id="hero_subtitle" name="hero_subtitle"></textarea></div>
+          <div><label for="contact_email">კონტაქტის ელფოსტა</label><input id="contact_email" name="contact_email" type="email"></div>
+          <div><label for="contact_phone">კონტაქტის ტელეფონი</label><input id="contact_phone" name="contact_phone"></div>
           <button class="primary" type="submit">შენახვა</button>
           <p id="settings-msg" class="small"></p>
         </form>
       </section>
 
-      <section id="tab-performances" class="tab-panel hidden">
-        <h2>სპექტაკლის დამატება/რედაქტირება</h2>
-        <form id="performances-form" class="grid" data-kind="performances">
-          <input type="hidden" name="id">
-          <div><label>დასახელება</label><input name="title" required></div>
-          <div><label>Title (EN)</label><input name="title_en"></div>
-          <div><label>ავტორი</label><input name="author"></div>
-          <div><label>Author (EN)</label><input name="author_en"></div>
-          <div><label>რეჟისორი</label><input name="director"></div>
-          <div><label>Director (EN)</label><input name="director_en"></div>
-          <div><label>მსახიობები</label><textarea name="actors"></textarea></div>
-          <div><label>Cast (EN)</label><textarea name="actors_en"></textarea></div>
-          <div><label>კოსტიუმები</label><input name="costumes"></div>
-          <div><label>Costumes (EN)</label><input name="costumes_en"></div>
-          <div><label>მუსიკა</label><input name="music"></div>
-          <div><label>Music (EN)</label><input name="music_en"></div>
-          <div><label>პროდიუსერი</label><input name="producer"></div>
-          <div><label>Producer (EN)</label><input name="producer_en"></div>
-          <div><label>ჟანრი</label><input name="genre"></div>
-          <div><label>Genre (EN)</label><input name="genre_en"></div>
-          <div><label>ასაკი</label><input name="age"></div>
-          <div><label>Age (EN)</label><input name="age_en"></div>
-          <div><label>თარიღი</label><input name="date" type="date"></div>
-          <div><label>დაწყება</label><input name="startTime" placeholder="20:00"></div>
-          <div><label>კარის გახსნა</label><input name="doorOpen" placeholder="19:00"></div>
-          <div><label>ხანგრძლივობა</label><input name="duration"></div>
-          <div><label>Duration (EN)</label><input name="duration_en"></div>
-          <div><label>სრული აღწერა</label><textarea name="description"></textarea></div>
-          <div><label>Description (EN)</label><textarea name="description_en"></textarea></div>
-          <div><label>ინდივიდუალური ბილეთის ბმული</label><input name="ticketUrl" type="url"></div>
-          <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*"></div>
-          <button class="primary" type="submit">შენახვა</button>
-          <p class="small" data-msg></p>
-        </form>
-      </section>
-
-      <section id="tab-actors" class="tab-panel hidden">
-        <h2>დასის წევრის დამატება/რედაქტირება</h2>
-        <form id="actors-form" class="grid" data-kind="actors">
-          <input type="hidden" name="id">
-          <div><label>სახელი</label><input name="name" required></div>
-          <div><label>Name (EN)</label><input name="name_en"></div>
-          <div><label>პოზიცია</label><input name="role"></div>
-          <div><label>Role (EN)</label><input name="role_en"></div>
-          <div><label>ტიპი</label>
-            <select name="type">
-              <option value="actors">მსახიობი</option>
-              <option value="directors">რეჟისორი</option>
-            </select>
-          </div>
-          <div><label>დაბადების თარიღი</label><input name="birthDate" type="date"></div>
-          <div><label>განათლება</label><input name="education"></div>
-          <div><label>Education (EN)</label><input name="education_en"></div>
-          <div><label>როლები</label><textarea name="stageRoles"></textarea></div>
-          <div><label>Roles (EN)</label><textarea name="stageRoles_en"></textarea></div>
-          <div><label>ჯილდოები</label><textarea name="awards"></textarea></div>
-          <div><label>Awards (EN)</label><textarea name="awards_en"></textarea></div>
-          <div><label>ბიოგრაფია</label><textarea name="bio"></textarea></div>
-          <div><label>Biography (EN)</label><textarea name="bio_en"></textarea></div>
-          <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*"></div>
-          <button class="primary" type="submit">შენახვა</button>
-          <p class="small" data-msg></p>
-        </form>
-      </section>
-
-      <section id="tab-gallery" class="tab-panel hidden">
-        <h2>გალერიის ელემენტი</h2>
-        <form id="gallery-form" class="grid" data-kind="gallery">
-          <input type="hidden" name="id">
-          <div><label>სათაური</label><input name="title"></div>
-          <div><label>Title (EN)</label><input name="title_en"></div>
-          <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*" required></div>
-          <button class="primary" type="submit">შენახვა</button>
-          <p class="small" data-msg></p>
-        </form>
-      </section>
-
-      <section id="tab-news" class="tab-panel hidden">
-        <h2>სიახლის დამატება/რედაქტირება</h2>
-        <form id="news-form" class="grid" data-kind="news">
+      <section id="tab-services" class="tab-panel hidden">
+        <h2>სერვისის დამატება/რედაქტირება</h2>
+        <form id="services-form" class="grid" data-kind="services">
           <input type="hidden" name="id">
           <div><label>სათაური</label><input name="title" required></div>
-          <div><label>Title (EN)</label><input name="title_en"></div>
-          <div><label>ტიპი</label><input name="type" placeholder="პრემიერა / ფესტივალი / სიახლე"></div>
-          <div><label>Type (EN)</label><input name="type_en" placeholder="Premiere / Festival / News"></div>
-          <div><label>თარიღი</label><input name="date" type="date"></div>
-          <div><label>მოკლე აღწერა</label><textarea name="excerpt"></textarea></div>
-          <div><label>Excerpt (EN)</label><textarea name="excerpt_en"></textarea></div>
-          <div><label>სრული ტექსტი</label><textarea name="content"></textarea></div>
-          <div><label>Content (EN)</label><textarea name="content_en"></textarea></div>
+          <div><label>აღწერა</label><textarea name="description"></textarea></div>
+          <div><label>ფიჩერი 1</label><input name="feature_1"></div>
+          <div><label>ფიჩერი 2</label><input name="feature_2"></div>
+          <div><label>ღილაკის ტექსტი</label><input name="cta_text" value="შეკვეთა"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-portfolio" class="tab-panel hidden">
+        <h2>პორტფოლიოს ელემენტი</h2>
+        <form id="portfolio-form" class="grid" data-kind="portfolio">
+          <input type="hidden" name="id">
+          <div><label>პროექტის სახელი</label><input name="title" required></div>
+          <div><label>კატეგორია</label><input name="category"></div>
+          <div><label>ტექნოლოგიები (comma)</label><input name="tech_stack"></div>
+          <div><label>გარე ლინკი</label><input name="project_url" type="url"></div>
           <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-blog" class="tab-panel hidden">
+        <h2>ბლოგის პოსტი</h2>
+        <form id="blog-form" class="grid" data-kind="blog">
+          <input type="hidden" name="id">
+          <div><label>სათაური</label><input name="title" required></div>
+          <div><label>თარიღი</label><input name="date" type="date"></div>
+          <div><label>კითხვის დრო</label><input name="read_time" placeholder="5 წუთი"></div>
+          <div><label>მოკლე აღწერა</label><textarea name="excerpt"></textarea></div>
+          <div><label>სრული ტექსტი</label><textarea name="content"></textarea></div>
+          <div><label>ფოტო</label><input name="imageFile" type="file" accept="image/*"></div>
+          <button class="primary" type="submit">შენახვა</button>
+          <p class="small" data-msg></p>
+        </form>
+      </section>
+
+      <section id="tab-faq" class="tab-panel hidden">
+        <h2>FAQ ჩანაწერი</h2>
+        <form id="faq-form" class="grid" data-kind="faq">
+          <input type="hidden" name="id">
+          <div><label>კითხვა</label><input name="question" required></div>
+          <div><label>პასუხი</label><textarea name="answer" required></textarea></div>
           <button class="primary" type="submit">შენახვა</button>
           <p class="small" data-msg></p>
         </form>
