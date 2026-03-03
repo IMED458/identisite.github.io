@@ -90,7 +90,7 @@
    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-xl border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="flex justify-between items-center h-20"><a href="#home" class="flex items-center space-x-2">
-       <div data-site-logo-box class="w-10 h-10 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-xl flex items-center justify-center"><span class="text-white font-bold text-xl">I</span>
+       <div data-site-logo-box class="w-11 h-11 bg-transparent rounded-xl flex items-center justify-center"><span class="text-slate-700 font-bold text-xl">I</span>
        </div><span class="text-2xl font-bold text-slate-800">IDENTISITE</span> </a> <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-8"><a href="#home" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">მთავარი</a> <a href="#about" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">ჩვენ შესახებ</a> <a href="#services" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">სერვისები</a> <a href="#portfolio" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">პორტფოლიო</a> <a href="#process" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">პროცესი</a> <a href="#blog" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">ბლოგი</a> <a href="#contact" class="nav-link text-slate-600 hover:text-[#474E68] transition-colors font-medium" data-lang="ka">კონტაქტი</a>
       </div>
@@ -966,7 +966,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="grid md:grid-cols-4 gap-12 mb-12">
       <div><a href="#home" class="flex items-center space-x-2 mb-6">
-        <div data-site-logo-box class="w-10 h-10 bg-gradient-to-br from-[#3C7EFC] to-[#474E68] rounded-xl flex items-center justify-center"><span class="text-white font-bold text-xl">I</span>
+        <div data-site-logo-box class="w-11 h-11 bg-transparent rounded-xl flex items-center justify-center"><span class="text-slate-100 font-bold text-xl">I</span>
         </div><span class="text-2xl font-bold">IDENTISITE</span> </a>
        <p class="text-slate-400 text-sm" data-lang="ka">იდენტობა რომელიც საიტად იქცევა</p>
       </div>
@@ -1344,7 +1344,7 @@
       const logoSrc = settings.logo_data_url || settings.logo_url || '';
       if (logoSrc) {
         document.querySelectorAll('[data-site-logo-box]').forEach((box) => {
-          box.innerHTML = `<img src="${logoSrc}" alt="Identisite Logo" class="w-8 h-8 object-contain">`;
+          box.innerHTML = `<img src="${logoSrc}" alt="Identisite Logo" class="w-9 h-9 object-contain">`;
         });
         const favicon = document.getElementById('siteFavicon');
         if (favicon) favicon.setAttribute('href', logoSrc);
