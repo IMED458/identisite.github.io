@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="ka" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="IDENTISITE - პრემიუმ ვებ სააგენტო: გაყიდვებზე ორიენტირებული ვებსაიტები, UI/UX და E-commerce." />
+  <title>IDENTISITE | იდენტობა, რომელიც გაყიდვად იქცევა</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef9f8',
+              100: '#d8f2ef',
+              200: '#b4e5df',
+              300: '#84d3cb',
+              400: '#47b7ad',
+              500: '#1f9d92',
+              600: '#167d75',
+              700: '#14645e',
+              800: '#14514c',
+              900: '#134440'
+            },
+            ink: {
+              900: '#091524',
+              800: '#122338',
+              700: '#1c3551'
+            },
+            gold: {
+              400: '#f3ba4a',
+              500: '#d9962e'
+            }
+          },
+          boxShadow: {
+            soft: '0 20px 60px -25px rgba(9,21,36,.35)'
+          },
+          fontFamily: {
+            heading: ['Manrope', 'Noto Sans Georgian', 'sans-serif'],
+            body: ['Noto Sans Georgian', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Noto+Sans+Georgian:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #f6fbff;
+      --bg-deep: #091524;
+      --accent: #1f9d92;
+      --accent-2: #f3ba4a;
+    }
+
+    body { font-family: 'Noto Sans Georgian', sans-serif; background: var(--bg-main); color: #122338; }
+    h1,h2,h3,h4 { font-family: 'Manrope', 'Noto Sans Georgian', sans-serif; }
+
+    .hero-bg {
+      background:
+        radial-gradient(900px 420px at 8% 8%, rgba(31,157,146,.16), transparent 68%),
+        radial-gradient(760px 380px at 85% 10%, rgba(243,186,74,.14), transparent 72%),
+        linear-gradient(180deg, #ffffff 0%, #eef8ff 100%);
+    }
+
+    .premium-card {
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(18, 35, 56, 0.08);
+      backdrop-filter: blur(8px);
+    }
+
+    .glow-btn:hover {
+      box-shadow: 0 16px 35px -16px rgba(31,157,146,.7);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity .45s ease, transform .45s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="h-full">
+  <header id="top" class="fixed inset-x-0 top-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur border-b border-slate-200/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="w-10 h-10 rounded-xl bg-ink-900 text-white font-bold grid place-items-center">I</span>
+        <span class="text-xl font-extrabold text-ink-900">IDENTISITE</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-700">
+        <a href="#services" class="hover:text-brand-700">სერვისები</a>
+        <a href="#results" class="hover:text-brand-700">შედეგები</a>
+        <a href="#process" class="hover:text-brand-700">პროცესი</a>
+        <a href="#faq" class="hover:text-brand-700">FAQ</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#contact" class="hidden sm:inline-flex px-5 py-2.5 rounded-xl text-white bg-ink-900 hover:bg-ink-800 transition">უფასო შეფასება</a>
+        <button id="menuBtn" class="lg:hidden p-2 text-ink-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white">
+      <div class="px-4 py-4 space-y-3 text-sm font-medium">
+        <a href="#services" class="block">სერვისები</a>
+        <a href="#results" class="block">შედეგები</a>
+        <a href="#process" class="block">პროცესი</a>
+        <a href="#faq" class="block">FAQ</a>
+        <a href="#contact" class="inline-flex px-5 py-2.5 rounded-xl text-white bg-ink-900">უფასო შეფასება</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="hero-bg">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-100 text-brand-800 text-sm font-semibold">გაყიდვებზე ორიენტირებული ვებსაიტები</span>
+          <h1 class="mt-6 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight text-ink-900">იდენტობა, რომელიც <span class="text-brand-600">კლიენტად</span> გარდაიქმნება</h1>
+          <p class="mt-6 text-lg text-slate-600 max-w-xl">ვქმნით პრემიუმ ვებსაიტებს, სადაც დიზაინი, სისწრაფე და ნდობა ერთად მუშაობს, რომ მეტი მოთხოვნა და მეტი გაყიდვა მიიღოთ.</p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <a href="#contact" class="glow-btn px-7 py-4 rounded-xl font-semibold text-white bg-brand-600 hover:bg-brand-700 transition text-center">შეავსე ბრიფი</a>
+            <a href="#results" class="px-7 py-4 rounded-xl font-semibold text-ink-900 border border-slate-300 hover:border-brand-400 transition text-center">ვნახოთ შედეგები</a>
+          </div>
+          <div class="mt-8 grid grid-cols-3 gap-4 max-w-md">
+            <div><p class="text-3xl font-extrabold text-ink-900">150+</p><p class="text-sm text-slate-500">პროექტი</p></div>
+            <div><p class="text-3xl font-extrabold text-ink-900">3.4x</p><p class="text-sm text-slate-500">საშ. ზრდა</p></div>
+            <div><p class="text-3xl font-extrabold text-ink-900">98%</p><p class="text-sm text-slate-500">კმაყოფილება</p></div>
+          </div>
+        </div>
+
+        <div class="reveal lg:justify-self-end">
+          <div class="premium-card rounded-3xl p-6 shadow-soft max-w-xl">
+            <p class="text-sm font-semibold text-slate-500">სწრაფი დიაგნოსტიკა (30 წმ)</p>
+            <h3 class="mt-2 text-2xl font-extrabold text-ink-900">საიტი გაყიდვებს გიკეთებს თუ უბრალოდ ლამაზია?</h3>
+            <ul class="mt-5 space-y-3 text-slate-700">
+              <li class="flex items-start gap-2"><span class="text-brand-600">●</span><span>შეტყობინების ფორმა ოპტიმიზებულია კონვერსიაზე</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-600">●</span><span>CTA-ები მკაფიო და მაღალ ხილვადობაშია</span></li>
+              <li class="flex items-start gap-2"><span class="text-brand-600">●</span><span>სიჩქარე და მობილური UX პირდაპირ გავლენას ახდენს გაყიდვებზე</span></li>
+            </ul>
+            <a href="#contact" class="mt-6 inline-flex px-6 py-3 rounded-xl bg-ink-900 text-white font-semibold hover:bg-ink-800">მივიღო უფასო აუდიტი</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-20 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-ink-900">რა ზრდის თქვენს გაყიდვებს</h2>
+          <p class="mt-3 text-slate-600">თითოეული სერვისი აწყობილია შედეგზე: მეტი ლიდი, მეტი შეკვეთა, მეტი ნდობა.</p>
+        </div>
+
+        <div class="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="reveal premium-card rounded-2xl p-6">
+            <h3 class="text-xl font-bold text-ink-900">Conversion Landing Pages</h3>
+            <p class="mt-2 text-slate-600">სარეკლამო ტრაფიკისთვის ოპტიმიზებული გვერდები მაღალი კონვერსიით.</p>
+          </article>
+          <article class="reveal premium-card rounded-2xl p-6">
+            <h3 class="text-xl font-bold text-ink-900">E-commerce ზრდა</h3>
+            <p class="mt-2 text-slate-600">კალათა, გადახდა და პროდუქტის UX ისე, რომ მიტოვებული შეკვეთები შემცირდეს.</p>
+          </article>
+          <article class="reveal premium-card rounded-2xl p-6">
+            <h3 class="text-xl font-bold text-ink-900">UI/UX და ბრენდინგი</h3>
+            <p class="mt-2 text-slate-600">ვიზუალი, რომელიც პრემიუმ აღქმას ქმნის და ფასზე წინააღმდეგობას ამცირებს.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" class="py-20 bg-gradient-to-b from-brand-50 to-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-ink-900">რეალური ბიზნეს შედეგები</h2>
+        </div>
+        <div class="mt-10 grid md:grid-cols-3 gap-6">
+          <div class="reveal rounded-2xl p-6 bg-ink-900 text-white">
+            <p class="text-sm text-slate-300">E-commerce</p>
+            <p class="mt-2 text-4xl font-extrabold">+212%</p>
+            <p class="mt-2 text-slate-300">შემოსავლის ზრდა 90 დღეში</p>
+          </div>
+          <div class="reveal rounded-2xl p-6 bg-white border border-slate-200">
+            <p class="text-sm text-slate-500">Lead Generation</p>
+            <p class="mt-2 text-4xl font-extrabold text-ink-900">-38%</p>
+            <p class="mt-2 text-slate-600">ლიდის ღირებულების შემცირება</p>
+          </div>
+          <div class="reveal rounded-2xl p-6 bg-white border border-slate-200">
+            <p class="text-sm text-slate-500">Service Business</p>
+            <p class="mt-2 text-4xl font-extrabold text-ink-900">3.1x</p>
+            <p class="mt-2 text-slate-600">შეკვეთების ზრდა რედიზაინის შემდეგ</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="py-20 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center reveal">
+          <h2 class="text-3xl sm:text-4xl font-extrabold text-ink-900">როგორ ვმუშაობთ</h2>
+        </div>
+        <div class="mt-12 space-y-4">
+          <div class="reveal rounded-2xl border border-slate-200 p-5"><strong>1. დიაგნოსტიკა:</strong> ბაზარი, აუდიტორია, შეთავაზება.</div>
+          <div class="reveal rounded-2xl border border-slate-200 p-5"><strong>2. სტრუქტურა:</strong> მესიჯინგი + კონვერსიის არქიტექტურა.</div>
+          <div class="reveal rounded-2xl border border-slate-200 p-5"><strong>3. დიზაინი:</strong> პრემიუმ ვიზუალი და მაღალი ნდობა.</div>
+          <div class="reveal rounded-2xl border border-slate-200 p-5"><strong>4. დეველოპმენტი:</strong> სწრაფი, SEO-ready, mobile-first.</div>
+          <div class="reveal rounded-2xl border border-slate-200 p-5"><strong>5. ოპტიმიზაცია:</strong> გაშვება + გაზომვა + გაუმჯობესება.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-slate-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-3xl font-extrabold text-ink-900 text-center reveal">ხშირად დასმული კითხვები</h2>
+        <div class="mt-10 space-y-3">
+          <details class="reveal bg-white rounded-xl border border-slate-200 p-4">
+            <summary class="font-semibold cursor-pointer">რა ბიუჯეტიდან იწყება პროექტი?</summary>
+            <p class="mt-2 text-slate-600">Conversion Landing Page იწყება 1,200₾-დან, კორპორატიული საიტი 2,500₾-დან.</p>
+          </details>
+          <details class="reveal bg-white rounded-xl border border-slate-200 p-4">
+            <summary class="font-semibold cursor-pointer">რამდენ ხანში სრულდება?</summary>
+            <p class="mt-2 text-slate-600">Landing Page: 7-14 დღე, სრული ვებსაიტი: 3-6 კვირა.</p>
+          </details>
+          <details class="reveal bg-white rounded-xl border border-slate-200 p-4">
+            <summary class="font-semibold cursor-pointer">მხარდაჭერა შედის?</summary>
+            <p class="mt-2 text-slate-600">დიახ, პირველ თვეში სრული ტექნიკური მხარდაჭერა უფასოა.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-20 bg-ink-900 text-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
+        <div class="reveal">
+          <span class="inline-flex px-3 py-1 rounded-full bg-white/10 text-brand-200 text-sm font-semibold">უფასო კომერციული შეფასება</span>
+          <h2 class="mt-5 text-4xl font-extrabold">მზად ხართ მეტ გაყიდვებზე?</h2>
+          <p class="mt-4 text-slate-300">მოგვწერეთ და 24 საათში მიიღებთ მკაფიო გეგმას: რა უნდა შეიცვალოს, რომ თქვენი საიტი რეალურად გაყიდვებს აკეთებდეს.</p>
+          <div class="mt-6 space-y-2 text-slate-200">
+            <p>ელფოსტა: info@identisite.ge</p>
+            <p>ტელ: +995 555 123 456</p>
+          </div>
+        </div>
+
+        <form class="reveal bg-white text-ink-900 rounded-2xl p-6 space-y-4" onsubmit="event.preventDefault(); alert('მადლობა! 24 საათში დაგიკავშირდებით.'); this.reset();">
+          <div>
+            <label class="text-sm font-medium">სახელი</label>
+            <input required class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+          </div>
+          <div>
+            <label class="text-sm font-medium">ელფოსტა</label>
+            <input type="email" required class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+          </div>
+          <div>
+            <label class="text-sm font-medium">პროექტის მიზანი</label>
+            <textarea required rows="4" class="mt-1 w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-brand-500"></textarea>
+          </div>
+          <button class="w-full rounded-xl px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">მივიღო შეთავაზება</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="py-8 bg-[#060e1a] text-slate-400 text-center text-sm">
+    © 2026 IDENTISITE. ყველა უფლება დაცულია.
+  </footer>
+
+  <a href="#contact" class="fixed bottom-5 right-5 px-5 py-3 rounded-full bg-gold-400 hover:bg-gold-500 text-ink-900 font-bold shadow-soft">შეკვეთა</a>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('show');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
