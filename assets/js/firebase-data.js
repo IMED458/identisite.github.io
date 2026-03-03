@@ -1,5 +1,11 @@
 import { initializeApp, getApps, getApp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js';
 import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js';
+import {
   getFirestore,
   collection,
   doc,
@@ -22,8 +28,27 @@ const firebaseConfig = {
 
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 export const firebaseReady = true;
+export { auth };
+
+export async function signInAdmin(email, password) {
+  return signInWithEmailAndPassword(auth, email, password);
+}
+
+export async function signOutAdmin() {
+  await signOut(auth);
+}
+
+export function waitForAuthState() {
+  return new Promise((resolve) => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      unsub();
+      resolve(user || null);
+    });
+  });
+}
 
 export async function pullSettingsFromCloud() {
   const snap = await getDoc(doc(db, 'settings', 'main'));

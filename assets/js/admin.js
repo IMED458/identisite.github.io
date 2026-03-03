@@ -3,16 +3,15 @@ import {
   pushSettingsToCloud,
   pullCollectionFromCloud,
   pushItemToCloud,
-  removeItemFromCloud
+  removeItemFromCloud,
+  signInAdmin,
+  signOutAdmin,
+  waitForAuthState
 } from './firebase-data.js';
 
 const path = window.location.pathname;
 const isLogin = path.endsWith('/admin/login.html') || path.endsWith('admin/login.html');
 const isDashboard = path.endsWith('/admin/dashboard.html') || path.endsWith('admin/dashboard.html');
-
-const ADMIN_AUTH_KEY = 'identisite_admin_auth';
-const ADMIN_USER = 'admin';
-const ADMIN_PASS = 'admin123';
 
 const collections = {
   settings: 'settings',
@@ -354,36 +353,39 @@ function loginFlow() {
   const errorEl = document.getElementById('login-error');
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
+  waitForAuthState().then((user) => {
+    if (user) window.location.replace('./dashboard.html');
+  });
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     text(errorEl, '');
 
     const fd = new FormData(form);
-    const username = String(fd.get('username') || '').trim();
+    const email = String(fd.get('email') || '').trim();
     const password = String(fd.get('password') || '');
-
-    if (username !== ADMIN_USER || password !== ADMIN_PASS) {
-      text(errorEl, 'არასწორი მონაცემები');
-      return;
+    try {
+      await signInAdmin(email, password);
+      window.location.replace('./dashboard.html');
+    } catch (err) {
+      text(errorEl, 'ავტორიზაცია ვერ შესრულდა. შეამოწმე Email/Password');
     }
-
-    localStorage.setItem(ADMIN_AUTH_KEY, '1');
-    window.location.replace('./dashboard.html');
   });
 }
 
 function dashboardFlow() {
-  if (localStorage.getItem(ADMIN_AUTH_KEY) !== '1') {
-    window.location.replace('./login.html');
-    return;
-  }
-
   bindTabs();
   bindForms();
   bindListActions();
   openTab('settings');
 
   (async () => {
+    const user = await waitForAuthState();
+    if (!user) {
+      window.location.replace('./login.html');
+      return;
+    }
+
     try {
       const cloudSettings = await pullSettingsFromCloud();
       if (cloudSettings && Object.keys(cloudSettings).length) setSettings(cloudSettings);
@@ -404,8 +406,8 @@ function dashboardFlow() {
 
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      localStorage.removeItem(ADMIN_AUTH_KEY);
+    logoutBtn.addEventListener('click', async () => {
+      await signOutAdmin();
       window.location.replace('./login.html');
     });
   }
