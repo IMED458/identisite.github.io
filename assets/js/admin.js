@@ -100,16 +100,30 @@ function formFromItem(form, item) {
 async function saveSettings(form) {
   const msg = document.getElementById('settings-msg');
   const fd = new FormData(form);
+  const prev = getSettings();
   const payload = {
     hero_title: fd.get('hero_title') || '',
     hero_subtitle: fd.get('hero_subtitle') || '',
     contact_email: fd.get('contact_email') || '',
     contact_phone: fd.get('contact_phone') || '',
     contact_address: fd.get('contact_address') || '',
+    logo_data_url: prev.logo_data_url || '',
+    logo_name: prev.logo_name || '',
     updatedAt: nowIso()
   };
 
+  const logoFile = fd.get('site_logo');
+  if (logoFile && logoFile.size > 0) {
+    payload.logo_data_url = await readFileAsDataUrl(logoFile);
+    payload.logo_name = logoFile.name || 'identisite.png';
+  }
+
   setSettings(payload);
+  const preview = document.getElementById('logo-preview');
+  if (preview && payload.logo_data_url) {
+    preview.src = payload.logo_data_url;
+    preview.classList.remove('hidden');
+  }
   text(msg, 'შენახულია (ლოკალურად)');
 }
 
@@ -122,6 +136,12 @@ function loadSettings() {
     const input = form.elements.namedItem(key);
     if (input) input.value = data[key] || '';
   });
+
+  const preview = document.getElementById('logo-preview');
+  if (preview && data.logo_data_url) {
+    preview.src = data.logo_data_url;
+    preview.classList.remove('hidden');
+  }
 }
 
 function listByKind(kind) {
