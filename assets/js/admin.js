@@ -18,7 +18,6 @@ const collections = {
   services: 'services',
   trusted: 'trusted',
   portfolio: 'portfolio',
-  team: 'team',
   why: 'why',
   process: 'process',
   testimonials: 'testimonials',
@@ -210,7 +209,6 @@ function humanTitle(kind) {
   if (kind === 'services') return 'სერვისები';
   if (kind === 'trusted') return 'ჩვენ გვენდობიან';
   if (kind === 'portfolio') return 'პორტფოლიო';
-  if (kind === 'team') return 'გუნდი';
   if (kind === 'why') return 'რატომ ჩვენ';
   if (kind === 'process') return 'პროცესი';
   if (kind === 'testimonials') return 'შეფასებები';
@@ -340,7 +338,7 @@ function bindForms() {
     });
   }
 
-  ['services', 'trusted', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'].forEach((kind) => {
+  ['services', 'trusted', 'portfolio', 'why', 'process', 'testimonials', 'blog', 'faq'].forEach((kind) => {
     const form = document.getElementById(`${kind}-form`);
     if (!form) return;
     form.addEventListener('submit', async (e) => {
@@ -446,7 +444,7 @@ function dashboardFlow() {
       const cloudSettings = await pullSettingsFromCloud();
       if (cloudSettings && Object.keys(cloudSettings).length) setSettings(cloudSettings);
 
-      const kinds = ['services', 'trusted', 'portfolio', 'team', 'why', 'process', 'testimonials', 'blog', 'faq'];
+      const kinds = ['services', 'trusted', 'portfolio', 'why', 'process', 'testimonials', 'blog', 'faq'];
       for (const kind of kinds) {
         const cloudItems = await pullCollectionFromCloud(kind);
         if (Array.isArray(cloudItems)) setStore(kind, cloudItems);

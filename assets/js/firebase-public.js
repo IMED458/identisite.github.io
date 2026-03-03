@@ -11,7 +11,6 @@ if (window.location.pathname.includes('/admin/')) {
     'services',
     'trusted',
     'portfolio',
-    'team',
     'why',
     'process',
     'testimonials',

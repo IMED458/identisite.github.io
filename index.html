@@ -263,39 +263,6 @@
         </ul>
        </div>
       </div>
-     </div><!-- Team Section -->
-     <div class="mt-20">
-      <h3 class="text-2xl font-bold text-slate-800 text-center mb-12" data-lang="ka">ჩვენი გუნდი</h3>
-      <div id="teamGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-       <div class="text-center group">
-        <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
-         გ.კ
-        </div>
-        <h4 class="font-semibold text-slate-800">გიორგი კვარაცხელია</h4>
-        <p class="text-slate-500 text-sm" data-lang="ka">დამფუძნებელი &amp; CEO</p>
-       </div>
-       <div class="text-center group">
-        <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
-         ნ.ბ
-        </div>
-        <h4 class="font-semibold text-slate-800">ნინო ბერიძე</h4>
-        <p class="text-slate-500 text-sm" data-lang="ka">წამყვანი დიზაინერი</p>
-       </div>
-       <div class="text-center group">
-        <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
-         დ.მ
-        </div>
-        <h4 class="font-semibold text-slate-800">დავით მამულაშვილი</h4>
-        <p class="text-slate-500 text-sm" data-lang="ka">ტექნიკური დირექტორი</p>
-       </div>
-       <div class="text-center group">
-        <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
-         მ.ჯ
-        </div>
-        <h4 class="font-semibold text-slate-800">მარიამ ჯანელიძე</h4>
-        <p class="text-slate-500 text-sm" data-lang="ka">პროექტების მენეჯერი</p>
-       </div>
-      </div>
      </div>
     </div>
    </section><!-- Services Section -->
@@ -1449,21 +1416,6 @@
       }).join('');
     }
 
-    function renderTeam() {
-      const items = getCmsList('team');
-      const grid = document.getElementById('teamGrid');
-      if (!grid || !items.length) return;
-      grid.innerHTML = items.map((item) => `
-        <div class="text-center group">
-          <div class="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-[#6B728E] to-[#3C7EFC] rounded-2xl flex items-center justify-center text-4xl text-white font-bold group-hover:scale-105 transition-transform">
-            ${(item.avatar_text || item.name || 'A').slice(0, 2)}
-          </div>
-          <h4 class="font-semibold text-slate-800">${item.name || ''}</h4>
-          <p class="text-slate-500 text-sm">${item.role || ''}</p>
-        </div>
-      `).join('');
-    }
-
     function renderWhyUs() {
       const items = getCmsList('why');
       const grid = document.getElementById('whyGrid');
@@ -1596,7 +1548,6 @@
       renderTrusted();
       renderServices();
       renderPortfolio();
-      renderTeam();
       renderWhyUs();
       renderProcess();
       renderTestimonials();
