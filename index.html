@@ -1674,18 +1674,31 @@
         const title = item.title || '';
         const category = item.category || '';
         const bg = item.image
-          ? `background-image:url('${item.image}');background-size:cover;background-position:center;`
+          ? ''
           : 'background: linear-gradient(135deg,#3b82f6 0%,#2563eb 100%);';
+        const media = item.image
+          ? `
+            <div class="absolute inset-0 p-2">
+              <img src="${item.image}" alt="${title}" class="w-full h-full object-contain rounded-2xl">
+            </div>
+          `
+          : '';
 
         return `
           <a href="${target}" ${target.startsWith('http') ? 'target="_blank" rel="noopener noreferrer"' : ''} class="group relative overflow-hidden rounded-3xl aspect-[4/3] hover-lift cursor-pointer block" style="${bg}">
-            <div class="absolute inset-0 bg-black/45"></div>
-            <div class="absolute inset-0 flex flex-col justify-end p-6 text-white">
+            ${media}
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div class="absolute inset-0 flex flex-col justify-end p-6 text-white translate-y-8 group-hover:translate-y-0 transition-transform duration-300">
               <h3 class="text-xl font-bold mb-2">${title}</h3>
               <p class="text-white/80 text-sm mb-3">${category}</p>
               <div class="flex flex-wrap gap-2">
                 ${chips.map((chip) => `<span class="px-2 py-1 bg-white/20 rounded-full text-xs">${chip}</span>`).join('')}
               </div>
+            </div>
+            <div class="absolute top-4 right-4 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
             </div>
           </a>
         `;
