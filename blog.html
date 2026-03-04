@@ -68,10 +68,10 @@
       ]
     }
   </script>
-  <link id="siteFavicon" rel="icon" type="image/png" href="/favicon-32x32.png">
-  <link rel="shortcut icon" href="/favicon.ico">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+  <link id="siteFavicon" rel="icon" type="image/png" href="/favicon-32x32.png?v=20260305">
+  <link rel="shortcut icon" href="/favicon.ico?v=20260305">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260305">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20260305">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -1672,7 +1672,7 @@
           box.innerHTML = `<img src="${logoSrc}" alt="Identisite Logo" class="w-9 h-9 object-contain">`;
         });
         const favicon = document.getElementById('siteFavicon');
-        if (favicon) favicon.setAttribute('href', logoSrc);
+        if (favicon) favicon.setAttribute('href', '/favicon-32x32.png?v=20260305');
       }
 
       const aboutTitle = document.getElementById('aboutTitle');
