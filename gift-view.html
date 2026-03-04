@@ -76,6 +76,35 @@
       return raw.replace('/upload/', '/upload/f_auto,q_auto/');
     }
 
+    function normalizePhotoUrls(gift = {}) {
+      const raw =
+        gift.photoUrls ||
+        gift.photos ||
+        gift.images ||
+        [];
+      if (!Array.isArray(raw)) return [];
+      return raw
+        .map((item) => {
+          if (typeof item === 'string') return item;
+          if (item && typeof item.url === 'string') return item.url;
+          if (item && typeof item.secure_url === 'string') return item.secure_url;
+          return '';
+        })
+        .filter(Boolean)
+        .map(cloudinaryAutoUrl);
+    }
+
+    function normalizeVideoUrl(gift = {}) {
+      const raw =
+        gift.videoUrl ||
+        gift.video ||
+        gift.video_url ||
+        '';
+      if (typeof raw === 'string') return cloudinaryAutoUrl(raw);
+      if (raw && typeof raw.url === 'string') return cloudinaryAutoUrl(raw.url);
+      return '';
+    }
+
     function inviteSection(text = '') {
       if (!text) return '';
       return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
@@ -115,8 +144,8 @@
     }
 
     function hydrateUploadedMedia(gift) {
-      const photoUrls = (gift.photoUrls || []).map(cloudinaryAutoUrl).filter(Boolean);
-      const videoUrl = cloudinaryAutoUrl(gift.videoUrl || '');
+      const photoUrls = normalizePhotoUrls(gift);
+      const videoUrl = normalizeVideoUrl(gift);
 
       // Inject uploaded photos into all placeholder cards in order.
       const photoSlots = Array.from(document.querySelectorAll('.photo-placeholder'));
@@ -238,6 +267,9 @@
       }
       const template = await res.text();
 
+      const normalizedPhotos = normalizePhotoUrls(gift);
+      const normalizedVideo = normalizeVideoUrl(gift);
+
       const html = replaceVars(template, {
         recipient_name: esc(gift.recipientName || ''),
         sender_name: esc(gift.senderName || ''),
@@ -254,23 +286,30 @@
         reason_5: esc(gift.reason5 || ''),
         reasons_html: reasonsHtml(gift),
         final_message: esc(gift.finalMessage || ''),
-        uploaded_photos: photosGrid((gift.photoUrls || []).map(cloudinaryAutoUrl)),
-        uploaded_video: videoBlock(cloudinaryAutoUrl(gift.videoUrl || '')),
+        uploaded_photos: photosGrid(normalizedPhotos),
+        uploaded_video: videoBlock(normalizedVideo),
         music_embed: musicEmbed(gift.musicLink || ''),
         date_invite_section: inviteSection(gift.dateInviteText || ''),
-        video_placeholder: gift.videoUrl ? '' : 'ვიდეო არ არის ატვირთული',
+        video_placeholder: normalizedVideo ? '' : 'ვიდეო არ არის ატვირთული',
         music_placeholder: gift.musicLink ? esc(gift.musicLink) : 'მუსიკის ბმული არ არის დამატებული',
-        photo_1: gift.photoUrls?.[0] ? '' : 'ფოტო #1',
-        photo_2: gift.photoUrls?.[1] ? '' : 'ფოტო #2',
-        photo_3: gift.photoUrls?.[2] ? '' : 'ფოტო #3',
-        photo_4: gift.photoUrls?.[3] ? '' : 'ფოტო #4',
-        photo_5: gift.photoUrls?.[4] ? '' : 'ფოტო #5'
+        photo_1: normalizedPhotos?.[0] ? '' : 'ფოტო #1',
+        photo_2: normalizedPhotos?.[1] ? '' : 'ფოტო #2',
+        photo_3: normalizedPhotos?.[2] ? '' : 'ფოტო #3',
+        photo_4: normalizedPhotos?.[3] ? '' : 'ფოტო #4',
+        photo_5: normalizedPhotos?.[4] ? '' : 'ფოტო #5'
       });
 
       document.open();
       document.write(html);
       document.close();
-      hydrateUploadedMedia(gift);
+
+      // Retry hydration because template scripts/paint timing can delay target nodes.
+      const runHydration = () => hydrateUploadedMedia(gift);
+      runHydration();
+      setTimeout(runHydration, 60);
+      setTimeout(runHydration, 180);
+      setTimeout(runHydration, 420);
+
       document.title = `${gift.recipientName || 'Gift'} | ${slug}`;
     }
 
