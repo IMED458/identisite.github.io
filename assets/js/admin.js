@@ -70,13 +70,76 @@ function setSettings(payload) {
   localStorage.setItem('identisite_settings', JSON.stringify(payload));
 }
 
-function readFileAsDataUrl(file) {
+const DEFAULT_MAX_IMAGE_CHARS = 700000;
+
+function readFileAsDataUrlRaw(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+}
+
+function loadImage(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function compressImageDataUrl(file, opts = {}) {
+  const {
+    maxWidth = 1600,
+    maxHeight = 1200,
+    qualityStart = 0.86,
+    qualityMin = 0.5
+  } = opts;
+
+  const raw = await readFileAsDataUrlRaw(file);
+  const type = String(file.type || '').toLowerCase();
+
+  if (!type.startsWith('image/') || type.includes('svg') || type.includes('gif')) {
+    return raw;
+  }
+
+  try {
+    const img = await loadImage(raw);
+    const scale = Math.min(1, maxWidth / img.width, maxHeight / img.height);
+    const width = Math.max(1, Math.round(img.width * scale));
+    const height = Math.max(1, Math.round(img.height * scale));
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return raw;
+
+    ctx.drawImage(img, 0, 0, width, height);
+
+    let quality = qualityStart;
+    let best = canvas.toDataURL('image/webp', quality);
+    while (quality > qualityMin) {
+      quality -= 0.08;
+      const attempt = canvas.toDataURL('image/webp', quality);
+      if (attempt.length < best.length) best = attempt;
+    }
+
+    return best.length < raw.length ? best : raw;
+  } catch {
+    return raw;
+  }
+}
+
+async function readFileAsDataUrl(file, opts = {}) {
+  const { maxChars = DEFAULT_MAX_IMAGE_CHARS } = opts;
+  const dataUrl = await compressImageDataUrl(file, opts);
+  if (dataUrl.length > maxChars) {
+    throw new Error('ფაილი ძალიან დიდია. ატვირთე უფრო მცირე ზომის ფოტო (სასურველია 1600px-მდე).');
+  }
+  return dataUrl;
 }
 
 function collectPayload(form) {
@@ -120,7 +183,7 @@ async function saveSettings(form) {
 
   const logoFile = fd.get('site_logo');
   if (logoFile && logoFile.size > 0) {
-    payload.logo_data_url = await readFileAsDataUrl(logoFile);
+    payload.logo_data_url = await readFileAsDataUrl(logoFile, { maxChars: 350000, maxWidth: 900, maxHeight: 900, qualityStart: 0.9 });
     payload.logo_name = logoFile.name || 'identisite.png';
   }
 
@@ -284,7 +347,7 @@ async function upsertEntity(form, kind) {
   if (index >= 0) existing = items[index];
 
   if (file && file.size > 0) {
-    const imageData = await readFileAsDataUrl(file);
+    const imageData = await readFileAsDataUrl(file, { maxChars: DEFAULT_MAX_IMAGE_CHARS });
     payload.image = imageData;
   }
 
