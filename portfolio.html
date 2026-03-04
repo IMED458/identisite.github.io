@@ -1067,7 +1067,7 @@
      </div>
      <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center">
       <p class="text-slate-400 text-sm" data-lang="ka">© 2026 IDENTISITE. ყველა უფლება დაცულია.</p>
-      <div class="flex space-x-6 mt-4 md:mt-0"><a href="#privacy-policy" class="text-slate-400 hover:text-white text-sm transition-colors" data-lang="ka">კონფიდენციალურობა</a> <a href="#terms-conditions" class="text-slate-400 hover:text-white text-sm transition-colors" data-lang="ka">პირობები</a>
+      <div class="flex space-x-6 mt-4 md:mt-0"><a href="privacy.html" class="text-slate-400 hover:text-white text-sm transition-colors" data-lang="ka">კონფიდენციალურობა</a> <a href="terms.html" class="text-slate-400 hover:text-white text-sm transition-colors" data-lang="ka">პირობები</a>
       </div>
      </div>
     </div>
@@ -1326,14 +1326,16 @@
         portfolio: ['portfolio'],
         process: ['process'],
         blog: ['blog'],
-        contact: ['contact']
+        contact: ['contact'],
+        privacy: ['privacy-policy'],
+        terms: ['terms-conditions']
       };
       const all = ['home', 'partners', 'about', 'services', 'why-us', 'portfolio', 'process', 'testimonials', 'blog', 'contact', 'privacy-policy', 'terms-conditions'];
       const visible = pageSections[pageKey] || pageSections.index;
       all.forEach((id) => {
         const el = document.getElementById(id);
         if (!el) return;
-        const keep = visible.includes(id) || id === 'privacy-policy' || id === 'terms-conditions';
+        const keep = visible.includes(id);
         el.classList.toggle('hidden', !keep);
       });
     }
