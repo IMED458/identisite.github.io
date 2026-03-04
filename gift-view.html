@@ -110,6 +110,21 @@
       return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
     }
 
+    function paymentSection(gift = {}) {
+      const link = String(gift.paymentLink || '').trim();
+      if (!link) return '';
+      const amount = String(gift.paymentAmount || '').trim();
+      const currency = String(gift.paymentCurrency || 'GEL').trim();
+      const amountLabel = amount ? `${esc(amount)} ${esc(currency)}` : '';
+      return `
+        <div id="payment-block" class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-emerald-200">
+          <h3 class="text-2xl mb-2 text-emerald-700">გადახდა</h3>
+          <p class="text-emerald-800 mb-4">${amountLabel ? `თანხა: <strong>${amountLabel}</strong>` : 'დააჭირე ღილაკს გადასახდელად.'}</p>
+          <a href="${esc(link)}" target="_blank" rel="noopener" class="inline-flex items-center px-6 py-3 rounded-xl bg-emerald-600 text-white font-semibold hover:bg-emerald-700 transition-colors">გადახდა</a>
+        </div>
+      `;
+    }
+
     function reasonsHtml(gift = {}) {
       const reasons = [
         gift.reason1,
@@ -268,6 +283,22 @@
           } else {
             document.body.appendChild(section);
           }
+        }
+      }
+
+      // Optional payment CTA block.
+      if (String(gift.paymentLink || '').trim() && !document.getElementById('payment-block')) {
+        const wrap = document.createElement('section');
+        wrap.className = 'max-w-4xl mx-auto px-4 py-6';
+        wrap.innerHTML = paymentSection(gift);
+        const target =
+          document.getElementById('date-invite-block') ||
+          document.getElementById('final-section') ||
+          Array.from(document.querySelectorAll('section')).at(-1);
+        if (target && target.parentNode) {
+          target.parentNode.insertBefore(wrap, target);
+        } else {
+          document.body.appendChild(wrap);
         }
       }
     }
