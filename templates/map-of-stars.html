@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Map of Stars | La La Land</title>
+    <title>The Map of Stars</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A9%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -100,6 +100,7 @@
         <p class="serif-italic text-lg md:text-xl text-slate-400 max-w-md animate__animated animate__fadeIn animate__delay-1s">
             "City of stars, are you shining just for me?"
         </p>
+        <p class="text-sm md:text-base text-amber-400/80 mt-4 animate__animated animate__fadeIn animate__delay-1s">[ვინ უძღვნის] {{map_from_name}} → [ვის უძღვნის] {{map_to_name}}</p>
         <div class="mt-20 animate__animated animate__fadeIn animate__infinite animate__slower">
             <span class="text-xs md:text-sm uppercase tracking-[0.32em] text-amber-500/60">ჩამოსქროლე და აანთე მოგონებები</span>
         </div>
@@ -111,36 +112,36 @@
         <div class="memory-section">
             <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">The Lighthouse Cafe</span>
-                <h3 class="serif-italic text-xl my-2">პირველი ნოტები</h3>
-                <p class="text-sm text-slate-300 italic">"აქ, სადაც ჯაზი სუნთქავს... შენ მასწავლე, რომ ვნებას საზღვრები არ აქვს."</p>
+                <span class="cinzel text-[10px] text-amber-500">{{map_memory_1_location}}</span>
+                <h3 class="serif-italic text-xl my-2">{{map_memory_1_title}}</h3>
+                <p class="text-sm text-slate-300 italic">{{map_memory_1_content}}</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">Griffith Observatory</span>
-                <h3 class="serif-italic text-xl my-2">ცეკვა ვარსკვლავებს შორის</h3>
-                <p class="text-sm text-slate-300 italic">"აქ ჩვენი ისტორია რეალობას გასცდა. პლანეტარიუმის ცაზე ავიჭერით."</p>
+                <span class="cinzel text-[10px] text-amber-500">{{map_memory_2_location}}</span>
+                <h3 class="serif-italic text-xl my-2">{{map_memory_2_title}}</h3>
+                <p class="text-sm text-slate-300 italic">{{map_memory_2_content}}</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">Colorado Street Bridge</span>
-                <h3 class="serif-italic text-xl my-2">ოცნებების ხიდი</h3>
-                <p class="text-sm text-slate-300 italic">"შენ დამინახე მაშინაც, როცა მე საკუთარ თავს ვერ ვხედავდი. მადლობა რწმენისთვის."</p>
+                <span class="cinzel text-[10px] text-amber-500">{{map_memory_3_location}}</span>
+                <h3 class="serif-italic text-xl my-2">{{map_memory_3_title}}</h3>
+                <p class="text-sm text-slate-300 italic">{{map_memory_3_content}}</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">Date Invitation</span>
-                <h3 class="serif-italic text-xl my-2">პაემანზე მოწვევა</h3>
-                <p class="text-sm text-slate-300 italic">"პარასკევს, 20:00-ზე, ჩვენს საყვარელ ადგილზე გელოდები. თუ დაგთანხმდები, ეს ღამე მხოლოდ ჩვენი იქნება ✨"</p>
+                <span class="cinzel text-[10px] text-amber-500">{{map_memory_4_location}}</span>
+                <h3 class="serif-italic text-xl my-2">{{map_memory_4_title}}</h3>
+                <p class="text-sm text-slate-300 italic">{{map_memory_4_content}}</p>
             </div>
         </div>
     </section>
@@ -148,7 +149,7 @@
     <footer class="h-screen flex flex-col items-center justify-center text-center px-6">
         <div class="text-4xl mb-8 animate__animated animate__pulse animate__infinite">🎹</div>
         <p class="serif-italic text-2xl text-amber-400 mb-4 animate__animated animate__fadeInUp">"Here's to the fools who dream."</p>
-        <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-slate-400">გილოცავ 8 მარტს, ჩემო ვარსკვლავო!</p>
+        <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-slate-400">{{map_footer_text}}</p>
         <div class="w-px h-24 bg-gradient-to-b from-amber-500 to-transparent mt-12"></div>
     </footer>
 

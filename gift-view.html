@@ -149,6 +149,23 @@
       return output;
     }
 
+    function pickFirstValue(...candidates) {
+      for (const item of candidates) {
+        if (item === null || item === undefined) continue;
+        const value = String(item).trim();
+        if (value) return value;
+      }
+      return '';
+    }
+
+    function resolveTemplateName(gift = {}) {
+      const raw = pickFirstValue(gift.templateType, gift.template_choice, gift.templateChoice).toLowerCase();
+      if (!raw) return 'girlfriend';
+      if (raw.includes('map') || raw.includes('stars') || raw.includes('ვარსკვლ')) return 'map-of-stars';
+      if (raw.includes('wife') || raw.includes('მეუღლ') || raw.includes('ცოლ')) return 'wife';
+      return 'girlfriend';
+    }
+
     function applyEmojiFavicon(emoji = '📩') {
       const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${emoji}</text></svg>`;
       const href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
@@ -330,7 +347,7 @@
         return;
       }
 
-      const templateName = gift.templateType === 'wife' ? 'wife' : 'girlfriend';
+      const templateName = resolveTemplateName(gift);
       const res = await fetch(`./templates/${templateName}.html`, { cache: 'no-store' });
       if (!res.ok) {
         document.getElementById('loading').textContent = 'თემფლეითი ვერ მოიძებნა';
@@ -361,6 +378,21 @@
         uploaded_video: videoBlock(normalizedVideo),
         music_embed: musicEmbed(gift.musicLink || ''),
         date_invite_section: inviteSection(gift.dateInviteText || ''),
+        map_memory_1_location: esc(pickFirstValue(gift.mapMemory1Location, gift.map_memory_1_location, 'The Lighthouse Cafe')),
+        map_memory_1_title: esc(pickFirstValue(gift.mapMemory1Title, gift.map_memory_1_title, 'პირველი ნოტები')),
+        map_memory_1_content: esc(pickFirstValue(gift.mapMemory1Content, gift.map_memory_1_content, 'აქ, სადაც ჯაზი სუნთქავს... შენ მასწავლე, რომ ვნებას საზღვრები არ აქვს.')),
+        map_memory_2_location: esc(pickFirstValue(gift.mapMemory2Location, gift.map_memory_2_location, 'Griffith Observatory')),
+        map_memory_2_title: esc(pickFirstValue(gift.mapMemory2Title, gift.map_memory_2_title, 'ცეკვა ვარსკვლავებს შორის')),
+        map_memory_2_content: esc(pickFirstValue(gift.mapMemory2Content, gift.map_memory_2_content, 'აქ ჩვენი ისტორია რეალობას გასცდა. პლანეტარიუმის ცაზე ავიჭერით.')),
+        map_memory_3_location: esc(pickFirstValue(gift.mapMemory3Location, gift.map_memory_3_location, 'Colorado Street Bridge')),
+        map_memory_3_title: esc(pickFirstValue(gift.mapMemory3Title, gift.map_memory_3_title, 'ოცნებების ხიდი')),
+        map_memory_3_content: esc(pickFirstValue(gift.mapMemory3Content, gift.map_memory_3_content, 'შენ დამინახე მაშინაც, როცა მე საკუთარ თავს ვერ ვხედავდი. მადლობა რწმენისთვის.')),
+        map_memory_4_location: esc(pickFirstValue(gift.mapMemory4Location, gift.map_memory_4_location, 'Date Invitation')),
+        map_memory_4_title: esc(pickFirstValue(gift.mapMemory4Title, gift.map_memory_4_title, 'პაემანზე მოწვევა')),
+        map_memory_4_content: esc(pickFirstValue(gift.mapMemory4Content, gift.map_memory_4_content, gift.dateInviteText)),
+        map_from_name: esc(pickFirstValue(gift.senderName, gift.sender_name)),
+        map_to_name: esc(pickFirstValue(gift.recipientName, gift.recipient_name)),
+        map_footer_text: esc(pickFirstValue(gift.finalMessage, gift.final_message, 'გილოცავ 8 მარტს, ჩემო ვარსკვლავო!')),
         video_placeholder: normalizedVideo ? '' : 'ვიდეო არ არის ატვირთული',
         music_placeholder: gift.musicLink ? esc(gift.musicLink) : 'მუსიკის ბმული არ არის დამატებული',
         photo_1: normalizedPhotos?.[0] ? '' : 'ფოტო #1',
@@ -383,7 +415,7 @@
       startMediaSelfHeal(gift);
       applyEmojiFavicon('📩');
 
-      document.title = `${gift.recipientName || 'Gift'} | ${slug}`;
+      document.title = `${pickFirstValue(gift.recipientName, gift.recipient_name, 'Gift')} | ${slug}`;
     }
 
     renderGift().catch((e) => {
