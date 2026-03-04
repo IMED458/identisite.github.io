@@ -52,6 +52,30 @@
       return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
     }
 
+    function reasonsHtml(gift = {}) {
+      const reasons = [
+        gift.reason1,
+        gift.reason2,
+        gift.reason3,
+        gift.reason4,
+        gift.reason5
+      ].map((r) => (r || '').trim()).filter(Boolean);
+
+      if (!reasons.length) {
+        return '<div class="text-gray-500">მიზეზი არ არის დამატებული</div>';
+      }
+
+      if (gift.templateType === 'wife') {
+        return reasons
+          .map((r, idx) => `<div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">${idx + 1}. ${esc(r)}</div>`)
+          .join('');
+      }
+
+      return reasons
+        .map((r) => `<div class="glass-card rounded-2xl p-6 text-rose-800">♥ ${esc(r)}</div>`)
+        .join('');
+    }
+
     function replaceVars(template, vars) {
       let output = template;
       Object.entries(vars).forEach(([k, v]) => {
@@ -85,7 +109,7 @@
       const html = replaceVars(template, {
         recipient_name: esc(gift.recipientName || ''),
         sender_name: esc(gift.senderName || ''),
-        hero_title: esc(gift.heroTitle || ''),
+        hero_title: esc(gift.heroTitle || 'ჩემო სიყვარულო'),
         hero_subtitle: esc(gift.heroSubtitle || ''),
         love_message: esc(gift.loveMessage || ''),
         message: esc(gift.loveMessage || ''),
@@ -96,6 +120,7 @@
         reason_3: esc(gift.reason3 || ''),
         reason_4: esc(gift.reason4 || ''),
         reason_5: esc(gift.reason5 || ''),
+        reasons_html: reasonsHtml(gift),
         final_message: esc(gift.finalMessage || ''),
         uploaded_photos: photosGrid(gift.photoUrls || []),
         uploaded_video: videoBlock(gift.videoUrl || ''),

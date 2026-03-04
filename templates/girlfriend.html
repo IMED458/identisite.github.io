@@ -29,9 +29,9 @@
     <div class="max-w-4xl mx-auto">
       <div class="text-6xl mb-6">💕</div>
       <p class="text-rose-400 tracking-widest uppercase mb-4">8 მარტი</p>
-      <h1 class="font-display text-5xl md:text-7xl font-bold text-gradient mb-4">{{hero_title}}</h1>
-      <h2 class="font-display text-3xl md:text-5xl italic mb-6 text-rose-900">{{recipient_name}}</h2>
-      <p class="text-xl text-rose-700/80 max-w-2xl mx-auto">{{hero_subtitle}}</p>
+      <h1 class="font-display text-5xl md:text-7xl font-bold text-gradient mb-4 leading-tight break-words">{{hero_title}}</h1>
+      <h2 class="font-display text-3xl md:text-5xl italic mb-6 text-rose-900 leading-tight break-words">{{recipient_name}}</h2>
+      <p class="text-xl text-rose-700/80 max-w-2xl mx-auto break-words">{{hero_subtitle}}</p>
     </div>
   </section>
 
@@ -54,13 +54,7 @@
   <section class="py-20 px-4">
     <div class="max-w-4xl mx-auto">
       <h3 class="font-display text-4xl text-center text-rose-900 mb-10">რატომ მიყვარხარ</h3>
-      <div class="space-y-4">
-        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_1}}</div>
-        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_2}}</div>
-        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_3}}</div>
-        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_4}}</div>
-        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_5}}</div>
-      </div>
+      <div class="space-y-4">{{reasons_html}}</div>
     </div>
   </section>
 

@@ -29,7 +29,7 @@
       <p class="text-amber-600 tracking-widest uppercase mb-4">8 მარტი</p>
       <h1 class="text-4xl md:text-6xl font-light mb-6">
         <span class="block text-rose-800 mb-2">გილოცავ ქალთა დღეს</span>
-        <span class="shimmer-text font-semibold">{{recipient_name}}</span>
+        <span class="shimmer-text font-semibold leading-tight break-words">{{recipient_name}}</span>
       </h1>
       <p class="text-rose-700 text-xl">ეს გვერდი მხოლოდ შენთვის შევქმენი</p>
     </div>
@@ -56,13 +56,7 @@
   <section class="py-20 px-4 bg-gradient-to-b from-white to-rose-50">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl md:text-4xl text-center text-rose-800 mb-10">რატომ ხარ საუკეთესო მეუღლე</h2>
-      <div class="space-y-4">
-        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">1. {{reason_1}}</div>
-        <div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">2. {{reason_2}}</div>
-        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">3. {{reason_3}}</div>
-        <div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">4. {{reason_4}}</div>
-        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">5. {{reason_5}}</div>
-      </div>
+      <div class="space-y-4">{{reasons_html}}</div>
     </div>
   </section>
 
