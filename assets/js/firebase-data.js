@@ -106,8 +106,7 @@ export async function getGiftPage(slug) {
 }
 
 export async function uploadGiftAsset(slug, file, kind = 'photos') {
-  const resourceType = kind === 'video' ? 'video' : 'image';
-  const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
+  const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
 
   const fd = new FormData();
   fd.append('file', file);

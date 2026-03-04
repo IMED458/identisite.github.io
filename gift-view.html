@@ -65,15 +65,18 @@
       return `<video class="w-full rounded-xl" controls src="${esc(url)}"></video>`;
     }
 
-    function cloudinaryAutoUrl(url = '') {
+    function cloudinaryDeliveryUrl(url = '', kind = 'image') {
       const raw = String(url || '');
       if (!raw.includes('res.cloudinary.com') || !raw.includes('/upload/')) {
         return raw;
       }
-      if (raw.includes('/upload/f_auto')) {
+      const imgTransform = '/upload/f_auto,q_auto,fl_progressive/';
+      const videoTransform = '/upload/f_mp4,q_auto/';
+      const targetTransform = kind === 'video' ? videoTransform : imgTransform;
+      if (raw.includes('/upload/f_auto') || raw.includes('/upload/f_mp4')) {
         return raw;
       }
-      return raw.replace('/upload/', '/upload/f_auto,q_auto/');
+      return raw.replace('/upload/', targetTransform);
     }
 
     function normalizePhotoUrls(gift = {}) {
@@ -91,7 +94,7 @@
           return '';
         })
         .filter(Boolean)
-        .map(cloudinaryAutoUrl);
+        .map((u) => cloudinaryDeliveryUrl(u, 'image'));
     }
 
     function normalizeVideoUrl(gift = {}) {
@@ -100,8 +103,8 @@
         gift.video ||
         gift.video_url ||
         '';
-      if (typeof raw === 'string') return cloudinaryAutoUrl(raw);
-      if (raw && typeof raw.url === 'string') return cloudinaryAutoUrl(raw.url);
+      if (typeof raw === 'string') return cloudinaryDeliveryUrl(raw, 'video');
+      if (raw && typeof raw.url === 'string') return cloudinaryDeliveryUrl(raw.url, 'video');
       return '';
     }
 
@@ -167,7 +170,8 @@
       photoSlots.forEach((slot, i) => {
         const url = photoUrls[i];
         if (!url) return;
-        slot.innerHTML = `<img src="${esc(url)}" alt="photo ${i + 1}" class="w-full h-full object-cover" loading="lazy">`;
+        const fallback = String(url).replace('/upload/f_auto,q_auto,fl_progressive/', '/upload/f_jpg,q_auto/');
+        slot.innerHTML = `<img src="${esc(url)}" alt="photo ${i + 1}" class="w-full h-full object-cover" loading="lazy" onerror="if(this.dataset.fbk!=='1'){this.dataset.fbk='1';this.src='${esc(fallback)}';}">`;
       });
 
       // Inject uploaded video into template video blocks.
