@@ -308,6 +308,11 @@
 
         statusText.textContent = 'იგზავნება მეილი...';
 
+        const perPhotoFields = {};
+        for (let i = 0; i < 15; i++) {
+          perPhotoFields[`photo_${i + 1}`] = photoLinks[i] || '-';
+        }
+
         const emailPayload = {
           _subject: '8 მარტის პერსონალური საიტის ახალი შეკვეთა',
           client_name: fd.get('client_name') || '',
@@ -327,9 +332,11 @@
           notes: fd.get('notes') || '',
           order_id: orderId,
           photos_count: String(photoLinks.length),
-          photos_links: photoLinks.length ? photoLinks.join('\\n') : '-',
+          photos_links: photoLinks.length ? photoLinks.join(' | ') : '-',
+          photos_links_json: photoLinks.length ? JSON.stringify(photoLinks) : '[]',
           video_link: videoLink || '-',
-          payment_receipt_link: receiptLink || '-'
+          payment_receipt_link: receiptLink || '-',
+          ...perPhotoFields
         };
 
         const emailResponse = await fetch('https://formsubmit.co/ajax/identisitee@gmail.com', {
