@@ -1510,8 +1510,9 @@
           body: JSON.stringify(emailPayload)
         });
 
-        if (!emailResponse.ok) {
-          throw new Error('Email send failed');
+        const emailResult = await emailResponse.json().catch(() => ({}));
+        if (!emailResponse.ok || emailResult.success === 'false' || emailResult.success === false) {
+          throw new Error(emailResult.message || 'Email send failed');
         }
 
         if (window.dataSdk && submissions.length < 999) {
@@ -1532,7 +1533,7 @@
         contactForm.reset();
       } catch (error) {
         formMessage.className = 'text-center p-4 rounded-xl bg-red-100 text-red-700';
-        formMessage.textContent = translations[currentLang].form_error;
+        formMessage.textContent = (error && error.message) ? error.message : translations[currentLang].form_error;
         formMessage.classList.remove('hidden');
       } finally {
         submitBtn.disabled = false;
