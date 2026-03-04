@@ -47,6 +47,17 @@
       return `<video class="w-full rounded-xl" controls src="${esc(url)}"></video>`;
     }
 
+    function cloudinaryAutoUrl(url = '') {
+      const raw = String(url || '');
+      if (!raw.includes('res.cloudinary.com') || !raw.includes('/upload/')) {
+        return raw;
+      }
+      if (raw.includes('/upload/f_auto')) {
+        return raw;
+      }
+      return raw.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+
     function inviteSection(text = '') {
       if (!text) return '';
       return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
@@ -83,6 +94,38 @@
         output = output.replace(re, v ?? '');
       });
       return output;
+    }
+
+    function hydrateUploadedMedia(gift) {
+      const photoUrls = (gift.photoUrls || []).map(cloudinaryAutoUrl).filter(Boolean);
+      const videoUrl = cloudinaryAutoUrl(gift.videoUrl || '');
+
+      // Inject uploaded photos into all placeholder cards in order.
+      const photoSlots = Array.from(document.querySelectorAll('.photo-placeholder'));
+      photoSlots.forEach((slot, i) => {
+        const url = photoUrls[i];
+        if (!url) return;
+        slot.innerHTML = `<img src="${esc(url)}" alt="photo ${i + 1}" class="w-full h-full object-cover" loading="lazy">`;
+      });
+
+      // Inject uploaded video into template video blocks.
+      if (videoUrl) {
+        const videoSlots = [
+          document.querySelector('#video-section .aspect-video'),
+          document.querySelector('.video-placeholder.aspect-video')
+        ].filter(Boolean);
+        videoSlots.forEach((slot) => {
+          slot.innerHTML = `<video class="w-full h-full object-cover rounded-2xl" controls playsinline src="${esc(videoUrl)}"></video>`;
+        });
+      }
+
+      // Inject music embed where a music placeholder block exists.
+      if (gift.musicLink) {
+        const musicSlot = document.querySelector('#music-section .aspect-video');
+        if (musicSlot) {
+          musicSlot.innerHTML = musicEmbed(gift.musicLink);
+        }
+      }
     }
 
     async function renderGift() {
@@ -122,22 +165,23 @@
         reason_5: esc(gift.reason5 || ''),
         reasons_html: reasonsHtml(gift),
         final_message: esc(gift.finalMessage || ''),
-        uploaded_photos: photosGrid(gift.photoUrls || []),
-        uploaded_video: videoBlock(gift.videoUrl || ''),
+        uploaded_photos: photosGrid((gift.photoUrls || []).map(cloudinaryAutoUrl)),
+        uploaded_video: videoBlock(cloudinaryAutoUrl(gift.videoUrl || '')),
         music_embed: musicEmbed(gift.musicLink || ''),
         date_invite_section: inviteSection(gift.dateInviteText || ''),
         video_placeholder: gift.videoUrl ? '' : 'ვიდეო არ არის ატვირთული',
         music_placeholder: gift.musicLink ? esc(gift.musicLink) : 'მუსიკის ბმული არ არის დამატებული',
-        photo_1: gift.photoUrls?.[0] ? 'ფოტო #1' : 'ფოტო #1',
-        photo_2: gift.photoUrls?.[1] ? 'ფოტო #2' : 'ფოტო #2',
-        photo_3: gift.photoUrls?.[2] ? 'ფოტო #3' : 'ფოტო #3',
-        photo_4: gift.photoUrls?.[3] ? 'ფოტო #4' : 'ფოტო #4',
-        photo_5: gift.photoUrls?.[4] ? 'ფოტო #5' : 'ფოტო #5'
+        photo_1: gift.photoUrls?.[0] ? '' : 'ფოტო #1',
+        photo_2: gift.photoUrls?.[1] ? '' : 'ფოტო #2',
+        photo_3: gift.photoUrls?.[2] ? '' : 'ფოტო #3',
+        photo_4: gift.photoUrls?.[3] ? '' : 'ფოტო #4',
+        photo_5: gift.photoUrls?.[4] ? '' : 'ფოტო #5'
       });
 
       document.open();
       document.write(html);
       document.close();
+      hydrateUploadedMedia(gift);
     }
 
     renderGift().catch((e) => {
