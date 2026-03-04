@@ -1,0 +1,354 @@
+import express from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import crypto from "crypto";
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Base URL for returned links (set in production, e.g. https://yourdomain.ge)
+const BASE_URL = process.env.BASE_URL || "";
+
+const __dirname = path.resolve();
+const candidatePublic = path.join(__dirname, "public");
+const PUBLIC_DIR = fs.existsSync(candidatePublic) ? candidatePublic : __dirname;
+const GIFT_DIR = path.join(PUBLIC_DIR, "gift");
+
+fs.mkdirSync(GIFT_DIR, { recursive: true });
+
+// -------- Helpers --------
+function isValidSlug(slug) {
+  return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+}
+
+function escapeHtml(str = "") {
+  return String(str)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function safeFileName(originalName) {
+  const ext = path.extname(originalName).toLowerCase().slice(0, 10);
+  const base = path
+    .basename(originalName, path.extname(originalName))
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]+/g, "-")
+    .replace(/-+/g, "-")
+    .slice(0, 60);
+
+  const rand = crypto.randomBytes(4).toString("hex");
+  return `${base || "file"}-${rand}${ext || ""}`;
+}
+
+function guessMusicEmbed(url) {
+  if (!url) return "";
+  const u = url.trim();
+
+  // YouTube
+  const ytMatch =
+    u.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/) ||
+    u.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/);
+
+  if (ytMatch?.[1]) {
+    const id = ytMatch[1];
+    return `
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი სიმღერა 🎵</h2>
+        <div class="aspect-video w-full overflow-hidden rounded-2xl border border-pink-100 shadow">
+          <iframe class="w-full h-full" src="https://www.youtube.com/embed/${id}" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </section>
+    `;
+  }
+
+  // Spotify (basic: convert open.spotify.com/... to embed)
+  const spMatch = u.match(/open\.spotify\.com\/(track|album|playlist)\/([A-Za-z0-9]+)/);
+  if (spMatch) {
+    const type = spMatch[1];
+    const id = spMatch[2];
+    return `
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი სიმღერა 🎵</h2>
+        <div class="w-full overflow-hidden rounded-2xl border border-pink-100 shadow">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/${type}/${id}" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </section>
+    `;
+  }
+
+  // fallback: show link
+  return `
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი სიმღერა 🎵</h2>
+      <a class="text-pink-600 underline" href="${escapeHtml(u)}" target="_blank" rel="noopener noreferrer">${escapeHtml(u)}</a>
+    </section>
+  `;
+}
+
+function generateGiftHtml(payload) {
+  const {
+    recipientName,
+    senderName,
+    relationshipType,
+    message,
+    story,
+    reasons = [],
+    closingMessage,
+    musicLink,
+    photos = [],
+    videoPath = "",
+    slug,
+  } = payload;
+
+  const relationshipLabel = {
+    girlfriend: "შეყვარებული",
+    wife: "მეუღლე",
+    mother: "დედა",
+    friend: "მეგობარი",
+    other: "ძვირფასი ადამიანი",
+  }[relationshipType] || "ძვირფასი ადამიანი";
+
+  const reasonsLis = reasons
+    .filter(Boolean)
+    .slice(0, 10)
+    .map((r) => `<li class="flex gap-3"><span class="text-green-500">✓</span><span>${escapeHtml(r)}</span></li>`)
+    .join("");
+
+  const photosGrid = photos.length
+    ? `
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი მომენტები 📸</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+          ${photos
+            .map(
+              (p) => `
+            <a href="${escapeHtml(p)}" target="_blank" rel="noopener" class="block overflow-hidden rounded-2xl border border-pink-100 shadow-sm hover:shadow transition">
+              <img src="${escapeHtml(p)}" alt="photo" class="w-full h-40 object-cover"/>
+            </a>`
+            )
+            .join("")}
+        </div>
+      </section>
+    `
+    : "";
+
+  const videoSection = videoPath
+    ? `
+      <section class="mt-10">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">ვიდეო 🎬</h2>
+        <div class="overflow-hidden rounded-2xl border border-pink-100 shadow">
+          <video class="w-full" controls src="${escapeHtml(videoPath)}"></video>
+        </div>
+      </section>
+    `
+    : "";
+
+  const musicEmbed = guessMusicEmbed(musicLink);
+
+  const safeRecipient = escapeHtml(recipientName || "");
+  const safeSender = escapeHtml(senderName || "");
+  const safeMessage = escapeHtml(message || "");
+  const safeStory = escapeHtml(story || "");
+  const safeClosing = escapeHtml(closingMessage || "გილოცავ 8 მარტს ❤️");
+
+  return `<!doctype html>
+<html lang="ka" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>${safeRecipient ? `${safeRecipient} — 8 მარტის საჩუქარი` : "8 მარტის საჩუქარი"}</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans Georgian', sans-serif; }
+    .gradient-text {
+      background: linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%);
+    }
+  </style>
+</head>
+<body class="min-h-full bg-white">
+  <header class="hero-gradient py-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">💐 8 მარტი</div>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
+        <span class="gradient-text">${safeRecipient || "ძვირფასო"}</span><br/>
+        <span class="text-gray-800">გილოცავ ქალთა დღეს ❤️</span>
+      </h1>
+      <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+        ${safeSender ? `${safeSender}-სგან —` : ""} შენ ხარ ჩემი ${escapeHtml(relationshipLabel)} და მინდა ეს პატარა საიტი მხოლოდ შენთვის იყოს.
+      </p>
+      ${slug ? `<p class="text-sm text-gray-500 mt-4">საიტის სახელი: <span class="font-medium">${escapeHtml(slug)}</span></p>` : ""}
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <section class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">სიყვარულის წერილი 💌</h2>
+      <p class="text-gray-700 leading-relaxed whitespace-pre-line">${safeMessage}</p>
+    </section>
+
+    ${safeStory ? `
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი ისტორია 📖</h2>
+      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
+        <p class="text-gray-700 leading-relaxed whitespace-pre-line">${safeStory}</p>
+      </div>
+    </section>` : ""}
+
+    ${reasonsLis ? `
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">რატომ მიყვარხარ ✨</h2>
+      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
+        <ul class="space-y-3 text-gray-700">${reasonsLis}</ul>
+      </div>
+    </section>` : ""}
+
+    ${photosGrid}
+    ${videoSection}
+    ${musicEmbed}
+
+    <section class="mt-12 text-center bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 rounded-3xl p-10 text-white shadow">
+      <div class="text-5xl mb-4">💝</div>
+      <h2 class="text-2xl md:text-3xl font-bold mb-3">და ბოლოს…</h2>
+      <p class="text-lg opacity-95 whitespace-pre-line">${safeClosing}</p>
+    </section>
+  </main>
+
+  <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
+    <p class="text-gray-500 text-sm">© ${new Date().getFullYear()} | ეს გვერდი შეიქმნა სიყვარულით ❤️</p>
+  </footer>
+</body>
+</html>`;
+}
+
+// -------- Multer config --------
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // we temporarily store in /tmp-like folder; then move after validating slug
+    const tempDir = path.join(__dirname, ".uploads_tmp");
+    fs.mkdirSync(tempDir, { recursive: true });
+    cb(null, tempDir);
+  },
+  filename: (req, file, cb) => {
+    cb(null, safeFileName(file.originalname));
+  },
+});
+
+function fileFilter(req, file, cb) {
+  const ok =
+    file.mimetype.startsWith("image/") ||
+    file.mimetype.startsWith("video/");
+  if (!ok) return cb(new Error("Only image/video files are allowed."));
+  cb(null, true);
+}
+
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: {
+    fileSize: 30 * 1024 * 1024, // 30MB per file
+    files: 20,
+  },
+});
+
+// -------- Routes --------
+app.use(express.static(PUBLIC_DIR));
+
+app.post(
+  "/api/generate",
+  upload.fields([
+    { name: "photos", maxCount: 15 },
+    { name: "video", maxCount: 1 },
+  ]),
+  async (req, res) => {
+    try {
+      const {
+        slug,
+        recipientName,
+        senderName,
+        relationshipType,
+        message,
+        story,
+        closingMessage,
+        musicLink,
+      } = req.body;
+
+      const reasonsRaw = req.body.reasons || [];
+      const reasons = Array.isArray(reasonsRaw) ? reasonsRaw : [reasonsRaw];
+
+      if (!slug || !isValidSlug(slug)) {
+        return res.status(400).json({ error: "საიტის სახელი არასწორია (მხოლოდ a-z, 0-9 და -)." });
+      }
+
+      const siteDir = path.join(GIFT_DIR, slug);
+      if (fs.existsSync(siteDir)) {
+        return res.status(409).json({ error: "ეს საიტის სახელი უკვე დაკავებულია. სცადე სხვა." });
+      }
+
+      // create dirs
+      const photosDir = path.join(siteDir, "assets", "photos");
+      const videoDir = path.join(siteDir, "assets", "video");
+      fs.mkdirSync(photosDir, { recursive: true });
+      fs.mkdirSync(videoDir, { recursive: true });
+
+      // move files from temp
+      const uploadedPhotos = (req.files?.photos || []).map((f) => {
+        const target = path.join(photosDir, f.filename);
+        fs.renameSync(f.path, target);
+        return `/gift/${slug}/assets/photos/${f.filename}`;
+      });
+
+      let uploadedVideoPath = "";
+      const videoFile = (req.files?.video || [])[0];
+      if (videoFile) {
+        const target = path.join(videoDir, videoFile.filename);
+        fs.renameSync(videoFile.path, target);
+        uploadedVideoPath = `/gift/${slug}/assets/video/${videoFile.filename}`;
+      }
+
+      const html = generateGiftHtml({
+        slug,
+        recipientName,
+        senderName,
+        relationshipType,
+        message,
+        story,
+        reasons,
+        closingMessage,
+        musicLink,
+        photos: uploadedPhotos,
+        videoPath: uploadedVideoPath,
+      });
+
+      fs.writeFileSync(path.join(siteDir, "index.html"), html, "utf-8");
+
+      // cleanup temp dir leftovers if any (best-effort)
+      // (Not strictly necessary; multer temp dir may accumulate if errors happen)
+      const proto = req.protocol;
+      const host = req.get("host");
+      const resolvedBase = BASE_URL || `${proto}://${host}`;
+      const url = `${resolvedBase}/gift/${slug}/`;
+
+      return res.json({ url });
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ error: "შეცდომა გენერაციისას. სცადე თავიდან." });
+    }
+  }
+);
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

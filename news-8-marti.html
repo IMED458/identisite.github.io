@@ -1,114 +1,390 @@
 <!doctype html>
 <html lang="ka" class="h-full">
- <head>
+<head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>8 მარტის უნიკალური საჩუქარი</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <style>
     * { font-family: 'Noto Sans Georgian', sans-serif; }
+    .hero-gradient { background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%); }
     .gradient-text {
       background: linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .hero-gradient {
-      background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%);
-    }
-    .card-hover { transition: all 0.3s ease; }
-    .card-hover:hover { transform: translateY(-4px); }
-    .floating { animation: float 3s ease-in-out infinite; }
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-    .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
-      50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
-    }
-    .feature-icon {
-      background: linear-gradient(135deg, #fce7f3 0%, #fff7ed 100%);
-    }
-    .content-text p {
-      line-height: 1.72;
-    }
   </style>
-  <style>body { box-sizing: border-box; }</style>
- </head>
- <body class="h-full bg-white">
-  <div class="h-full overflow-auto">
-   <header class="hero-gradient py-16 px-6 relative overflow-hidden">
-    <div class="absolute top-10 left-10 text-6xl floating opacity-20">💐</div>
-    <div class="absolute top-20 right-16 text-5xl floating opacity-20" style="animation-delay: 0.5s;">💝</div>
-    <div class="absolute bottom-10 left-1/4 text-4xl floating opacity-20" style="animation-delay: 1s;">✨</div>
-    <div class="max-w-4xl mx-auto text-center relative z-10">
-     <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">🆕 ახალი სერვისი</div>
-     <h1 id="main-title" class="text-4xl md:text-5xl font-bold mb-6 leading-tight"><span class="gradient-text">8 მარტს აჩუქე საყვარელ ადამიანს</span> <br><span class="text-gray-800">პერსონალური ვებგვერდი</span></h1>
-     <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">დაივიწყე ტრადიციული ყვავილები და შოკოლადი — წელს გააკვირვე შენი საყვარელი ადამიანი ციფრული საჩუქრით, რომელიც სამუდამოდ დარჩება მის გულში 💖</p>
+</head>
+
+<body class="h-full bg-white">
+  <!-- შენი hero/კონტენტი შეგიძლია დატოვო როგორც გაქვს -->
+  <header class="hero-gradient py-16 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">🆕 ახალი სერვისი</div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+        <span class="gradient-text">8 მარტს აჩუქე საყვარელ ადამიანს</span><br>
+        <span class="text-gray-800">პერსონალური ვებგვერდი</span>
+      </h1>
+      <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+        შეავსე ფორმა, ატვირთე ფოტო/ვიდეო და მიიღე მზა საიტის ლინკი + QR 💖
+      </p>
+      <a href="#order" class="inline-block mt-8 bg-pink-600 text-white font-bold px-8 py-4 rounded-full hover:opacity-90 transition">
+        🎁 შეუკვეთე ახლავე
+      </a>
     </div>
-   </header>
-   <main class="max-w-4xl mx-auto px-6 py-12">
-    <article class="prose prose-lg max-w-none content-text">
-     <p class="text-lg text-gray-700 leading-relaxed mb-8">წარმოიდგინე: შენს დედას, მეუღლეს ან შეყვარებულს უგზავნი ლინკს და როცა ის ხსნის, ეკრანზე გამოჩნდება მხოლოდ მისთვის შექმნილი ვებგვერდი — თქვენი საერთო ფოტოებით, სიყვარულის ისტორიით, ლამაზი ანიმაციებით და რომანტიული მუსიკით. ეს არის საჩუქარი, რომელიც არ დაჭკნება, არ გაცვდება და ყოველთვის იქნება ხელმისაწვდომი ერთი დაკლიკებით.</p>
-     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">1</span> როგორ მუშაობს?</h2>
-      <div class="grid md:grid-cols-3 gap-6">
-       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
-        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">📝</div>
-        <h3 class="font-semibold text-gray-800 mb-2">შეკვეთის გაკეთება</h3>
-        <p class="text-gray-600 text-sm">გვიგზავნი ფოტოებს, ტექსტს და სურვილებს — რა გინდა რომ იყოს საიტზე.</p>
-       </div>
-       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
-        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">🎨</div>
-        <h3 class="font-semibold text-gray-800 mb-2">დიზაინის შექმნა</h3>
-        <p class="text-gray-600 text-sm">ჩვენი გუნდი ქმნის უნიკალურ, ლამაზ და მობილურზე მორგებულ ვებგვერდს.</p>
-       </div>
-       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
-        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">🔗</div>
-        <h3 class="font-semibold text-gray-800 mb-2">ლინკის მიღება</h3>
-        <p class="text-gray-600 text-sm">იღებ უნიკალურ ლინკს, რომელსაც უგზავნი საყვარელ ადამიანს.</p>
-       </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-12">
+    <!-- ====================== ORDER / GENERATOR SECTION ====================== -->
+    <section id="order" class="scroll-mt-16">
+      <div class="flex items-start justify-between gap-6 flex-col md:flex-row md:items-center">
+        <div>
+          <h2 class="text-3xl font-bold text-gray-800">საიტის გენერატორი</h2>
+          <p class="text-gray-600 mt-2">აირჩიე საიტის სახელი, შეავსე ინფორმაცია, ატვირთე მედია და დავაგენერირებთ საჯარო ლინკს.</p>
+        </div>
+        <div class="text-sm text-gray-500">
+          * ლინკი შეიქმნება ფორმის გაგზავნის შემდეგ
+        </div>
       </div>
-     </section>
-     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">2</span> რა შეიძლება იყოს ამ საიტში?</h2>
-      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-lg">
-       <div class="grid md:grid-cols-2 gap-4">
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📸</span> <span class="text-gray-700"><strong>ფოტოგალერეა</strong> — თქვენი საუკეთესო მომენტები</span></div>
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">💌</span> <span class="text-gray-700"><strong>სიყვარულის წერილი</strong> — გულწრფელი სიტყვები</span></div>
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">🎵</span> <span class="text-gray-700"><strong>მუსიკა</strong> — თქვენი საერთო სიმღერა</span></div>
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📖</span> <span class="text-gray-700"><strong>თქვენი ისტორია</strong> — როგორ შეხვდით</span></div>
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">✨</span> <span class="text-gray-700"><strong>ანიმაციები</strong> — ლამაზი ვიზუალური ეფექტები</span></div>
-        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📱</span> <span class="text-gray-700"><strong>QR კოდი</strong> — დაბეჭდე და აჩუქე</span></div>
-       </div>
+
+      <div class="mt-8 grid lg:grid-cols-2 gap-8">
+        <!-- Form -->
+        <form id="giftForm" class="bg-white border border-pink-100 rounded-2xl p-6 shadow-sm space-y-5">
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">საიტის სახელი (ლათინურად) *</label>
+            <input id="slug" name="slug" class="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
+                   placeholder="მაგ: nino-gift" autocomplete="off" required>
+            <p id="slugHelp" class="text-sm text-gray-500 mt-2">დაშვებულია მხოლოდ a-z, 0-9 და დეფისი (-).</p>
+            <p id="slugError" class="text-sm text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-medium text-gray-700 mb-1">ვისთვის კეთდება? *</label>
+              <input name="recipientName" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: ნინო" required>
+            </div>
+            <div>
+              <label class="block font-medium text-gray-700 mb-1">ვინ უძღვნის? *</label>
+              <input name="senderName" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: გიორგი" required>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">კავშირი *</label>
+            <select name="relationshipType" class="w-full border rounded-xl px-4 py-3" required>
+              <option value="girlfriend">შეყვარებული</option>
+              <option value="wife">მეუღლე</option>
+              <option value="mother">დედა</option>
+              <option value="friend">მეგობარი</option>
+              <option value="other">სხვა</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">სიყვარულის ტექსტი *</label>
+            <textarea name="message" rows="4" class="w-full border rounded-xl px-4 py-3"
+                      placeholder="რა გინდა რომ ეწეროს წერილში?" required></textarea>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">ჩვენი ისტორია (არასავალდებულო)</label>
+            <textarea name="story" rows="3" class="w-full border rounded-xl px-4 py-3"
+                      placeholder="როგორ შეხვდით, რა გაკავშირებთ..."></textarea>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-2">რატომ მიყვარხარ (3–10 პუნქტი)</label>
+            <div id="reasonsWrap" class="space-y-2"></div>
+            <div class="flex gap-2 mt-2">
+              <button type="button" id="addReason" class="text-sm px-3 py-2 rounded-lg border hover:bg-gray-50">+ დამატება</button>
+              <button type="button" id="removeReason" class="text-sm px-3 py-2 rounded-lg border hover:bg-gray-50">− წაშლა</button>
+            </div>
+            <p class="text-sm text-gray-500 mt-2">რეკომენდაცია: მოკლე, გულწრფელი ფრაზები.</p>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">მუსიკის ლინკი (YouTube/Spotify)</label>
+            <input name="musicLink" class="w-full border rounded-xl px-4 py-3"
+                   placeholder="მაგ: https://youtu.be/.... ან https://open.spotify.com/track/...">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-1">Final ტექსტი (არასავალდებულო)</label>
+            <input name="closingMessage" class="w-full border rounded-xl px-4 py-3"
+                   placeholder="მაგ: გილოცავ 8 მარტს ❤️">
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-2">ფოტოები (მაქს 15)</label>
+            <input id="photos" name="photos" type="file" accept="image/*" multiple
+                   class="w-full border rounded-xl px-4 py-3">
+            <div id="photoPreview" class="mt-3 grid grid-cols-3 md:grid-cols-5 gap-2"></div>
+            <p id="photoError" class="text-sm text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <div>
+            <label class="block font-medium text-gray-700 mb-2">ვიდეო (არასავალდებულო, 1 ცალი)</label>
+            <input id="video" name="video" type="file" accept="video/*"
+                   class="w-full border rounded-xl px-4 py-3">
+            <div id="videoInfo" class="text-sm text-gray-600 mt-2"></div>
+            <p id="videoError" class="text-sm text-red-600 mt-1 hidden"></p>
+          </div>
+
+          <button id="submitBtn" type="submit"
+                  class="w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white font-bold py-4 rounded-xl hover:opacity-95 transition">
+            🚀 გენერაცია და ლინკის მიღება
+          </button>
+
+          <div id="formStatus" class="text-sm mt-2"></div>
+        </form>
+
+        <!-- Result / QR -->
+        <div class="bg-gradient-to-br from-pink-50 to-orange-50 border border-pink-100 rounded-2xl p-6 shadow-sm">
+          <h3 class="text-xl font-bold text-gray-800">შედეგი</h3>
+          <p class="text-gray-600 mt-2">გენერაციის შემდეგ აქ გამოჩნდება ლინკი და QR კოდი.</p>
+
+          <div class="mt-6 p-4 bg-white rounded-2xl border border-pink-100">
+            <div class="text-sm text-gray-500">საბოლოო URL (preview):</div>
+            <div id="urlPreview" class="mt-2 font-medium text-gray-800 break-all">/gift/...</div>
+          </div>
+
+          <div id="successBox" class="mt-6 hidden">
+            <div class="p-4 bg-white rounded-2xl border border-green-200">
+              <div class="font-bold text-green-700">✅ მზადაა!</div>
+              <a id="resultLink" class="text-pink-600 underline break-all" href="#" target="_blank" rel="noopener"></a>
+
+              <div class="mt-4">
+                <div class="text-sm text-gray-600 mb-2">QR კოდი:</div>
+                <canvas id="qrCanvas" class="border rounded-xl"></canvas>
+              </div>
+
+              <button id="copyBtn" type="button" class="mt-4 px-4 py-2 rounded-lg border hover:bg-gray-50 text-sm">
+                📋 ლინკის კოპირება
+              </button>
+            </div>
+          </div>
+
+          <div id="errorBox" class="mt-6 hidden">
+            <div class="p-4 bg-white rounded-2xl border border-red-200 text-red-700" id="errorText"></div>
+          </div>
+
+          <div class="mt-6 text-sm text-gray-500">
+            <div class="font-medium text-gray-700 mb-1">რჩევა:</div>
+            საიტის სახელი შეარჩიე მოკლე და ლათინურად: <span class="font-mono">nino-gift</span>, <span class="font-mono">mari-8march</span>
+          </div>
+        </div>
       </div>
-     </section>
-     <section class="mb-12">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">3</span> რატომ არის ეს განსხვავებული საჩუქარი?</h2>
-      <div class="space-y-4">
-       <div class="flex gap-4 items-start bg-gradient-to-r from-pink-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>უნიკალურობა</strong> — ეს საჩუქარი მხოლოდ ერთი ადამიანისთვის იქმნება, მსოფლიოში მეორე ასეთი არ არსებობს.</p></div>
-       <div class="flex gap-4 items-start bg-gradient-to-r from-orange-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>მუდმივობა</strong> — ყვავილები ჭკნება, შოკოლადი მთავრდება, მაგრამ ვებგვერდი რჩება სამუდამოდ.</p></div>
-       <div class="flex gap-4 items-start bg-gradient-to-r from-pink-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>ემოცია</strong> — ყოველ ჯერზე, როცა გახსნის ამ საიტს, ისევ იგრძნობს სიყვარულს და ზრუნვას.</p></div>
-       <div class="flex gap-4 items-start bg-gradient-to-r from-orange-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>გაზიარების სიმარტივე</strong> — ერთი ლინკი საკმარისია, რომ საჩუქარი მიიღოს ნებისმიერი მოწყობილობიდან.</p></div>
-      </div>
-     </section>
-     <section class="text-center bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 rounded-3xl p-10 text-white pulse-glow">
-      <div class="text-5xl mb-4">💝</div>
-      <h2 class="text-2xl md:text-3xl font-bold mb-4">შეუკვეთე 8 მარტამდე!</h2>
-      <p class="text-lg opacity-90 mb-8 max-w-xl mx-auto">დრო გადის სწრაფად! რომ საჩუქარი დროზე მზად იყოს, გთხოვთ შეკვეთა გააკეთოთ რაც შეიძლება მალე. ჩვენი გუნდი იზრუნებს, რომ ყველაფერი სრულყოფილი იყოს.</p>
-      <a href="contact.html" target="_blank" rel="noopener noreferrer" id="cta-button" class="inline-block bg-white text-pink-600 font-bold px-10 py-4 rounded-full text-lg hover:bg-pink-50 hover:scale-105 transition-all shadow-lg">🎁 შეუკვეთე ახლავე</a>
-      <p class="mt-6 text-sm opacity-80">შეკვეთის გასაფორმებლად გადადით კონტაქტის გვერდზე</p>
-     </section>
-    </article>
-   </main>
-   <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
-    <p class="text-gray-500 text-sm">© 2026 ყველა უფლება დაცულია | შექმნილია ❤️-ით ჩვენი გუნდის მიერ</p>
-   </footer>
-  </div>
- </body>
+    </section>
+    <!-- ===================================================================== -->
+  </main>
+
+  <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
+    <p class="text-gray-500 text-sm">© 2025 ყველა უფლება დაცულია | შექმნილია ❤️-ით</p>
+  </footer>
+
+  <script>
+    // ----------------- Frontend logic -----------------
+    const slugEl = document.getElementById('slug');
+    const slugErrorEl = document.getElementById('slugError');
+    const urlPreviewEl = document.getElementById('urlPreview');
+
+    const photosEl = document.getElementById('photos');
+    const photoPreviewEl = document.getElementById('photoPreview');
+    const photoErrorEl = document.getElementById('photoError');
+
+    const videoEl = document.getElementById('video');
+    const videoInfoEl = document.getElementById('videoInfo');
+    const videoErrorEl = document.getElementById('videoError');
+
+    const form = document.getElementById('giftForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const formStatus = document.getElementById('formStatus');
+
+    const successBox = document.getElementById('successBox');
+    const resultLink = document.getElementById('resultLink');
+    const qrCanvas = document.getElementById('qrCanvas');
+    const copyBtn = document.getElementById('copyBtn');
+
+    const errorBox = document.getElementById('errorBox');
+    const errorText = document.getElementById('errorText');
+
+    const reasonsWrap = document.getElementById('reasonsWrap');
+    const addReasonBtn = document.getElementById('addReason');
+    const removeReasonBtn = document.getElementById('removeReason');
+
+    function isValidSlug(slug) {
+      return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
+    }
+
+    function setSlugError(msg) {
+      if (!msg) {
+        slugErrorEl.classList.add('hidden');
+        slugErrorEl.textContent = '';
+        return;
+      }
+      slugErrorEl.textContent = msg;
+      slugErrorEl.classList.remove('hidden');
+    }
+
+    function updateUrlPreview() {
+      const slug = (slugEl.value || '').trim();
+      urlPreviewEl.textContent = slug ? `/gift/${slug}/` : '/gift/...';
+    }
+
+    slugEl.addEventListener('input', () => {
+      const v = slugEl.value.trim();
+      updateUrlPreview();
+      if (!v) return setSlugError(null);
+      if (!isValidSlug(v)) return setSlugError('მხოლოდ a-z, 0-9 და დეფისი (-).');
+      setSlugError(null);
+    });
+
+    // Reasons inputs init
+    function addReason(value = '') {
+      const count = reasonsWrap.querySelectorAll('input').length;
+      if (count >= 10) return;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.className = 'w-full border rounded-xl px-4 py-3';
+      input.placeholder = 'მაგ: ყოველთვის მაძლევ მოტივაციას';
+      input.value = value;
+      input.name = 'reasons';
+      reasonsWrap.appendChild(input);
+    }
+    function removeReason() {
+      const inputs = reasonsWrap.querySelectorAll('input');
+      if (inputs.length <= 3) return;
+      inputs[inputs.length - 1].remove();
+    }
+    // start with 3
+    addReason(); addReason(); addReason();
+
+    addReasonBtn.addEventListener('click', () => addReason());
+    removeReasonBtn.addEventListener('click', () => removeReason());
+
+    // Photos preview + limit
+    function renderPhotoPreview(files) {
+      photoPreviewEl.innerHTML = '';
+      Array.from(files).forEach(file => {
+        const url = URL.createObjectURL(file);
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'photo';
+        img.className = 'w-full h-20 object-cover rounded-xl border';
+        photoPreviewEl.appendChild(img);
+      });
+    }
+
+    photosEl.addEventListener('change', () => {
+      const files = photosEl.files;
+      photoErrorEl.classList.add('hidden');
+      if (files && files.length > 15) {
+        photoErrorEl.textContent = 'მაქსიმუმ 15 ფოტო.';
+        photoErrorEl.classList.remove('hidden');
+        photosEl.value = '';
+        photoPreviewEl.innerHTML = '';
+        return;
+      }
+      renderPhotoPreview(files || []);
+    });
+
+    // Video info + limit
+    videoEl.addEventListener('change', () => {
+      videoErrorEl.classList.add('hidden');
+      videoInfoEl.textContent = '';
+      const f = videoEl.files?.[0];
+      if (!f) return;
+      // simple size guard (client-side)
+      const max = 80 * 1024 * 1024; // 80MB
+      if (f.size > max) {
+        videoErrorEl.textContent = 'ვიდეო ძალიან დიდია (მაქს ~80MB).';
+        videoErrorEl.classList.remove('hidden');
+        videoEl.value = '';
+        return;
+      }
+      videoInfoEl.textContent = `არჩეული ვიდეო: ${f.name}`;
+    });
+
+    function showError(msg) {
+      errorText.textContent = msg;
+      errorBox.classList.remove('hidden');
+      successBox.classList.add('hidden');
+    }
+    function showSuccess(url) {
+      errorBox.classList.add('hidden');
+      successBox.classList.remove('hidden');
+      resultLink.href = url;
+      resultLink.textContent = url;
+
+      // QR
+      const qr = new QRious({
+        element: qrCanvas,
+        value: url,
+        size: 220
+      });
+    }
+
+    copyBtn?.addEventListener('click', async () => {
+      const url = resultLink?.href;
+      if (!url) return;
+      await navigator.clipboard.writeText(url);
+      copyBtn.textContent = '✅ დაკოპირდა';
+      setTimeout(() => (copyBtn.textContent = '📋 ლინკის კოპირება'), 1200);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      formStatus.textContent = '';
+      errorBox.classList.add('hidden');
+      successBox.classList.add('hidden');
+
+      const slug = slugEl.value.trim();
+      if (!slug) return setSlugError('საიტის სახელი აუცილებელია.');
+      if (!isValidSlug(slug)) return setSlugError('მხოლოდ a-z, 0-9 და დეფისი (-).');
+      setSlugError(null);
+
+      const photos = photosEl.files || [];
+      if (photos.length > 15) return showError('მაქსიმუმ 15 ფოტო.');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = '⏳ იტვირთება...';
+      formStatus.textContent = 'გთხოვ მოითმინე — ვაგენერირებთ საიტს და ვტვირთავთ ფაილებს.';
+
+      try {
+        const fd = new FormData(form);
+
+        // NOTE: reasons inputs share same name="reasons" => FormData will include multiple values automatically.
+        // photos & video included automatically by inputs.
+
+        const resp = await fetch('/api/generate', {
+          method: 'POST',
+          body: fd
+        });
+
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          const msg = data?.error || 'შეცდომა გენერაციისას.';
+          showError(msg);
+          return;
+        }
+
+        showSuccess(data.url);
+        formStatus.textContent = '✅ მზადაა!';
+      } catch (err) {
+        console.error(err);
+        showError('ქსელის შეცდომა. სცადე თავიდან.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🚀 გენერაცია და ლინკის მიღება';
+      }
+    });
+
+    updateUrlPreview();
+  </script>
+</body>
 </html>
