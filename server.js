@@ -198,6 +198,51 @@ function guessMusicEmbed(url) {
   `;
 }
 
+function getTemplateTheme(templateKey = "romantic") {
+  const templates = {
+    romantic: {
+      key: "romantic",
+      pageBg: "bg-white",
+      heroBg: "linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%)",
+      gradientText: "linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%)",
+      badgeClass: "bg-pink-500 text-white",
+      cardClass: "bg-white border border-pink-100 rounded-2xl p-8 shadow-sm",
+      ctaClass: "bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400",
+      footerClass: "bg-gray-50",
+      titleClass: "text-gray-800",
+      bodyClass: "text-gray-700",
+      mutedClass: "text-gray-500",
+    },
+    elegant: {
+      key: "elegant",
+      pageBg: "bg-slate-950 text-slate-100",
+      heroBg: "linear-gradient(135deg, #111827 0%, #0f172a 50%, #1f2937 100%)",
+      gradientText: "linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #d97706 100%)",
+      badgeClass: "bg-amber-500 text-slate-950",
+      cardClass: "bg-slate-900/90 border border-amber-400/20 rounded-2xl p-8 shadow-sm",
+      ctaClass: "bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600",
+      footerClass: "bg-slate-900 border-t border-slate-800",
+      titleClass: "text-slate-100",
+      bodyClass: "text-slate-200",
+      mutedClass: "text-slate-400",
+    },
+    minimal: {
+      key: "minimal",
+      pageBg: "bg-slate-50",
+      heroBg: "linear-gradient(135deg, #f8fafc 0%, #ffffff 50%, #eef2ff 100%)",
+      gradientText: "linear-gradient(135deg, #334155 0%, #475569 50%, #334155 100%)",
+      badgeClass: "bg-slate-700 text-white",
+      cardClass: "bg-white border border-slate-200 rounded-2xl p-8 shadow-sm",
+      ctaClass: "bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700",
+      footerClass: "bg-slate-100",
+      titleClass: "text-slate-800",
+      bodyClass: "text-slate-700",
+      mutedClass: "text-slate-500",
+    },
+  };
+  return templates[templateKey] || templates.romantic;
+}
+
 function generateGiftHtml(payload) {
   const {
     recipientName,
@@ -207,10 +252,12 @@ function generateGiftHtml(payload) {
     story,
     reasons = [],
     closingMessage,
+    dateInviteText,
     musicLink,
     photos = [],
     videoPath = "",
     slug,
+    template,
   } = payload;
 
   const relationshipLabel = {
@@ -263,6 +310,8 @@ function generateGiftHtml(payload) {
   const safeMessage = escapeHtml(message || "");
   const safeStory = escapeHtml(story || "");
   const safeClosing = escapeHtml(closingMessage || "გილოცავ 8 მარტს ❤️");
+  const safeDateInviteText = escapeHtml(dateInviteText || "");
+  const theme = getTemplateTheme(template);
 
   return `<!doctype html>
 <html lang="ka" class="h-full">
@@ -277,50 +326,59 @@ function generateGiftHtml(payload) {
   <style>
     * { font-family: 'Noto Sans Georgian', sans-serif; }
     .gradient-text {
-      background: linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%);
+      background: ${theme.gradientText};
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
     .hero-gradient {
-      background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%);
+      background: ${theme.heroBg};
     }
   </style>
 </head>
-<body class="min-h-full bg-white">
+<body class="min-h-full ${theme.pageBg}">
   <header class="hero-gradient py-16 px-6">
     <div class="max-w-4xl mx-auto text-center">
-      <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">💐 8 მარტი</div>
+      <div class="inline-block ${theme.badgeClass} text-sm font-medium px-4 py-1 rounded-full mb-6">💐 8 მარტი</div>
       <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4">
         <span class="gradient-text">${safeRecipient || "ძვირფასო"}</span><br/>
-        <span class="text-gray-800">გილოცავ ქალთა დღეს ❤️</span>
+        <span class="${theme.titleClass}">გილოცავ ქალთა დღეს ❤️</span>
       </h1>
-      <p class="text-lg text-gray-700 max-w-2xl mx-auto">
+      <p class="text-lg ${theme.bodyClass} max-w-2xl mx-auto">
         ${safeSender ? `${safeSender}-სგან —` : ""} შენ ხარ ჩემი ${escapeHtml(relationshipLabel)} და მინდა ეს პატარა საიტი მხოლოდ შენთვის იყოს.
       </p>
-      ${slug ? `<p class="text-sm text-gray-500 mt-4">საიტის სახელი: <span class="font-medium">${escapeHtml(slug)}</span></p>` : ""}
+      ${slug ? `<p class="text-sm ${theme.mutedClass} mt-4">საიტის სახელი: <span class="font-medium">${escapeHtml(slug)}</span></p>` : ""}
+      <p class="text-xs ${theme.mutedClass} mt-2">შაბლონი: ${escapeHtml(theme.key)}</p>
     </div>
   </header>
 
   <main class="max-w-4xl mx-auto px-6 py-12">
-    <section class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">სიყვარულის წერილი 💌</h2>
-      <p class="text-gray-700 leading-relaxed whitespace-pre-line">${safeMessage}</p>
+    <section class="${theme.cardClass}">
+      <h2 class="text-2xl font-bold ${theme.titleClass} mb-4">სიყვარულის წერილი 💌</h2>
+      <p class="${theme.bodyClass} leading-relaxed whitespace-pre-line">${safeMessage}</p>
     </section>
 
     ${safeStory ? `
     <section class="mt-10">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">ჩვენი ისტორია 📖</h2>
-      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
-        <p class="text-gray-700 leading-relaxed whitespace-pre-line">${safeStory}</p>
+      <h2 class="text-2xl font-bold ${theme.titleClass} mb-4">ჩვენი ისტორია 📖</h2>
+      <div class="${theme.cardClass}">
+        <p class="${theme.bodyClass} leading-relaxed whitespace-pre-line">${safeStory}</p>
       </div>
     </section>` : ""}
 
     ${reasonsLis ? `
     <section class="mt-10">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4">რატომ მიყვარხარ ✨</h2>
-      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-sm">
-        <ul class="space-y-3 text-gray-700">${reasonsLis}</ul>
+      <h2 class="text-2xl font-bold ${theme.titleClass} mb-4">რატომ მიყვარხარ ✨</h2>
+      <div class="${theme.cardClass}">
+        <ul class="space-y-3 ${theme.bodyClass}">${reasonsLis}</ul>
+      </div>
+    </section>` : ""}
+
+    ${safeDateInviteText ? `
+    <section class="mt-10">
+      <h2 class="text-2xl font-bold ${theme.titleClass} mb-4">პაემნის მოწვევა 💌</h2>
+      <div class="${theme.cardClass}">
+        <p class="${theme.bodyClass} leading-relaxed whitespace-pre-line">${safeDateInviteText}</p>
       </div>
     </section>` : ""}
 
@@ -328,15 +386,15 @@ function generateGiftHtml(payload) {
     ${videoSection}
     ${musicEmbed}
 
-    <section class="mt-12 text-center bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 rounded-3xl p-10 text-white shadow">
+    <section class="mt-12 text-center ${theme.ctaClass} rounded-3xl p-10 text-white shadow">
       <div class="text-5xl mb-4">💝</div>
       <h2 class="text-2xl md:text-3xl font-bold mb-3">და ბოლოს…</h2>
       <p class="text-lg opacity-95 whitespace-pre-line">${safeClosing}</p>
     </section>
   </main>
 
-  <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
-    <p class="text-gray-500 text-sm">© ${new Date().getFullYear()} | ეს გვერდი შეიქმნა სიყვარულით ❤️</p>
+  <footer class="${theme.footerClass} py-8 px-6 text-center">
+    <p class="${theme.mutedClass} text-sm">© ${new Date().getFullYear()} | ეს გვერდი შეიქმნა სიყვარულით ❤️</p>
   </footer>
 </body>
 </html>`;
@@ -418,6 +476,7 @@ app.post(
   async (req, res) => {
     try {
       const {
+        template,
         slug,
         recipientName,
         senderName,
@@ -425,6 +484,7 @@ app.post(
         message,
         story,
         closingMessage,
+        dateInviteText,
         musicLink,
       } = req.body;
 
@@ -462,6 +522,7 @@ app.post(
       }
 
       const html = generateGiftHtml({
+        template,
         slug,
         recipientName,
         senderName,
@@ -470,6 +531,7 @@ app.post(
         story,
         reasons,
         closingMessage,
+        dateInviteText,
         musicLink,
         photos: uploadedPhotos,
         videoPath: uploadedVideoPath,
