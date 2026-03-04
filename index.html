@@ -145,6 +145,44 @@
       ring: 2px;
       ring-color: #3b82f6;
     }
+    @media (max-width: 640px) {
+      section {
+        scroll-margin-top: 88px;
+      }
+      #navbar .h-20 {
+        height: 72px;
+      }
+      #home {
+        min-height: auto;
+      }
+      #home .py-20 {
+        padding-top: 2.75rem;
+        padding-bottom: 2.75rem;
+      }
+      #home .blob {
+        display: none;
+      }
+      #home h1 {
+        line-height: 1.15;
+      }
+      #home p {
+        font-size: 1rem;
+      }
+      #home .grid.grid-cols-3 {
+        gap: 0.75rem;
+      }
+      #contact form .grid.sm\:grid-cols-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .hover-lift:hover {
+        transform: none;
+        box-shadow: none;
+      }
+      .rounded-3xl {
+        border-radius: 1.1rem;
+      }
+    }
   </style>
   <style>body { box-sizing: border-box; }</style>
  </head>
@@ -1105,6 +1143,178 @@
 
     let currentLang = 'ka';
     let submissions = [];
+    const phraseMap = {
+      'მთავარი': 'Home',
+      'ჩვენ შესახებ': 'About Us',
+      'სერვისები': 'Services',
+      'პორტფოლიო': 'Portfolio',
+      'პროცესი': 'Process',
+      'ბლოგი': 'Blog',
+      'კონტაქტი': 'Contact',
+      'დავიწყოთ': "Let's Start",
+      'პრემიუმ ვებ სააგენტო': 'Premium Web Agency',
+      'შენი ბიზნესის': 'Your Business',
+      'იდენტობა იწყება აქ': 'Identity Starts Here',
+      'იდენტობა რომელიც საიტად იქცევა - ვქმნით ციფრულ გამოცდილებას, რომელიც თქვენს ბრენდს გამოარჩევს და შედეგს მოგიტანთ.': 'Identity that becomes a website - we build digital experiences that set your brand apart and deliver results.',
+      'დავიწყოთ პროექტი': 'Start Project',
+      'ვნახოთ ნამუშევრები': 'View Our Work',
+      'პროექტი': 'Projects',
+      'კმაყოფილება': 'Satisfaction',
+      'წლიანი გამოცდილება': 'Years Experience',
+      'პროექტი დასრულდა': 'Project Complete',
+      'ვიზიტორი დღეს': 'Visitors Today',
+      'კონვერსია': 'Conversion',
+      'ჩვენ გვენდობიან': 'Trusted By',
+      'ბრენდის იდენტობას ციფრულ გამოცდილებად ვაქცევთ': 'We Turn Brand Identity into Digital Experience',
+      'IDENTISITE არის პრემიუმ ვებ სააგენტო, რომელიც ბიზნესებს ეხმარება ციფრულ სამყაროში გამორჩეული და დასამახსოვრებელი იდენტობის შექმნაში.': 'IDENTISITE is a premium web agency helping businesses build a distinctive and memorable digital identity.',
+      'ჩვენი ისტორია': 'Our Story',
+      '2019 წელს დაარსებული IDENTISITE წამოვიდა ერთი მარტივი იდეით - ყოველ ბიზნესს აქვს უნიკალური იდენტობა, რომელიც იმსახურებს გამორჩეულ ციფრულ წარმოჩენას. დღეს ჩვენ 150-ზე მეტი წარმატებული პროექტი გვაქვს და ვაგრძელებთ ზრდას.': 'Founded in 2019, IDENTISITE started with one simple idea - every business has a unique identity that deserves standout digital presentation. Today we have delivered 150+ successful projects and keep growing.',
+      'მისია': 'Mission',
+      'ბიზნესის უნიკალური იდენტობის გარდასახვა მაღალტექნოლოგიურ ციფრულ აქტივად, რომელიც ქმნის ახალ შესაძლებლობებსა და მდგრად კონკურენტულ უპირატესობას.': 'Transforming unique business identity into a high-performance digital asset that creates new opportunities and sustainable advantage.',
+      'ხედვა': 'Vision',
+      'ციფრული არქიტექტურის ახალი სტანდარტის დამკვიდრება რეგიონში, სადაც ყოველი პროექტი ინოვაციისა და ბრენდის ავთენტურობის სრულყოფილი სინთეზია.': 'Setting a new regional standard in digital architecture where each project is a synthesis of innovation and brand authenticity.',
+      'ჩვენი ფილოსოფია': 'Our Philosophy',
+      'ინდივიდუალური მიდგომა ყოველ პროექტზე': 'Tailored Approach for Every Project',
+      'ხარისხი კომპრომისის გარეშე': 'Quality Without Compromise',
+      'გამჭვირვალე კომუნიკაცია': 'Transparent Communication',
+      'შედეგზე ორიენტირებული მუშაობა': 'Results-Driven Execution',
+      'რას გთავაზობთ': 'What We Offer',
+      'სრული სპექტრი ციფრული გადაწყვეტილებები თქვენი ბიზნესის ზრდისთვის': 'A complete range of digital solutions for business growth.',
+      'კორპორატიული ვებსაიტები': 'Corporate Websites',
+      'პროფესიონალური ვებსაიტები, რომლებიც თქვენს ბრენდს სათანადოდ წარმოაჩენს და კლიენტებს მოიზიდავს.': 'Professional websites that represent your brand properly and attract customers.',
+      'უნიკალური დიზაინი': 'Unique Design',
+      'SEO ოპტიმიზაცია': 'SEO Optimization',
+      'შეკვეთა': 'Order',
+      'E-commerce მაღაზიები': 'E-commerce Stores',
+      'სრულფასოვანი ონლაინ მაღაზიები გადახდის სისტემებით და მარაგის მართვით.': 'Full-featured online stores with payment systems and inventory management.',
+      'გადახდის ინტეგრაცია': 'Payment Integration',
+      'ადმინ პანელი': 'Admin Panel',
+      'Landing Page დიზაინი': 'Landing Page Design',
+      'კონვერსიაზე ორიენტირებული სადესანტო გვერდები მარკეტინგული კამპანიებისთვის.': 'Conversion-focused landing pages for marketing campaigns.',
+      'A/B ტესტირება': 'A/B Testing',
+      'სწრაფი ჩატვირთვა': 'Fast Loading',
+      'UI/UX დიზაინი': 'UI/UX Design',
+      'მომხმარებელზე ორიენტირებული ინტერფეისების დიზაინი საუკეთესო გამოცდილებისთვის.': 'User-centered interface design for the best experience.',
+      'პროტოტიპირება': 'Prototyping',
+      'ვებსაიტის რედიზაინი': 'Website Redesign',
+      'განაახლეთ თქვენი არსებული ვებსაიტი თანამედროვე სტანდარტების შესაბამისად.': 'Upgrade your existing website to modern standards.',
+      'მონაცემების მიგრაცია': 'Data Migration',
+      'პერფორმანსის გაუმჯობესება': 'Performance Improvement',
+      'გაზარდეთ თქვენი ვებსაიტის ხილვადობა საძიებო სისტემებში.': 'Increase your website visibility in search engines.',
+      'საკვანძო სიტყვების კვლევა': 'Keyword Research',
+      'ტექნიკური SEO': 'Technical SEO',
+      'რატომ ჩვენ': 'Why Us',
+      'რატომ IDENTISITE?': 'Why IDENTISITE?',
+      'პრემიუმ ხარისხი': 'Premium Quality',
+      'ყოველ დეტალზე ზრუნვა და უმაღლესი სტანდარტები': 'Attention to every detail and top standards.',
+      'დროული მიწოდება': 'On-Time Delivery',
+      'პროექტები დროის ლიმიტში და ხარისხის შენარჩუნებით': 'Projects delivered on time while keeping quality high.',
+      'გამოცდილი გუნდი': 'Experienced Team',
+      'პროფესიონალები 5+ წლიანი გამოცდილებით': 'Professionals with 5+ years of experience.',
+      'მხარდაჭერა 24/7': '24/7 Support',
+      'მუდმივი ტექნიკური მხარდაჭერა': 'Continuous technical support.',
+      'ჩვენი ნამუშევრები': 'Our Work',
+      'გაეცანით ჩვენს წარმატებულ პროექტებს': 'Explore our successful projects.',
+      'კორპორატიული ვებსაიტი': 'Corporate Website',
+      'ონლაინ მაღაზია': 'Online Store',
+      'მობილური აპლიკაცია': 'Mobile Application',
+      'სამედიცინო პლატფორმა': 'Healthcare Platform',
+      'სასწავლო პლატფორმა': 'Educational Platform',
+      'უძრავი ქონების პორტალი': 'Real Estate Portal',
+      'როგორ ვმუშაობთ': 'How We Work',
+      'გამჭვირვალე და ეფექტური პროცესი თქვენი პროექტის წარმატებისთვის': 'A transparent and effective process for project success.',
+      'კონსულტაცია': 'Consultation',
+      'უფასო კონსულტაცია, სადაც ვისმენთ თქვენს მოთხოვნებს, მიზნებს და ხედვას. განვიხილავთ პროექტის მასშტაბს და ვადებს.': 'Free consultation where we understand your needs, goals, and vision. We define project scope and timeline.',
+      'კვლევა და სტრატეგია': 'Research & Strategy',
+      'ბაზრის ანალიზი, კონკურენტების შესწავლა და სტრატეგიის შემუშავება თქვენი ბიზნეს მიზნების მისაღწევად.': 'Market analysis, competitor research, and strategy planning to achieve your business goals.',
+      'დიზაინი': 'Design',
+      'უნიკალური დიზაინის შექმნა, Wireframe და Mockup. თქვენი უკუკავშირი და დამტკიცება პროცესის ყოველ ეტაპზე.': 'Unique design creation, wireframes, and mockups. Your feedback and approval at every stage.',
+      'განვითარება': 'Development',
+      'თანამედროვე ტექნოლოგიებით ვებსაიტის აწყობა. სუფთა კოდი, სწრაფი მუშაობა და უსაფრთხოება.': 'Modern development with clean code, speed, and security.',
+      'ტესტირება': 'Testing',
+      'საფუძვლიანი ტესტირება ყველა მოწყობილობასა და ბრაუზერზე. ხარვეზების აღმოფხვრა და ოპტიმიზაცია.': 'Thorough testing across devices and browsers, bug fixing, and optimization.',
+      'გაშვება და მხარდაჭერა': 'Launch & Support',
+      'ვებსაიტის გაშვება და უწყვეტი ტექნიკური მხარდაჭერა. განახლებები და ტექნიკური პრობლემების სწრაფი მოგვარება.': 'Website launch with ongoing support, updates, and quick issue resolution.',
+      'შეფასებები': 'Testimonials',
+      'რას ამბობენ კლიენტები': 'What Clients Say',
+      '"IDENTISITE-მა ჩვენი ხედვა რეალობად აქცია. პროფესიონალური მიდგომა, დროული მიწოდება და შესანიშნავი შედეგი."': '"IDENTISITE turned our vision into reality. Professional approach, on-time delivery, and great results."',
+      '"ონლაინ მაღაზიის გახსნის შემდეგ გაყიდვები 300%-ით გაიზარდა. უბრალოდ საოცარი გუნდია!"': '"After launching our online store, sales increased by 300%. Truly an amazing team!"',
+      '"კომუნიკაცია იყო გამჭვირვალე, ხარისხი - უმაღლესი. აუცილებლად გავაგრძელებთ თანამშრომლობას."': '"Communication was transparent and quality top-tier. We will definitely continue working together."',
+      'სიახლეები და სტატიები': 'News & Articles',
+      'სასარგებლო ინფორმაცია ვებსაიტების, დიზაინის და ბიზნესის ზრდის შესახებ': 'Useful insights on websites, design, and business growth.',
+      'წაიკითხე მეტი': 'Read More',
+      'ბლოგში დაბრუნება': 'Back to Blog',
+      'კონტაქტი': 'Contact',
+      'დავიწყოთ თანამშრომლობა': "Let's Work Together",
+      'გაგვიზიარეთ თქვენი იდეა და დაიწყეთ თქვენი ციფრული ტრანსფორმაცია': 'Share your idea and start your digital transformation.',
+      'სახელი *': 'Name *',
+      'ელფოსტა *': 'Email *',
+      'კომპანია': 'Company',
+      'პროექტის აღწერა *': 'Project Description *',
+      'გაგზავნა': 'Send Message',
+      'ელფოსტა': 'Email',
+      'ტელეფონი': 'Phone',
+      'მისამართი': 'Address',
+      'თბილისი, საქართველო': 'Tbilisi, Georgia',
+      'ხშირად დასმული კითხვები': 'Frequently Asked Questions',
+      'რა ღირს ვებსაიტის შექმნა?': 'How much does a website cost?',
+      'ფასი დამოკიდებულია პროექტის სირთულეზე და მოთხოვნებზე. მარტივი Landing Page იწყება 500₾-დან, ხოლო სრულფასოვანი E-commerce პლატფორმა - 3000₾-დან. დაგვიკავშირდით უფასო კონსულტაციისთვის და ზუსტი შეფასებისთვის.': 'Pricing depends on project complexity and requirements. A simple landing page starts from 500 GEL, while full e-commerce starts from 3000 GEL. Contact us for a free consultation and exact estimate.',
+      'რამდენ ხანში დამზადდება ვებსაიტი?': 'How long does it take to build a website?',
+      'Landing Page: 1-2 კვირა, კორპორატიული ვებსაიტი: 3-4 კვირა, E-commerce: 4-8 კვირა. ვადები დამოკიდებულია პროექტის მოცულობაზე და თქვენი უკუკავშირის სისწრაფეზე.': 'Landing Page: 1-2 weeks, Corporate Website: 3-4 weeks, E-commerce: 4-8 weeks. Timing depends on scope and feedback speed.',
+      'გთავაზობთ თუ არა ტექნიკურ მხარდაჭერას?': 'Do you provide technical support?',
+      'დიახ! გთავაზობთ 24/7 ტექნიკურ მხარდაჭერას. პირველი 3 თვე უფასოა, შემდეგ კი გვაქვს ყოველთვიური მხარდაჭერის პაკეტები 50₾-დან.': 'Yes. We provide 24/7 technical support. First 3 months are free, then monthly support packages start at 50 GEL.',
+      'როგორ მიმდინარეობს თანამშრომლობა?': 'How does the collaboration process work?',
+      'პროცესი მოიცავს: 1) უფასო კონსულტაცია, 2) წინადადების მომზადება, 3) ხელშეკრულება და წინასწარი გადახდა (50%), 4) დიზაინი და განვითარება, 5) ტესტირება და დამტკიცება, 6) გაშვება და დარჩენილი გადახდა.': 'Process includes: 1) free consultation, 2) proposal, 3) contract and 50% upfront, 4) design & development, 5) testing & approval, 6) launch and final payment.',
+      'იდენტობა რომელიც საიტად იქცევა': 'Identity That Becomes a Website',
+      'კორპორატიული საიტები': 'Corporate Websites',
+      '© 2026 IDENTISITE. ყველა უფლება დაცულია.': '© 2026 IDENTISITE. All rights reserved.',
+      'კონფიდენციალურობა': 'Privacy',
+      'პირობები': 'Terms'
+    };
+    const inputPlaceholders = {
+      name: { ka: 'თქვენი სახელი', en: 'Your name' },
+      company: { ka: 'კომპანიის სახელი', en: 'Company name' },
+      project: { ka: 'მოგვიყევით თქვენი პროექტის შესახებ...', en: 'Tell us about your project...' }
+    };
+
+    function translatePhrase(text) {
+      return phraseMap[text] || text;
+    }
+
+    function applyLanguage(lang) {
+      const toEnglish = lang === 'en';
+      document.documentElement.lang = lang;
+
+      document.querySelectorAll('[data-lang="ka"]').forEach((el) => {
+        if (!el.dataset.ka) el.dataset.ka = el.textContent.trim();
+        const ka = el.dataset.ka;
+        el.textContent = toEnglish ? translatePhrase(ka) : ka;
+      });
+
+      Object.entries(inputPlaceholders).forEach(([id, val]) => {
+        const input = document.getElementById(id);
+        if (input) input.placeholder = toEnglish ? val.en : val.ka;
+      });
+
+      const pageTitle = document.querySelector('title');
+      if (pageTitle) {
+        pageTitle.textContent = toEnglish
+          ? 'IDENTISITE | Identity That Becomes a Website'
+          : 'IDENTISITE | იდენტობა რომელიც საიტად იქცევა';
+      }
+
+      const pageDescription = document.querySelector('meta[name="description"]');
+      if (pageDescription) {
+        pageDescription.setAttribute(
+          'content',
+          toEnglish
+            ? 'IDENTISITE - Identity that becomes a website. Premium website development, UI/UX design, and e-commerce solutions.'
+            : 'IDENTISITE - იდენტობა რომელიც საიტად იქცევა. პრემიუმ ვებსაიტების დამზადება, UI/UX დიზაინი, E-commerce გადაწყვეტილებები.'
+        );
+      }
+
+      if (langSwitch) langSwitch.textContent = toEnglish ? 'GE' : 'EN';
+    }
 
     // Initialize Element SDK
     if (window.elementSdk) {
@@ -1124,6 +1334,7 @@
           const heroSubtitle = document.getElementById('heroSubtitle');
           if (heroSubtitle) {
             heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+            heroSubtitle.dataset.ka = heroSubtitle.textContent;
           }
           
           // Update contact displays
@@ -1136,6 +1347,8 @@
           if (phoneDisplay) {
             phoneDisplay.textContent = config.contact_phone || defaultConfig.contact_phone;
           }
+
+          applyLanguage(currentLang);
         },
         mapToCapabilities: (config) => ({
           recolorables: [
@@ -1203,9 +1416,9 @@
     const langSwitch = document.getElementById('langSwitch');
     langSwitch.addEventListener('click', () => {
       currentLang = currentLang === 'ka' ? 'en' : 'ka';
-      langSwitch.textContent = currentLang === 'ka' ? 'EN' : 'GE';
-      document.documentElement.lang = currentLang;
+      applyLanguage(currentLang);
     });
+    applyLanguage(currentLang);
 
     // FAQ toggle
     function toggleFaq(button) {
