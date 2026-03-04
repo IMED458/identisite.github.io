@@ -1493,8 +1493,29 @@
       submitBtn.innerHTML = '<span>' + translations[currentLang].sending + '</span>';
 
       try {
+        const emailPayload = {
+          name,
+          email,
+          company: company || '-',
+          message: project,
+          _subject: 'New IDENTISITE Contact Form Submission'
+        };
+
+        const emailResponse = await fetch('https://formsubmit.co/ajax/identisitee@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(emailPayload)
+        });
+
+        if (!emailResponse.ok) {
+          throw new Error('Email send failed');
+        }
+
         if (window.dataSdk && submissions.length < 999) {
-          const result = await window.dataSdk.create({
+          await window.dataSdk.create({
             id: Date.now().toString(),
             name: name,
             email: email,
@@ -1503,22 +1524,12 @@
             created_at: new Date().toISOString(),
             status: 'new'
           });
-
-          if (result.isOk) {
-            formMessage.className = 'text-center p-4 rounded-xl bg-green-100 text-green-700';
-            formMessage.textContent = translations[currentLang].form_success;
-            formMessage.classList.remove('hidden');
-            contactForm.reset();
-          } else {
-            throw new Error('Failed to save');
-          }
-        } else {
-          // Simulate success if SDK not available
-          formMessage.className = 'text-center p-4 rounded-xl bg-green-100 text-green-700';
-          formMessage.textContent = translations[currentLang].form_success;
-          formMessage.classList.remove('hidden');
-          contactForm.reset();
         }
+
+        formMessage.className = 'text-center p-4 rounded-xl bg-green-100 text-green-700';
+        formMessage.textContent = translations[currentLang].form_success;
+        formMessage.classList.remove('hidden');
+        contactForm.reset();
       } catch (error) {
         formMessage.className = 'text-center p-4 rounded-xl bg-red-100 text-red-700';
         formMessage.textContent = translations[currentLang].form_error;
