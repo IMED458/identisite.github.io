@@ -15,12 +15,6 @@ import {
   deleteDoc,
   onSnapshot
 } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDE3UecLP_Dj0Va23CRIQbYWIcg9cZf4TY',
@@ -35,7 +29,6 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const storage = getStorage(app);
 
 export const firebaseReady = true;
 export { auth };
@@ -110,8 +103,30 @@ export async function getGiftPage(slug) {
 }
 
 export async function uploadGiftAsset(slug, file, kind = 'photos') {
-  const safeName = `${Date.now()}-${file.name}`.replace(/[^\w.\-]/g, '_');
-  const fileRef = ref(storage, `gift_uploads/${slug}/${kind}/${safeName}`);
-  await uploadBytes(fileRef, file);
-  return getDownloadURL(fileRef);
+  const cloudName = localStorage.getItem('cloudinary_cloud_name') || '';
+  const uploadPreset = localStorage.getItem('cloudinary_upload_preset') || '';
+
+  if (!cloudName || !uploadPreset) {
+    throw new Error('Cloudinary პარამეტრები არ არის მითითებული');
+  }
+
+  const resourceType = kind === 'video' ? 'video' : 'image';
+  const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', uploadPreset);
+  fd.append('folder', `gift_uploads/${slug}/${kind}`);
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    body: fd
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok || !data.secure_url) {
+    throw new Error(data.error?.message || 'Cloudinary ატვირთვა ვერ მოხერხდა');
+  }
+
+  return data.secure_url;
 }
