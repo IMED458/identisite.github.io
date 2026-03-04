@@ -77,12 +77,14 @@
           </div>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <input name="reason1" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 1">
-          <input name="reason2" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 2">
-          <input name="reason3" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 3">
-          <input name="reason4" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 4">
-          <input name="reason5" class="w-full border rounded-xl px-4 py-3 md:col-span-2" placeholder="მიზეზი 5">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="block font-medium text-slate-700">მიზეზები</label>
+            <button id="addReasonBtn" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50">+ დამატება</button>
+          </div>
+          <div id="reasonsWrap" class="grid md:grid-cols-2 gap-4">
+            <input name="reason" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 1">
+          </div>
         </div>
 
         <div>
@@ -155,6 +157,8 @@
     const qrCanvas = document.getElementById('qrCanvas');
     const errorBox = document.getElementById('errorBox');
     const heroTitleEl = form.querySelector('input[name="heroTitle"]');
+    const addReasonBtn = document.getElementById('addReasonBtn');
+    const reasonsWrap = document.getElementById('reasonsWrap');
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
@@ -166,6 +170,26 @@
       if (raw === 'ჩემი სიყვარული') return 'ჩემო სიყვარულო';
       return raw;
     }
+
+    function collectReasons() {
+      return Array.from(reasonsWrap.querySelectorAll('input[name="reason"]'))
+        .map((el) => String(el.value || '').trim())
+        .filter(Boolean);
+    }
+
+    function addReasonField(value = '') {
+      const count = reasonsWrap.querySelectorAll('input[name="reason"]').length + 1;
+      const input = document.createElement('input');
+      input.name = 'reason';
+      input.className = 'w-full border rounded-xl px-4 py-3';
+      input.placeholder = `მიზეზი ${count}`;
+      input.value = value;
+      reasonsWrap.appendChild(input);
+    }
+
+    addReasonBtn?.addEventListener('click', () => {
+      addReasonField('');
+    });
 
     slugEl.addEventListener('input', () => {
       const slug = slugEl.value.trim();
@@ -239,6 +263,7 @@
         }
 
         const fd = new FormData(form);
+        const reasons = collectReasons();
         const payload = {
           slug,
           templateType: fd.get('templateType') || 'girlfriend',
@@ -249,11 +274,11 @@
           loveMessage: fd.get('loveMessage') || '',
           ourStory: fd.get('ourStory') || '',
           memoryStory: fd.get('memoryStory') || '',
-          reason1: fd.get('reason1') || '',
-          reason2: fd.get('reason2') || '',
-          reason3: fd.get('reason3') || '',
-          reason4: fd.get('reason4') || '',
-          reason5: fd.get('reason5') || '',
+          reason1: reasons[0] || '',
+          reason2: reasons[1] || '',
+          reason3: reasons[2] || '',
+          reason4: reasons[3] || '',
+          reason5: reasons[4] || '',
           finalMessage: fd.get('finalMessage') || '',
           dateInviteText: fd.get('dateInviteText') || '',
           musicLink: fd.get('musicLink') || '',
