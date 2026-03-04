@@ -54,38 +54,6 @@
       <h2 class="text-2xl font-bold mb-2">შეკვეთის ფორმა</h2>
       <p class="text-slate-600 mb-6">ფორმაში ჩაწერე ტექსტები, ატვირთე ფოტო/ვიდეო და გადახდის ქვითარი. ყველაფერი მოვა მეილზე: <strong>identisitee@gmail.com</strong>.</p>
 
-      <div class="mb-6 grid md:grid-cols-2 gap-4">
-        <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
-          <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <span class="inline-flex w-10 h-10 rounded-xl bg-blue-700 text-white items-center justify-center font-bold">TBC</span>
-              <div>
-                <p class="font-semibold">TBC Bank</p>
-                <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
-              </div>
-            </div>
-            <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE13TB7685145063300013">კოპირება</button>
-          </div>
-          <p class="mt-3 text-sm text-slate-600">IBAN:</p>
-          <p class="font-mono text-sm break-all">GE13TB7685145063300013</p>
-        </article>
-
-        <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
-          <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-              <span class="inline-flex w-10 h-10 rounded-xl bg-emerald-700 text-white items-center justify-center font-bold">BOG</span>
-              <div>
-                <p class="font-semibold">Bank of Georgia</p>
-                <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
-              </div>
-            </div>
-            <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE08BG0000000526079778">კოპირება</button>
-          </div>
-          <p class="mt-3 text-sm text-slate-600">IBAN:</p>
-          <p class="font-mono text-sm break-all">GE08BG0000000526079778</p>
-        </article>
-      </div>
-
       <form id="orderForm"
             action="https://formsubmit.co/identisitee@gmail.com"
             method="POST"
@@ -193,6 +161,38 @@
         </div>
 
         <div>
+          <p class="font-semibold mb-2">გადახდის რეკვიზიტები</p>
+          <div class="grid md:grid-cols-2 gap-4 mb-3">
+            <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex w-10 h-10 rounded-xl bg-blue-700 text-white items-center justify-center font-bold">TBC</span>
+                  <div>
+                    <p class="font-semibold">TBC Bank</p>
+                    <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
+                  </div>
+                </div>
+                <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE13TB7685145063300013">კოპირება</button>
+              </div>
+              <p class="mt-3 text-sm text-slate-600">IBAN:</p>
+              <p class="font-mono text-sm break-all">GE13TB7685145063300013</p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex w-10 h-10 rounded-xl bg-emerald-700 text-white items-center justify-center font-bold">BOG</span>
+                  <div>
+                    <p class="font-semibold">Bank of Georgia</p>
+                    <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
+                  </div>
+                </div>
+                <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE08BG0000000526079778">კოპირება</button>
+              </div>
+              <p class="mt-3 text-sm text-slate-600">IBAN:</p>
+              <p class="font-mono text-sm break-all">GE08BG0000000526079778</p>
+            </article>
+          </div>
           <label class="block mb-1 font-medium">გადახდის დამადასტურებელი ქვითარი *</label>
           <input type="file" name="payment_receipt" accept="image/*,.pdf" required class="w-full border rounded-xl px-4 py-3">
         </div>
