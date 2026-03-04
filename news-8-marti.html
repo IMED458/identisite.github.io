@@ -337,6 +337,10 @@
       setTimeout(() => (copyBtn.textContent = '📋 ლინკის კოპირება'), 1200);
     });
 
+    const API_BASE = window.location.hostname.endsWith('onrender.com')
+      ? ''
+      : 'https://identisite.onrender.com';
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       formStatus.textContent = '';
@@ -361,7 +365,7 @@
         // NOTE: reasons inputs share same name="reasons" => FormData will include multiple values automatically.
         // photos & video included automatically by inputs.
 
-        const resp = await fetch('/api/generate', {
+        const resp = await fetch(`${API_BASE}/api/generate`, {
           method: 'POST',
           body: fd
         });

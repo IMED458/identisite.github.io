@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,6 +14,10 @@ const BACKUP_ENABLED = process.env.BACKUP_ENABLED !== "false";
 const BACKUP_INTERVAL_HOURS = Number(process.env.BACKUP_INTERVAL_HOURS || 6);
 const BACKUP_KEEP_COUNT = Number(process.env.BACKUP_KEEP_COUNT || 10);
 const BACKUP_ADMIN_TOKEN = process.env.BACKUP_ADMIN_TOKEN || "";
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 const __dirname = path.resolve();
 const candidatePublic = path.join(__dirname, "public");
@@ -22,6 +27,18 @@ const BACKUP_DIR = path.join(__dirname, "backups");
 
 fs.mkdirSync(GIFT_DIR, { recursive: true });
 fs.mkdirSync(BACKUP_DIR, { recursive: true });
+
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin) return callback(null, true);
+      if (!ALLOWED_ORIGINS.length || ALLOWED_ORIGINS.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error("Not allowed by CORS"));
+    },
+  })
+);
 
 // -------- Helpers --------
 function isValidSlug(slug) {
