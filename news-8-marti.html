@@ -179,6 +179,66 @@
       return raw;
     }
 
+    function fileExt(name = '') {
+      const n = String(name || '').toLowerCase();
+      const idx = n.lastIndexOf('.');
+      return idx >= 0 ? n.slice(idx + 1) : '';
+    }
+
+    function shouldReencodeImage(file) {
+      const ext = fileExt(file.name);
+      const heicLike = ext === 'heic' || ext === 'heif' || file.type === 'image/heic' || file.type === 'image/heif';
+      const veryLarge = file.size > 8 * 1024 * 1024;
+      return heicLike || veryLarge;
+    }
+
+    function loadImageElementFromFile(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          resolve(img);
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          reject(new Error('image decode failed'));
+        };
+        img.src = url;
+      });
+    }
+
+    async function reencodeImageToJpeg(file) {
+      const img = await loadImageElementFromFile(file);
+      const maxW = 2200;
+      const maxH = 2200;
+      let w = img.naturalWidth || img.width;
+      let h = img.naturalHeight || img.height;
+      const scale = Math.min(maxW / w, maxH / h, 1);
+      w = Math.max(1, Math.round(w * scale));
+      h = Math.max(1, Math.round(h * scale));
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d', { alpha: false });
+      ctx.drawImage(img, 0, 0, w, h);
+
+      const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/jpeg', 0.86));
+      if (!blob) throw new Error('jpeg encode failed');
+      const base = (file.name || 'photo').replace(/\.[^.]+$/, '');
+      return new File([blob], `${base}.jpg`, { type: 'image/jpeg' });
+    }
+
+    async function preparePhotoFile(file) {
+      if (!shouldReencodeImage(file)) return file;
+      try {
+        return await reencodeImageToJpeg(file);
+      } catch (_) {
+        return file;
+      }
+    }
+
     async function uploadWithRetry(slug, file, kind, retries = 3) {
       let lastError;
       for (let attempt = 1; attempt <= retries; attempt++) {
@@ -282,7 +342,13 @@
         for (let i = 0; i < photos.length; i++) {
           const file = photos[i];
           formStatus.textContent = `იტვირთება ფოტო ${i + 1}/${photos.length}...`;
-          const url = await uploadWithRetry(slug, file, 'photos', 3);
+          const prepared = await preparePhotoFile(file);
+          let url = '';
+          try {
+            url = await uploadWithRetry(slug, prepared, 'photos', 3);
+          } catch (e) {
+            throw new Error(`ფოტოს ატვირთვა ვერ მოხერხდა: ${file.name}`);
+          }
           photoUrls.push(url);
         }
 
