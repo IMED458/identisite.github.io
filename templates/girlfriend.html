@@ -1,95 +1,488 @@
 <!doctype html>
 <html lang="ka" class="h-full">
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>8 მარტი - სიყვარულით</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
   <style>
-    * { font-family: 'Noto Sans Georgian', sans-serif; }
-    .font-display { font-family: 'Playfair Display', serif; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+    @keyframes fade-in-up {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes heart-beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-float-delayed { animation: float 6s ease-in-out infinite; animation-delay: 2s; }
+    .animate-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
+    .animate-fade-in-up { animation: fade-in-up 1s ease-out forwards; }
+    .animate-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 3s infinite;
+    }
+    .animate-heart-beat { animation: heart-beat 1.5s ease-in-out infinite; }
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    .stagger-5 { animation-delay: 0.5s; }
+    .stagger-6 { animation-delay: 0.6s; }
+    .photo-placeholder {
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 50%, #f48fb1 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-placeholder::after {
+      content: '📷';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      opacity: 0.5;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
     .text-gradient {
       background: linear-gradient(135deg, #ec407a, #f06292, #f48fb1);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+    .heart-decoration::before,
+    .heart-decoration::after {
+      content: '♥';
+      position: absolute;
+      opacity: 0.15;
+      font-size: 3rem;
     }
+    .heart-decoration::before { top: 10%; left: 5%; }
+    .heart-decoration::after { bottom: 10%; right: 5%; }
   </style>
-</head>
-<body class="h-full bg-gradient-to-b from-rose-50 via-pink-50 to-rose-100 overflow-auto">
-  <section class="min-h-screen flex items-center justify-center px-4 py-16 text-center">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-6xl mb-6">💕</div>
-      <p class="text-rose-400 tracking-widest uppercase mb-4">8 მარტი</p>
-      <h1 class="font-display text-5xl md:text-7xl font-bold text-gradient mb-4 leading-tight break-words">{{hero_title}}</h1>
-      <h2 class="font-display text-3xl md:text-5xl italic mb-6 text-rose-900 leading-tight break-words">{{recipient_name}}</h2>
-      <p class="text-xl text-rose-700/80 max-w-2xl mx-auto break-words">{{hero_subtitle}}</p>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'georgian': ['"Noto Sans Georgian"', 'sans-serif'],
+            'display': ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            'rose': {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              200: '#fecdd3',
+              300: '#fda4af',
+              400: '#fb7185',
+              500: '#f43f5e',
+              600: '#e11d48',
+            },
+            'blush': {
+              50: '#fdf2f8',
+              100: '#fce7f3',
+              200: '#fbcfe8',
+              300: '#f9a8d4',
+              400: '#f472b6',
+              500: '#ec4899',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full font-georgian overflow-auto">
+  <div id="app-wrapper" class="w-full min-h-full"><!-- Floating Hearts Background -->
+   <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="absolute top-20 left-10 text-4xl text-rose-300 opacity-30 animate-float">
+     ♥
     </div>
-  </section>
-
-  <section class="py-20 px-4">
-    <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 md:p-12 shadow-xl text-center">
-      <h3 class="font-display text-3xl md:text-4xl text-rose-900 mb-6">სიყვარულის წერილი</h3>
-      <p class="text-lg md:text-xl italic text-rose-800 leading-relaxed">{{love_message}}</p>
+    <div class="absolute top-40 right-20 text-3xl text-blush-300 opacity-25 animate-float-delayed">
+     ♥
     </div>
-  </section>
-
-  <section class="py-20 px-4 bg-white/50">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">ჩვენი ისტორია</h3>
-      <div class="glass-card rounded-3xl p-8 shadow-xl">
-        <p class="text-lg text-rose-800 leading-relaxed">{{our_story}}</p>
+    <div class="absolute top-60 left-1/4 text-2xl text-rose-200 opacity-20 animate-float" style="animation-delay: 1s;">
+     ♥
+    </div>
+    <div class="absolute bottom-40 right-1/4 text-5xl text-blush-200 opacity-20 animate-float-delayed">
+     ♥
+    </div>
+    <div class="absolute bottom-20 left-20 text-3xl text-rose-300 opacity-25 animate-float" style="animation-delay: 3s;">
+     ♥
+    </div>
+    <div class="absolute top-1/3 right-10 text-2xl text-blush-300 opacity-30 animate-float-delayed" style="animation-delay: 4s;">
+     ♥
+    </div>
+   </div><!-- Hero Section -->
+   <section id="hero-section" class="relative min-h-screen flex items-center justify-center px-4 py-16 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-rose-100 via-blush-50 to-rose-200"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-white/50 to-transparent"></div>
+    <div class="relative z-10 text-center max-w-4xl mx-auto">
+     <div class="mb-6 animate-fade-in-up opacity-0" style="animation-delay: 0.2s;"><span class="inline-block text-6xl animate-heart-beat">💕</span>
+     </div>
+     <p class="text-rose-400 text-lg md:text-xl mb-4 tracking-widest uppercase animate-fade-in-up opacity-0" style="animation-delay: 0.4s;">8 მარტი</p>
+     <h1 id="hero-title" class="font-display text-5xl md:text-7xl lg:text-8xl font-bold text-gradient mb-6 animate-fade-in-up opacity-0 leading-tight" style="animation-delay: 0.6s;">{{hero_title}}</h1>
+     <h2 id="recipient-name" class="font-display text-4xl md:text-5xl lg:text-6xl italic mb-8 animate-fade-in-up opacity-0" style="animation-delay: 0.8s; color: var(--text-color);">{{recipient_name}}</h2>
+     <p id="hero-subtitle" class="text-xl md:text-2xl text-rose-500/80 max-w-2xl mx-auto animate-fade-in-up opacity-0" style="animation-delay: 1s;">{{hero_subtitle}}</p>
+     <div class="mt-12 animate-fade-in-up opacity-0" style="animation-delay: 1.2s;"><a href="#love-message" class="inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-medium text-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl" style="background: var(--primary-action-color);"> <span>გაგრძელება</span>
+       <svg class="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+       </svg></a>
+     </div>
+    </div>
+   </section><!-- Love Message Section -->
+   <section id="love-message" class="relative py-20 md:py-32 px-4">
+    <div class="absolute inset-0 bg-gradient-to-b from-rose-200/30 via-white to-blush-100/30"></div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+     <div class="glass-card rounded-3xl p-8 md:p-16 shadow-xl heart-decoration">
+      <div class="text-5xl mb-8 animate-pulse-soft">
+       💌
       </div>
+      <h3 class="font-display text-3xl md:text-4xl font-semibold mb-8" style="color: var(--text-color);">სიყვარულის წერილი</h3>
+      <p id="love-message-text" class="text-lg md:text-xl leading-relaxed text-gray-700 italic">{{love_message}}</p>
+      <div class="mt-8 flex justify-center gap-2 text-rose-400"><span>♥</span><span>♥</span><span>♥</span>
+      </div>
+     </div>
     </div>
-  </section>
-
-  <section class="py-20 px-4">
-    <div class="max-w-4xl mx-auto">
-      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">რატომ მიყვარხარ</h3>
-      <div class="space-y-4">{{reasons_html}}</div>
+   </section><!-- Our Story Section -->
+   <section id="our-story" class="relative py-20 md:py-32 px-4 overflow-hidden">
+    <div class="absolute inset-0" style="background: var(--background-color);"></div>
+    <div class="absolute top-0 left-0 w-64 h-64 bg-rose-300/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-blush-300/20 rounded-full blur-3xl"></div>
+    <div class="relative z-10 max-w-5xl mx-auto">
+     <div class="text-center mb-16"><span class="text-5xl mb-6 inline-block">💑</span>
+      <h3 class="font-display text-4xl md:text-5xl font-bold text-gradient">ჩვენი ისტორია</h3>
+     </div>
+     <div class="glass-card rounded-3xl p-8 md:p-12 shadow-xl" style="background: var(--surface-color);">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+       <div class="w-full md:w-1/3">
+        <div class="photo-placeholder aspect-square rounded-2xl shadow-lg"></div>
+       </div>
+       <div class="w-full md:w-2/3">
+        <p id="our-story-text" class="text-lg leading-relaxed text-gray-700">{{our_story}}</p>
+       </div>
+      </div>
+     </div>
     </div>
-  </section>
-
-  <section class="py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">ჩვენი მომენტები</h3>
-      <div id="uploaded-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{{uploaded_photos}}</div>
+   </section><!-- Photo Gallery Section -->
+   <section id="gallery" class="relative py-20 md:py-32 px-4">
+    <div class="absolute inset-0 bg-gradient-to-b from-blush-100/30 via-white to-rose-100/30"></div>
+    <div class="relative z-10 max-w-6xl mx-auto">
+     <div class="text-center mb-16"><span class="text-5xl mb-6 inline-block">📸</span>
+      <h3 class="font-display text-4xl md:text-5xl font-bold text-gradient">ჩვენი მომენტები</h3>
+      <p class="text-gray-600 mt-4 text-lg">სურათები, რომლებიც გვაერთებს</p>
+     </div>
+     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"><!-- Photo 1 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-1"></div><!-- Photo 2 -->
+      <div class="photo-placeholder aspect-[4/5] rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 md:row-span-2 stagger-2"></div><!-- Photo 3 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-3"></div><!-- Photo 4 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-4"></div><!-- Photo 5 -->
+      <div class="photo-placeholder aspect-[4/5] rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 md:row-span-2 stagger-5"></div><!-- Photo 6 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-6"></div><!-- Photo 7 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-1"></div><!-- Photo 8 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 stagger-2"></div><!-- Photo 9 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hidden md:block stagger-3"></div><!-- Photo 10 -->
+      <div class="photo-placeholder aspect-square rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 hidden lg:block stagger-4"></div>
+     </div>
     </div>
-  </section>
-
-  <section class="py-20 px-4 bg-white/60">
-    <div class="max-w-4xl mx-auto text-center">
-      <h3 class="font-display text-4xl text-rose-900 mb-8">ჩვენი ვიდეო</h3>
-      <div class="glass-card rounded-3xl p-4">{{uploaded_video}}</div>
+   </section><!-- Reasons I Love You Section -->
+   <section id="reasons" class="relative py-20 md:py-32 px-4">
+    <div class="absolute inset-0" style="background: var(--background-color);"></div>
+    <div class="relative z-10 max-w-4xl mx-auto">
+     <div class="text-center mb-16"><span class="text-5xl mb-6 inline-block animate-heart-beat">❤️</span>
+      <h3 class="font-display text-4xl md:text-5xl font-bold text-gradient">რატომ მიყვარხარ</h3>
+     </div>
+     <div class="space-y-6"><!-- Reason 1 -->
+      <div class="glass-card rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-x-2" style="background: var(--surface-color);">
+       <div class="flex items-start gap-4"><span class="text-3xl flex-shrink-0" style="color: var(--primary-action-color);">♥</span>
+        <p id="reason-1" class="text-lg text-gray-700">{{reason_1}}</p>
+       </div>
+      </div><!-- Reason 2 -->
+      <div class="glass-card rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-x-2" style="background: var(--surface-color);">
+       <div class="flex items-start gap-4"><span class="text-3xl flex-shrink-0" style="color: var(--primary-action-color);">♥</span>
+        <p id="reason-2" class="text-lg text-gray-700">{{reason_2}}</p>
+       </div>
+      </div><!-- Reason 3 -->
+      <div class="glass-card rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-x-2" style="background: var(--surface-color);">
+       <div class="flex items-start gap-4"><span class="text-3xl flex-shrink-0" style="color: var(--primary-action-color);">♥</span>
+        <p id="reason-3" class="text-lg text-gray-700">{{reason_3}}</p>
+       </div>
+      </div><!-- Reason 4 -->
+      <div class="glass-card rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-x-2" style="background: var(--surface-color);">
+       <div class="flex items-start gap-4"><span class="text-3xl flex-shrink-0" style="color: var(--primary-action-color);">♥</span>
+        <p id="reason-4" class="text-lg text-gray-700">{{reason_4}}</p>
+       </div>
+      </div><!-- Reason 5 -->
+      <div class="glass-card rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl transition-all duration-300 hover:translate-x-2" style="background: var(--surface-color);">
+       <div class="flex items-start gap-4"><span class="text-3xl flex-shrink-0" style="color: var(--primary-action-color);">♥</span>
+        <p id="reason-5" class="text-lg text-gray-700">{{reason_5}}</p>
+       </div>
+      </div>
+     </div>
     </div>
-  </section>
-
-  <section class="py-20 px-4">
-    <div class="max-w-4xl mx-auto text-center">
-      <h3 class="font-display text-4xl text-rose-900 mb-8">ჩვენი სიმღერა</h3>
-      <div class="glass-card rounded-3xl p-6">{{music_embed}}</div>
+   </section><!-- Video Section -->
+   <section id="video-section" class="relative py-20 md:py-32 px-4">
+    <div class="absolute inset-0 bg-gradient-to-b from-rose-100/30 via-blush-50 to-white"></div>
+    <div class="relative z-10 max-w-4xl mx-auto">
+     <div class="text-center mb-16"><span class="text-5xl mb-6 inline-block">🎬</span>
+      <h3 class="font-display text-4xl md:text-5xl font-bold text-gradient">ჩვენი ვიდეო</h3>
+     </div>
+     <div class="glass-card rounded-3xl p-4 md:p-8 shadow-xl" style="background: var(--surface-color);">
+      <div class="aspect-video rounded-2xl overflow-hidden bg-gradient-to-br from-rose-200 to-blush-200 flex items-center justify-center">
+       <div class="text-center p-8"><span class="text-6xl mb-4 block">🎥</span>
+        <p class="text-gray-600">{{video_placeholder}}</p>
+        <p class="text-sm text-gray-500 mt-2">YouTube ემბედი აქ</p>
+       </div>
+      </div>
+     </div>
     </div>
-  </section>
-
-  <section class="py-20 px-4 bg-gradient-to-br from-rose-300 via-pink-200 to-rose-400 text-center">
-    <div class="max-w-4xl mx-auto glass-card rounded-3xl p-10">
-      <h3 class="font-display text-4xl text-rose-900 mb-6">გილოცავ 8 მარტს!</h3>
-      <p class="text-xl text-rose-800 mb-6">{{final_message}}</p>
-      <p class="text-lg text-rose-700">უსაზღვრო სიყვარულით,</p>
-      <p class="font-display text-3xl italic text-rose-900">{{sender_name}}</p>
+   </section><!-- Music Section -->
+   <section id="music-section" class="relative py-20 md:py-32 px-4">
+    <div class="absolute inset-0" style="background: var(--background-color);"></div>
+    <div class="relative z-10 max-w-3xl mx-auto">
+     <div class="text-center mb-16"><span class="text-5xl mb-6 inline-block animate-pulse-soft">🎵</span>
+      <h3 class="font-display text-4xl md:text-5xl font-bold text-gradient">ჩვენი სიმღერა</h3>
+     </div>
+     <div class="glass-card rounded-3xl p-8 md:p-12 shadow-xl text-center" style="background: var(--surface-color);">
+      <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-rose-400 to-blush-500 flex items-center justify-center shadow-lg animate-pulse-soft"><span class="text-5xl">🎶</span>
+      </div>
+      <p class="text-gray-600 mb-6">{{music_placeholder}}</p>
+      <div class="aspect-video max-w-md mx-auto rounded-xl overflow-hidden bg-gradient-to-br from-rose-100 to-blush-100 flex items-center justify-center">
+       <div class="text-center p-4"><span class="text-4xl mb-2 block">▶️</span>
+        <p class="text-sm text-gray-500">YouTube მუსიკალური პლეიერი</p>
+       </div>
+      </div>
+     </div>
     </div>
-  </section>
+   </section><!-- Final Message Section -->
+   <section id="final-section" class="relative py-20 md:py-32 px-4 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-rose-300 via-blush-200 to-rose-400"></div>
+    <div class="absolute inset-0 bg-gradient-to-t from-rose-500/20 to-transparent"></div><!-- Decorative elements -->
+    <div class="absolute top-10 left-10 text-6xl opacity-20 animate-float">
+     ✨
+    </div>
+    <div class="absolute top-20 right-20 text-5xl opacity-20 animate-float-delayed">
+     💫
+    </div>
+    <div class="absolute bottom-20 left-20 text-4xl opacity-20 animate-float" style="animation-delay: 1s;">
+     🌸
+    </div>
+    <div class="absolute bottom-10 right-10 text-6xl opacity-20 animate-float-delayed" style="animation-delay: 2s;">
+     💕
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto text-center">
+     <div class="glass-card rounded-3xl p-8 md:p-16 shadow-2xl" style="background: rgba(255,255,255,0.3);">
+      <div class="text-6xl mb-8 animate-heart-beat">
+       💝
+      </div>
+      <h3 class="font-display text-3xl md:text-5xl font-bold text-white mb-8 drop-shadow-lg">გილოცავ 8 მარტს!</h3>
+      <p id="final-message-text" class="text-xl md:text-2xl text-white/90 leading-relaxed mb-12 drop-shadow">{{final_message}}</p>
+      <div class="flex flex-col items-center gap-4">
+       <p class="text-white/80 text-lg">უსაზღვრო სიყვარულით,</p>
+       <p id="sender-name" class="font-display text-3xl md:text-4xl italic text-white font-semibold drop-shadow-lg">{{sender_name}}</p>
+      </div>
+      <div class="mt-12 flex justify-center gap-4 text-4xl"><span class="animate-pulse-soft">💕</span> <span class="animate-pulse-soft" style="animation-delay: 0.2s;">💕</span> <span class="animate-pulse-soft" style="animation-delay: 0.4s;">💕</span>
+      </div>
+     </div>
+    </div>
+   </section><!-- Footer -->
+   <footer class="relative py-8 px-4 text-center" style="background: var(--background-color);">
+    <p class="text-gray-500 text-sm">შექმნილია სიყვარულით 💕 8 მარტი, 2025</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      // Colors
+      background_color: '#fdf2f8',
+      surface_color: 'rgba(255, 255, 255, 0.85)',
+      text_color: '#831843',
+      primary_action_color: '#ec4899',
+      secondary_action_color: '#f9a8d4',
+      // Typography
+      font_family: 'Noto Sans Georgian',
+      font_size: 16,
+      // Content
+      recipient_name: '{{recipient_name}}',
+      hero_title: '{{hero_title}}',
+      hero_subtitle: '{{hero_subtitle}}',
+      love_message: '{{love_message}}',
+      our_story: '{{our_story}}',
+      reason_1: '{{reason_1}}',
+      reason_2: '{{reason_2}}',
+      reason_3: '{{reason_3}}',
+      reason_4: '{{reason_4}}',
+      reason_5: '{{reason_5}}',
+      final_message: '{{final_message}}',
+      sender_name: '{{sender_name}}',
+      video_placeholder: 'ჩადეთ თქვენი ვიდეო აქ',
+      music_placeholder: 'ჩვენი საყვარელი სიმღერა'
+    };
 
-  <section class="py-16 px-4 text-center bg-rose-50" id="date-invite-section">{{date_invite_section}}</section>
+    function applyStyles(config) {
+      document.documentElement.style.setProperty('--background-color', config.background_color || defaultConfig.background_color);
+      document.documentElement.style.setProperty('--surface-color', config.surface_color || defaultConfig.surface_color);
+      document.documentElement.style.setProperty('--text-color', config.text_color || defaultConfig.text_color);
+      document.documentElement.style.setProperty('--primary-action-color', config.primary_action_color || defaultConfig.primary_action_color);
+      document.documentElement.style.setProperty('--secondary-action-color', config.secondary_action_color || defaultConfig.secondary_action_color);
+      
+      const fontFamily = config.font_family || defaultConfig.font_family;
+      const fontSize = config.font_size || defaultConfig.font_size;
+      
+      document.body.style.fontFamily = `${fontFamily}, 'Noto Sans Georgian', sans-serif`;
+      document.body.style.fontSize = `${fontSize}px`;
+    }
 
-  <footer class="py-8 text-center text-rose-500">შექმნილია სიყვარულით 💕 8 მარტი, 2026</footer>
-</body>
+    async function onConfigChange(config) {
+      applyStyles(config);
+      
+      // Update text content
+      const heroTitle = document.getElementById('hero-title');
+      if (heroTitle) heroTitle.textContent = config.hero_title || defaultConfig.hero_title;
+      
+      const recipientName = document.getElementById('recipient-name');
+      if (recipientName) recipientName.textContent = config.recipient_name || defaultConfig.recipient_name;
+      
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      if (heroSubtitle) heroSubtitle.textContent = config.hero_subtitle || defaultConfig.hero_subtitle;
+      
+      const loveMessage = document.getElementById('love-message-text');
+      if (loveMessage) loveMessage.textContent = config.love_message || defaultConfig.love_message;
+      
+      const ourStory = document.getElementById('our-story-text');
+      if (ourStory) ourStory.textContent = config.our_story || defaultConfig.our_story;
+      
+      const reason1 = document.getElementById('reason-1');
+      if (reason1) reason1.textContent = config.reason_1 || defaultConfig.reason_1;
+      
+      const reason2 = document.getElementById('reason-2');
+      if (reason2) reason2.textContent = config.reason_2 || defaultConfig.reason_2;
+      
+      const reason3 = document.getElementById('reason-3');
+      if (reason3) reason3.textContent = config.reason_3 || defaultConfig.reason_3;
+      
+      const reason4 = document.getElementById('reason-4');
+      if (reason4) reason4.textContent = config.reason_4 || defaultConfig.reason_4;
+      
+      const reason5 = document.getElementById('reason-5');
+      if (reason5) reason5.textContent = config.reason_5 || defaultConfig.reason_5;
+      
+      const finalMessage = document.getElementById('final-message-text');
+      if (finalMessage) finalMessage.textContent = config.final_message || defaultConfig.final_message;
+      
+      const senderName = document.getElementById('sender-name');
+      if (senderName) senderName.textContent = config.sender_name || defaultConfig.sender_name;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+            }
+          },
+          {
+            get: () => config.primary_action_color || defaultConfig.primary_action_color,
+            set: (value) => {
+              config.primary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+            }
+          },
+          {
+            get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+            set: (value) => {
+              config.secondary_action_color = value;
+              if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['recipient_name', config.recipient_name || defaultConfig.recipient_name],
+        ['hero_title', config.hero_title || defaultConfig.hero_title],
+        ['hero_subtitle', config.hero_subtitle || defaultConfig.hero_subtitle],
+        ['love_message', config.love_message || defaultConfig.love_message],
+        ['our_story', config.our_story || defaultConfig.our_story],
+        ['reason_1', config.reason_1 || defaultConfig.reason_1],
+        ['reason_2', config.reason_2 || defaultConfig.reason_2],
+        ['reason_3', config.reason_3 || defaultConfig.reason_3],
+        ['reason_4', config.reason_4 || defaultConfig.reason_4],
+        ['reason_5', config.reason_5 || defaultConfig.reason_5],
+        ['final_message', config.final_message || defaultConfig.final_message],
+        ['sender_name', config.sender_name || defaultConfig.sender_name]
+      ]);
+    }
+
+    // Initialize SDK
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+
+    // Apply initial styles
+    applyStyles(defaultConfig);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d72d41df72095a0',t:'MTc3MjY0NzczMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
