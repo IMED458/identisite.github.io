@@ -154,14 +154,23 @@
     const resultLink = document.getElementById('resultLink');
     const qrCanvas = document.getElementById('qrCanvas');
     const errorBox = document.getElementById('errorBox');
+    const heroTitleEl = form.querySelector('input[name="heroTitle"]');
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
     }
 
+    function normalizeHeroTitle(value = '') {
+      const raw = String(value || '').trim();
+      if (!raw) return 'ჩემო სიყვარულო';
+      if (raw === 'ჩემი სიყვარული') return 'ჩემო სიყვარულო';
+      return raw;
+    }
+
     slugEl.addEventListener('input', () => {
       const slug = slugEl.value.trim();
       urlPreviewEl.textContent = slug ? `/gift-view.html?slug=${slug}` : '/gift-view.html?slug=...';
+      localStorage.setItem('gift_last_slug', slug);
       if (!slug || isValidSlug(slug)) {
         slugErrorEl.classList.add('hidden');
         slugErrorEl.textContent = '';
@@ -169,6 +178,20 @@
         slugErrorEl.classList.remove('hidden');
         slugErrorEl.textContent = 'მხოლოდ a-z, 0-9 და დეფისი (-)';
       }
+    });
+
+    // Restore last entered site name and title.
+    const restoredSlug = localStorage.getItem('gift_last_slug') || '';
+    if (restoredSlug && !slugEl.value) {
+      slugEl.value = restoredSlug;
+      urlPreviewEl.textContent = `/gift-view.html?slug=${restoredSlug}`;
+    }
+    const restoredHeroTitle = localStorage.getItem('gift_last_hero_title') || '';
+    if (heroTitleEl && restoredHeroTitle && !heroTitleEl.value) {
+      heroTitleEl.value = restoredHeroTitle;
+    }
+    heroTitleEl?.addEventListener('input', () => {
+      localStorage.setItem('gift_last_hero_title', heroTitleEl.value || '');
     });
 
     form.addEventListener('submit', async (e) => {
@@ -221,7 +244,7 @@
           templateType: fd.get('templateType') || 'girlfriend',
           recipientName: fd.get('recipientName') || '',
           senderName: fd.get('senderName') || '',
-          heroTitle: fd.get('heroTitle') || '',
+          heroTitle: normalizeHeroTitle(fd.get('heroTitle') || ''),
           heroSubtitle: fd.get('heroSubtitle') || '',
           loveMessage: fd.get('loveMessage') || '',
           ourStory: fd.get('ourStory') || '',
@@ -240,6 +263,8 @@
         };
 
         await saveGiftPage(slug, payload);
+        localStorage.setItem('gift_last_slug', slug);
+        localStorage.setItem('gift_last_hero_title', payload.heroTitle);
 
         const generatedUrl = `${window.location.origin}/gift-view.html?slug=${encodeURIComponent(slug)}`;
         resultLink.href = generatedUrl;
