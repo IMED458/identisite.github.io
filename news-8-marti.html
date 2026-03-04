@@ -208,51 +208,149 @@
     </section>
   </main>
 
-  <script>
-    (function () {
-      const form = document.getElementById('orderForm');
-      const statusText = document.getElementById('statusText');
-      const submitBtn = document.getElementById('submitBtn');
-      const overlay = document.getElementById('loadingOverlay');
-      const nextInput = document.getElementById('nextUrl');
-      const copyBtns = document.querySelectorAll('.copy-iban-btn');
+  <script type="module">
+    import { uploadGiftAsset } from './assets/js/firebase-data.js';
 
-      const url = new URL(window.location.href);
-      const sent = url.searchParams.get('sent') === '1';
-      if (sent) {
-        statusText.textContent = '✅ შეკვეთა წარმატებით გაიგზავნა. მალე დაგიკავშირდებით.';
-        statusText.className = 'text-sm text-green-700';
-      }
+    const form = document.getElementById('orderForm');
+    const statusText = document.getElementById('statusText');
+    const submitBtn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('loadingOverlay');
+    const nextInput = document.getElementById('nextUrl');
+    const copyBtns = document.querySelectorAll('.copy-iban-btn');
 
-      const next = new URL(window.location.href);
-      next.searchParams.set('sent', '1');
-      nextInput.value = next.toString();
+    const url = new URL(window.location.href);
+    const sent = url.searchParams.get('sent') === '1';
+    if (sent) {
+      statusText.textContent = '✅ შეკვეთა წარმატებით გაიგზავნა. მალე დაგიკავშირდებით.';
+      statusText.className = 'text-sm text-green-700';
+    }
 
-      copyBtns.forEach((btn) => {
-        btn.addEventListener('click', async () => {
-          const iban = btn.getAttribute('data-iban') || '';
-          if (!iban) return;
-          try {
-            await navigator.clipboard.writeText(iban);
-            const old = btn.textContent;
-            btn.textContent = 'დაკოპირდა ✅';
-            setTimeout(() => {
-              btn.textContent = old;
-            }, 1200);
-          } catch (_) {
-            btn.textContent = 'ვერ დაკოპირდა';
+    const next = new URL(window.location.href);
+    next.searchParams.set('sent', '1');
+    nextInput.value = next.toString();
+
+    copyBtns.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const iban = btn.getAttribute('data-iban') || '';
+        if (!iban) return;
+        try {
+          await navigator.clipboard.writeText(iban);
+          const old = btn.textContent;
+          btn.textContent = 'დაკოპირდა ✅';
+          setTimeout(() => {
+            btn.textContent = old;
+          }, 1200);
+        } catch (_) {
+          btn.textContent = 'ვერ დაკოპირდა';
+        }
+      });
+    });
+
+    async function uploadWithRetry(orderId, file, kind, retries = 3) {
+      let lastErr;
+      for (let i = 1; i <= retries; i++) {
+        try {
+          return await uploadGiftAsset(orderId, file, kind);
+        } catch (err) {
+          lastErr = err;
+          if (i < retries) {
+            await new Promise((resolve) => setTimeout(resolve, i * 700));
           }
-        });
-      });
+        }
+      }
+      throw lastErr || new Error('upload failed');
+    }
 
-      form.addEventListener('submit', () => {
-        statusText.textContent = 'იგზავნება...';
-        statusText.className = 'text-sm text-slate-600';
-        submitBtn.disabled = true;
-        overlay.classList.remove('hidden');
-        overlay.classList.add('flex');
-      });
-    })();
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      statusText.textContent = 'იგზავნება...';
+      statusText.className = 'text-sm text-slate-600';
+      submitBtn.disabled = true;
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      try {
+        const fd = new FormData(form);
+        const orderId = `order-${Date.now()}`;
+
+        const photoFiles = Array.from(form.querySelector('input[name="photos"]').files || []);
+        const videoFile = (form.querySelector('input[name="video"]').files || [])[0] || null;
+        const receiptFile = (form.querySelector('input[name="payment_receipt"]').files || [])[0] || null;
+
+        if (photoFiles.length > 15) {
+          throw new Error('ფოტოების მაქსიმალური რაოდენობა არის 15');
+        }
+
+        const photoLinks = [];
+        for (let i = 0; i < photoFiles.length; i++) {
+          statusText.textContent = `იტვირთება ფოტო ${i + 1}/${photoFiles.length}...`;
+          const link = await uploadWithRetry(orderId, photoFiles[i], 'photos', 3);
+          photoLinks.push(link);
+        }
+
+        let videoLink = '';
+        if (videoFile) {
+          statusText.textContent = 'იტვირთება ვიდეო...';
+          videoLink = await uploadWithRetry(orderId, videoFile, 'video', 3);
+        }
+
+        let receiptLink = '';
+        if (receiptFile) {
+          statusText.textContent = 'იტვირთება ქვითარი...';
+          receiptLink = await uploadWithRetry(orderId, receiptFile, 'receipt', 3);
+        }
+
+        statusText.textContent = 'იგზავნება მეილი...';
+
+        const emailPayload = {
+          _subject: '8 მარტის პერსონალური საიტის ახალი შეკვეთა',
+          client_name: fd.get('client_name') || '',
+          client_phone: fd.get('client_phone') || '',
+          client_email: fd.get('client_email') || '',
+          recipient_name: fd.get('recipient_name') || '',
+          sender_name: fd.get('sender_name') || '',
+          template_choice: fd.get('template_choice') || '',
+          hero_title: fd.get('hero_title') || '',
+          hero_subtitle: fd.get('hero_subtitle') || '',
+          love_message: fd.get('love_message') || '',
+          story_or_memory: fd.get('story_or_memory') || '',
+          reasons: fd.get('reasons') || '',
+          final_message: fd.get('final_message') || '',
+          date_invite_text: fd.get('date_invite_text') || '',
+          music_link: fd.get('music_link') || '',
+          notes: fd.get('notes') || '',
+          order_id: orderId,
+          photos_count: String(photoLinks.length),
+          photos_links: photoLinks.length ? photoLinks.join('\\n') : '-',
+          video_link: videoLink || '-',
+          payment_receipt_link: receiptLink || '-'
+        };
+
+        const emailResponse = await fetch('https://formsubmit.co/ajax/identisitee@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(emailPayload)
+        });
+
+        const emailResult = await emailResponse.json().catch(() => ({}));
+        if (!emailResponse.ok || emailResult.success === 'false' || emailResult.success === false) {
+          throw new Error(emailResult.message || 'მეილის გაგზავნა ვერ მოხერხდა');
+        }
+
+        window.location.href = nextInput.value;
+      } catch (err) {
+        statusText.textContent = err?.message || 'შეცდომა გაგზავნისას';
+        statusText.className = 'text-sm text-red-700';
+      } finally {
+        submitBtn.disabled = false;
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      }
+    });
   </script>
 </body>
 </html>
