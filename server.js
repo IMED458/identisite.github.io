@@ -9,13 +9,19 @@ const PORT = process.env.PORT || 3000;
 
 // Base URL for returned links (set in production, e.g. https://yourdomain.ge)
 const BASE_URL = process.env.BASE_URL || "";
+const BACKUP_ENABLED = process.env.BACKUP_ENABLED !== "false";
+const BACKUP_INTERVAL_HOURS = Number(process.env.BACKUP_INTERVAL_HOURS || 6);
+const BACKUP_KEEP_COUNT = Number(process.env.BACKUP_KEEP_COUNT || 10);
+const BACKUP_ADMIN_TOKEN = process.env.BACKUP_ADMIN_TOKEN || "";
 
 const __dirname = path.resolve();
 const candidatePublic = path.join(__dirname, "public");
 const PUBLIC_DIR = fs.existsSync(candidatePublic) ? candidatePublic : __dirname;
 const GIFT_DIR = path.join(PUBLIC_DIR, "gift");
+const BACKUP_DIR = path.join(__dirname, "backups");
 
 fs.mkdirSync(GIFT_DIR, { recursive: true });
+fs.mkdirSync(BACKUP_DIR, { recursive: true });
 
 // -------- Helpers --------
 function isValidSlug(slug) {
@@ -42,6 +48,92 @@ function safeFileName(originalName) {
 
   const rand = crypto.randomBytes(4).toString("hex");
   return `${base || "file"}-${rand}${ext || ""}`;
+}
+
+function backupStamp() {
+  return new Date().toISOString().replace(/[:.]/g, "-");
+}
+
+function listBackups() {
+  if (!fs.existsSync(BACKUP_DIR)) return [];
+  return fs
+    .readdirSync(BACKUP_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && entry.name.startsWith("gift-backup-"))
+    .map((entry) => {
+      const fullPath = path.join(BACKUP_DIR, entry.name);
+      const stat = fs.statSync(fullPath);
+      return {
+        name: entry.name,
+        path: fullPath,
+        createdAt: stat.birthtime.toISOString(),
+        mtime: stat.mtime.toISOString(),
+      };
+    })
+    .sort((a, b) => (a.name < b.name ? 1 : -1));
+}
+
+function cleanupOldBackups() {
+  const backups = listBackups();
+  if (backups.length <= BACKUP_KEEP_COUNT) return;
+
+  backups
+    .slice(BACKUP_KEEP_COUNT)
+    .forEach((backup) => fs.rmSync(backup.path, { recursive: true, force: true }));
+}
+
+function createBackupSnapshot(reason = "scheduled") {
+  if (!fs.existsSync(GIFT_DIR)) {
+    return { ok: false, message: "Gift directory not found." };
+  }
+
+  const backupName = `gift-backup-${backupStamp()}`;
+  const backupPath = path.join(BACKUP_DIR, backupName);
+  fs.cpSync(GIFT_DIR, backupPath, { recursive: true, force: true });
+
+  const metadata = {
+    reason,
+    createdAt: new Date().toISOString(),
+    source: GIFT_DIR,
+    backupName,
+  };
+  fs.writeFileSync(path.join(backupPath, "_meta.json"), JSON.stringify(metadata, null, 2), "utf-8");
+
+  cleanupOldBackups();
+  return { ok: true, backupName, backupPath };
+}
+
+function startBackupScheduler() {
+  if (!BACKUP_ENABLED) {
+    console.log("Backup scheduler is disabled.");
+    return;
+  }
+
+  const safeHours = Number.isFinite(BACKUP_INTERVAL_HOURS) && BACKUP_INTERVAL_HOURS > 0
+    ? BACKUP_INTERVAL_HOURS
+    : 6;
+  const intervalMs = safeHours * 60 * 60 * 1000;
+
+  try {
+    const result = createBackupSnapshot("startup");
+    if (result.ok) {
+      console.log(`Backup created on startup: ${result.backupName}`);
+    } else {
+      console.log(`Startup backup skipped: ${result.message}`);
+    }
+  } catch (error) {
+    console.error("Startup backup failed:", error.message);
+  }
+
+  setInterval(() => {
+    try {
+      const result = createBackupSnapshot("scheduled");
+      if (result.ok) {
+        console.log(`Scheduled backup created: ${result.backupName}`);
+      }
+    } catch (error) {
+      console.error("Scheduled backup failed:", error.message);
+    }
+  }, intervalMs);
 }
 
 function guessMusicEmbed(url) {
@@ -266,6 +358,40 @@ const upload = multer({
 // -------- Routes --------
 app.use(express.static(PUBLIC_DIR));
 
+app.get("/api/backups", (req, res) => {
+  const backups = listBackups().map((item) => ({
+    name: item.name,
+    createdAt: item.createdAt,
+    mtime: item.mtime,
+  }));
+  return res.json({
+    enabled: BACKUP_ENABLED,
+    intervalHours: BACKUP_INTERVAL_HOURS,
+    keepCount: BACKUP_KEEP_COUNT,
+    count: backups.length,
+    backups,
+  });
+});
+
+app.post("/api/backups/run", (req, res) => {
+  if (BACKUP_ADMIN_TOKEN && req.header("x-backup-token") !== BACKUP_ADMIN_TOKEN) {
+    return res.status(401).json({ error: "Unauthorized backup token." });
+  }
+
+  try {
+    const result = createBackupSnapshot("manual");
+    if (!result.ok) {
+      return res.status(400).json({ error: result.message });
+    }
+    return res.json({
+      ok: true,
+      backupName: result.backupName,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: "Manual backup failed." });
+  }
+});
+
 app.post(
   "/api/generate",
   upload.fields([
@@ -351,4 +477,5 @@ app.post(
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  startBackupScheduler();
 });
