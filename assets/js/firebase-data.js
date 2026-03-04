@@ -26,6 +26,9 @@ const firebaseConfig = {
   measurementId: 'G-EMFZJ16N9F'
 };
 
+const CLOUDINARY_CLOUD_NAME = 'drxw7g9s2';
+const CLOUDINARY_UPLOAD_PRESET = '8march';
+
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -103,19 +106,12 @@ export async function getGiftPage(slug) {
 }
 
 export async function uploadGiftAsset(slug, file, kind = 'photos') {
-  const cloudName = localStorage.getItem('cloudinary_cloud_name') || '';
-  const uploadPreset = localStorage.getItem('cloudinary_upload_preset') || '';
-
-  if (!cloudName || !uploadPreset) {
-    throw new Error('Cloudinary პარამეტრები არ არის მითითებული');
-  }
-
   const resourceType = kind === 'video' ? 'video' : 'image';
-  const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`;
+  const endpoint = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`;
 
   const fd = new FormData();
   fd.append('file', file);
-  fd.append('upload_preset', uploadPreset);
+  fd.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
   fd.append('folder', `gift_uploads/${slug}/${kind}`);
 
   const response = await fetch(endpoint, {
