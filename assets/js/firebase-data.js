@@ -15,6 +15,12 @@ import {
   deleteDoc,
   onSnapshot
 } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDE3UecLP_Dj0Va23CRIQbYWIcg9cZf4TY',
@@ -29,6 +35,7 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 export const firebaseReady = true;
 export { auth };
@@ -85,4 +92,26 @@ export function subscribeCollection(kind, onData) {
   return onSnapshot(collection(db, kind), (snap) => {
     onData(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
   });
+}
+
+export async function giftSlugExists(slug) {
+  const snap = await getDoc(doc(db, 'gift_pages', slug));
+  return snap.exists();
+}
+
+export async function saveGiftPage(slug, payload) {
+  await setDoc(doc(db, 'gift_pages', slug), payload, { merge: true });
+}
+
+export async function getGiftPage(slug) {
+  const snap = await getDoc(doc(db, 'gift_pages', slug));
+  if (!snap.exists()) return null;
+  return { id: snap.id, ...snap.data() };
+}
+
+export async function uploadGiftAsset(slug, file, kind = 'photos') {
+  const safeName = `${Date.now()}-${file.name}`.replace(/[^\w.\-]/g, '_');
+  const fileRef = ref(storage, `gift_uploads/${slug}/${kind}/${safeName}`);
+  await uploadBytes(fileRef, file);
+  return getDownloadURL(fileRef);
 }

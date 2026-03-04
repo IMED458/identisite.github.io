@@ -120,7 +120,7 @@
 
         <div class="mt-6 p-4 bg-white rounded-xl border">
           <div class="text-sm text-slate-500">URL preview</div>
-          <div id="urlPreview" class="font-medium text-slate-800 mt-1 break-all">/gift/...</div>
+          <div id="urlPreview" class="font-medium text-slate-800 mt-1 break-all">/gift-view.html?slug=...</div>
         </div>
 
         <div id="successBox" class="hidden mt-6 p-4 bg-white rounded-xl border border-green-200">
@@ -134,8 +134,17 @@
     </div>
   </main>
 
-  <script>
+  <script type="module">
+    import {
+      firebaseReady,
+      giftSlugExists,
+      saveGiftPage,
+      uploadGiftAsset
+    } from './assets/js/firebase-data.js';
+
     const slugEl = document.getElementById('slug');
+    const photosEl = document.getElementById('photos');
+    const videoEl = document.getElementById('video');
     const slugErrorEl = document.getElementById('slugError');
     const urlPreviewEl = document.getElementById('urlPreview');
     const form = document.getElementById('giftForm');
@@ -152,7 +161,7 @@
 
     slugEl.addEventListener('input', () => {
       const slug = slugEl.value.trim();
-      urlPreviewEl.textContent = slug ? `/gift/${slug}/` : '/gift/...';
+      urlPreviewEl.textContent = slug ? `/gift-view.html?slug=${slug}` : '/gift-view.html?slug=...';
       if (!slug || isValidSlug(slug)) {
         slugErrorEl.classList.add('hidden');
         slugErrorEl.textContent = '';
@@ -162,14 +171,16 @@
       }
     });
 
-    const apiFromQuery = new URLSearchParams(window.location.search).get('api') || '';
-    const apiFromStorage = localStorage.getItem('giftApiBase') || '';
-    const API_BASE = apiFromQuery || apiFromStorage || 'https://identisite-api.onrender.com';
-
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorBox.classList.add('hidden');
       successBox.classList.add('hidden');
+
+      if (!firebaseReady) {
+        errorBox.textContent = 'Firebase არ ჩაიტვირთა';
+        errorBox.classList.remove('hidden');
+        return;
+      }
 
       const slug = slugEl.value.trim();
       if (!slug || !isValidSlug(slug)) {
@@ -179,20 +190,61 @@
       }
 
       submitBtn.disabled = true;
-      formStatus.textContent = 'იტვირთება...';
+      formStatus.textContent = 'იტვირთება Firebase-ზე...';
 
       try {
-        const fd = new FormData(form);
-        const resp = await fetch(`${API_BASE}/api/generate`, { method: 'POST', body: fd });
-        const data = await resp.json().catch(() => ({}));
-
-        if (!resp.ok) {
-          throw new Error(data.error || 'შეცდომა გენერაციისას');
+        const alreadyExists = await giftSlugExists(slug);
+        if (alreadyExists) {
+          throw new Error('ეს საიტის სახელი უკვე დაკავებულია');
         }
 
-        resultLink.href = data.url;
-        resultLink.textContent = data.url;
-        new QRious({ element: qrCanvas, value: data.url, size: 220 });
+        const photos = Array.from(photosEl.files || []);
+        if (photos.length > 15) {
+          throw new Error('მაქსიმუმ 15 ფოტო');
+        }
+        const video = (videoEl.files || [])[0] || null;
+
+        const photoUrls = [];
+        for (const file of photos) {
+          const url = await uploadGiftAsset(slug, file, 'photos');
+          photoUrls.push(url);
+        }
+
+        let videoUrl = '';
+        if (video) {
+          videoUrl = await uploadGiftAsset(slug, video, 'video');
+        }
+
+        const fd = new FormData(form);
+        const payload = {
+          slug,
+          templateType: fd.get('templateType') || 'girlfriend',
+          recipientName: fd.get('recipientName') || '',
+          senderName: fd.get('senderName') || '',
+          heroTitle: fd.get('heroTitle') || '',
+          heroSubtitle: fd.get('heroSubtitle') || '',
+          loveMessage: fd.get('loveMessage') || '',
+          ourStory: fd.get('ourStory') || '',
+          memoryStory: fd.get('memoryStory') || '',
+          reason1: fd.get('reason1') || '',
+          reason2: fd.get('reason2') || '',
+          reason3: fd.get('reason3') || '',
+          reason4: fd.get('reason4') || '',
+          reason5: fd.get('reason5') || '',
+          finalMessage: fd.get('finalMessage') || '',
+          dateInviteText: fd.get('dateInviteText') || '',
+          musicLink: fd.get('musicLink') || '',
+          photoUrls,
+          videoUrl,
+          createdAt: new Date().toISOString()
+        };
+
+        await saveGiftPage(slug, payload);
+
+        const generatedUrl = `${window.location.origin}/gift-view.html?slug=${encodeURIComponent(slug)}`;
+        resultLink.href = generatedUrl;
+        resultLink.textContent = generatedUrl;
+        new QRious({ element: qrCanvas, value: generatedUrl, size: 220 });
         successBox.classList.remove('hidden');
         formStatus.textContent = '✅ დასრულდა';
       } catch (err) {

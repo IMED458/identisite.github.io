@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Gift Page</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f8fafc; color: #334155; }
+    .loading { max-width: 680px; margin: 10vh auto; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">იტვირთება...</div>
+
+  <script type="module">
+    import { getGiftPage } from './assets/js/firebase-data.js';
+
+    function esc(str = '') {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function musicEmbed(url = '') {
+      if (!url) return '<p class="text-gray-500">მუსიკის ბმული არ არის დამატებული</p>';
+      const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/) || url.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/);
+      if (yt?.[1]) {
+        return `<div class="aspect-video w-full overflow-hidden rounded-xl"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+      }
+      const sp = url.match(/open\.spotify\.com\/(track|album|playlist)\/([A-Za-z0-9]+)/);
+      if (sp) {
+        return `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${sp[1]}/${sp[2]}" width="100%" height="152" frameborder="0" loading="lazy"></iframe>`;
+      }
+      return `<a class="underline text-pink-600" href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`;
+    }
+
+    function photosGrid(urls = []) {
+      if (!urls.length) return '<p class="text-gray-500">ფოტოები არ არის ატვირთული</p>';
+      return urls.map((u) => `<div class="overflow-hidden rounded-2xl"><img src="${esc(u)}" class="w-full h-56 object-cover" loading="lazy" alt="photo"></div>`).join('');
+    }
+
+    function videoBlock(url = '') {
+      if (!url) return '<p class="text-gray-500 py-8">ვიდეო არ არის ატვირთული</p>';
+      return `<video class="w-full rounded-xl" controls src="${esc(url)}"></video>`;
+    }
+
+    function inviteSection(text = '') {
+      if (!text) return '';
+      return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
+    }
+
+    function replaceVars(template, vars) {
+      let output = template;
+      Object.entries(vars).forEach(([k, v]) => {
+        const re = new RegExp(`\\{\\{${k}\\}\\}`, 'g');
+        output = output.replace(re, v ?? '');
+      });
+      return output;
+    }
+
+    async function renderGift() {
+      const slug = new URLSearchParams(window.location.search).get('slug') || '';
+      if (!slug) {
+        document.getElementById('loading').textContent = 'Slug არ არის მითითებული';
+        return;
+      }
+
+      const gift = await getGiftPage(slug);
+      if (!gift) {
+        document.getElementById('loading').textContent = 'გვერდი ვერ მოიძებნა';
+        return;
+      }
+
+      const templateName = gift.templateType === 'wife' ? 'wife' : 'girlfriend';
+      const res = await fetch(`./templates/${templateName}.html`, { cache: 'no-store' });
+      if (!res.ok) {
+        document.getElementById('loading').textContent = 'თემფლეითი ვერ მოიძებნა';
+        return;
+      }
+      const template = await res.text();
+
+      const html = replaceVars(template, {
+        recipient_name: esc(gift.recipientName || ''),
+        sender_name: esc(gift.senderName || ''),
+        hero_title: esc(gift.heroTitle || ''),
+        hero_subtitle: esc(gift.heroSubtitle || ''),
+        love_message: esc(gift.loveMessage || ''),
+        message: esc(gift.loveMessage || ''),
+        our_story: esc(gift.ourStory || ''),
+        memory_story: esc(gift.memoryStory || ''),
+        reason_1: esc(gift.reason1 || ''),
+        reason_2: esc(gift.reason2 || ''),
+        reason_3: esc(gift.reason3 || ''),
+        reason_4: esc(gift.reason4 || ''),
+        reason_5: esc(gift.reason5 || ''),
+        final_message: esc(gift.finalMessage || ''),
+        uploaded_photos: photosGrid(gift.photoUrls || []),
+        uploaded_video: videoBlock(gift.videoUrl || ''),
+        music_embed: musicEmbed(gift.musicLink || ''),
+        date_invite_section: inviteSection(gift.dateInviteText || ''),
+        video_placeholder: gift.videoUrl ? '' : 'ვიდეო არ არის ატვირთული',
+        music_placeholder: gift.musicLink ? esc(gift.musicLink) : 'მუსიკის ბმული არ არის დამატებული',
+        photo_1: gift.photoUrls?.[0] ? 'ფოტო #1' : 'ფოტო #1',
+        photo_2: gift.photoUrls?.[1] ? 'ფოტო #2' : 'ფოტო #2',
+        photo_3: gift.photoUrls?.[2] ? 'ფოტო #3' : 'ფოტო #3',
+        photo_4: gift.photoUrls?.[3] ? 'ფოტო #4' : 'ფოტო #4',
+        photo_5: gift.photoUrls?.[4] ? 'ფოტო #5' : 'ფოტო #5'
+      });
+
+      document.open();
+      document.write(html);
+      document.close();
+    }
+
+    renderGift().catch((e) => {
+      console.error(e);
+      const el = document.getElementById('loading');
+      if (el) el.textContent = 'შეცდომა გვერდის ჩატვირთვისას';
+    });
+  </script>
+</body>
+</html>
