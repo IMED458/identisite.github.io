@@ -109,17 +109,6 @@
           <input name="musicLink" class="w-full border rounded-xl px-4 py-3">
         </div>
 
-        <div class="grid md:grid-cols-3 gap-4">
-          <div class="md:col-span-2">
-            <label class="block mb-1 font-medium text-slate-700">გადახდის ლინკი (არჩევითი)</label>
-            <input name="paymentLink" class="w-full border rounded-xl px-4 py-3" placeholder="https://...">
-          </div>
-          <div>
-            <label class="block mb-1 font-medium text-slate-700">ფასი (არჩევითი)</label>
-            <input name="paymentAmount" class="w-full border rounded-xl px-4 py-3" placeholder="50">
-          </div>
-        </div>
-
         <div>
           <label class="block mb-1 font-medium text-slate-700">ფოტოები (მაქს 15)</label>
           <input id="photos" name="photos" type="file" accept="image/*,.heic,.HEIC,.heif,.HEIF" multiple class="w-full border rounded-xl px-4 py-3">
@@ -159,8 +148,7 @@
       firebaseReady,
       giftSlugExists,
       saveGiftPage,
-      uploadGiftAsset,
-      pullSettingsFromCloud
+      uploadGiftAsset
     } from './assets/js/firebase-data.js';
 
     const slugEl = document.getElementById('slug');
@@ -179,10 +167,6 @@
     const addReasonBtn = document.getElementById('addReasonBtn');
     const reasonsWrap = document.getElementById('reasonsWrap');
     const loadingOverlay = document.getElementById('loadingOverlay');
-    let paymentUnlocked = false;
-    let paymentCheckoutUrl = '';
-    let paymentAmount = '';
-    let paymentCurrency = 'GEL';
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
@@ -195,61 +179,19 @@
       return raw;
     }
 
-    function renderPaymentGate() {
-      let gate = document.getElementById('paymentGate');
-      if (!gate) {
-        gate = document.createElement('div');
-        gate.id = 'paymentGate';
-        gate.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 p-4';
-        gate.innerHTML = `
-          <div class="flex items-start justify-between gap-3 flex-wrap">
-            <div>
-              <p class="font-semibold text-emerald-800">გადახდა გენერაციამდე</p>
-              <p id="paymentGateText" class="text-emerald-700 text-sm mt-1"></p>
-            </div>
-            <a id="payNowBtn" href="#" target="_blank" rel="noopener" class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700">გადახდა</a>
-          </div>
-          <p id="paymentGateStatus" class="text-sm mt-3"></p>
-        `;
-        submitBtn.parentNode.insertBefore(gate, submitBtn);
+    async function uploadWithRetry(slug, file, kind, retries = 3) {
+      let lastError;
+      for (let attempt = 1; attempt <= retries; attempt++) {
+        try {
+          return await uploadGiftAsset(slug, file, kind);
+        } catch (err) {
+          lastError = err;
+          if (attempt < retries) {
+            await new Promise((resolve) => setTimeout(resolve, 600 * attempt));
+          }
+        }
       }
-
-      const textEl = document.getElementById('paymentGateText');
-      const statusEl = document.getElementById('paymentGateStatus');
-      const payBtn = document.getElementById('payNowBtn');
-      if (textEl) {
-        textEl.textContent = paymentAmount ? `თანხა: ${paymentAmount} ${paymentCurrency}.` : 'გადაიხადე და დაბრუნდი გენერაციაზე.';
-      }
-      if (payBtn) {
-        payBtn.href = paymentCheckoutUrl || '#';
-        payBtn.classList.toggle('pointer-events-none', !paymentCheckoutUrl);
-        payBtn.classList.toggle('opacity-50', !paymentCheckoutUrl);
-      }
-      if (statusEl) {
-        statusEl.textContent = paymentUnlocked ? '✅ გადახდა დადასტურებულია. შეგიძლია გენერაცია.' : '⏳ ჯერ გადაიხადე, შემდეგ გააგრძელე.';
-        statusEl.className = paymentUnlocked ? 'text-sm mt-3 text-emerald-700' : 'text-sm mt-3 text-amber-700';
-      }
-    }
-
-    async function initPaymentGate() {
-      const params = new URLSearchParams(window.location.search);
-      const justPaid = params.get('paid') === '1';
-      if (justPaid) {
-        localStorage.setItem('gift_payment_unlocked', '1');
-      }
-      paymentUnlocked = localStorage.getItem('gift_payment_unlocked') === '1';
-
-      try {
-        const settings = await pullSettingsFromCloud();
-        paymentCheckoutUrl = String(settings?.gift_payment_checkout_url || '').trim();
-        paymentAmount = String(settings?.gift_payment_amount || '').trim();
-        paymentCurrency = String(settings?.gift_payment_currency || 'GEL').trim() || 'GEL';
-      } catch (_) {
-        // no-op fallback
-      }
-
-      renderPaymentGate();
-      submitBtn.disabled = !paymentUnlocked;
+      throw lastError || new Error('Upload failed');
     }
 
     function collectReasons() {
@@ -299,7 +241,7 @@
       localStorage.setItem('gift_last_hero_title', heroTitleEl.value || '');
     });
 
-    initPaymentGate();
+    submitBtn.disabled = false;
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -308,12 +250,6 @@
 
       if (!firebaseReady) {
         errorBox.textContent = 'Firebase არ ჩაიტვირთა';
-        errorBox.classList.remove('hidden');
-        return;
-      }
-
-      if (!paymentUnlocked) {
-        errorBox.textContent = 'ჯერ საჭიროა გადახდის დასრულება.';
         errorBox.classList.remove('hidden');
         return;
       }
@@ -343,14 +279,17 @@
         const video = (videoEl.files || [])[0] || null;
 
         const photoUrls = [];
-        for (const file of photos) {
-          const url = await uploadGiftAsset(slug, file, 'photos');
+        for (let i = 0; i < photos.length; i++) {
+          const file = photos[i];
+          formStatus.textContent = `იტვირთება ფოტო ${i + 1}/${photos.length}...`;
+          const url = await uploadWithRetry(slug, file, 'photos', 3);
           photoUrls.push(url);
         }
 
         let videoUrl = '';
         if (video) {
-          videoUrl = await uploadGiftAsset(slug, video, 'video');
+          formStatus.textContent = 'იტვირთება ვიდეო...';
+          videoUrl = await uploadWithRetry(slug, video, 'video', 3);
         }
 
         const fd = new FormData(form);
@@ -373,9 +312,6 @@
           finalMessage: fd.get('finalMessage') || '',
           dateInviteText: fd.get('dateInviteText') || '',
           musicLink: fd.get('musicLink') || '',
-          paymentLink: fd.get('paymentLink') || '',
-          paymentAmount: fd.get('paymentAmount') || '',
-          paymentCurrency: 'GEL',
           photoUrls,
           photos: photoUrls,
           images: photoUrls,
@@ -391,10 +327,6 @@
         await saveGiftPage(slug, payload);
         localStorage.setItem('gift_last_slug', slug);
         localStorage.setItem('gift_last_hero_title', payload.heroTitle);
-        localStorage.removeItem('gift_payment_unlocked');
-        paymentUnlocked = false;
-        submitBtn.disabled = true;
-        renderPaymentGate();
 
         const generatedUrl = `${window.location.origin}/gift-view.html?slug=${encodeURIComponent(slug)}`;
         resultLink.href = generatedUrl;
@@ -407,7 +339,7 @@
         errorBox.classList.remove('hidden');
         formStatus.textContent = '';
       } finally {
-        submitBtn.disabled = !paymentUnlocked;
+        submitBtn.disabled = false;
         loadingOverlay.classList.add('hidden');
         loadingOverlay.classList.remove('flex');
       }
