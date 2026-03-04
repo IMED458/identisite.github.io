@@ -1338,6 +1338,11 @@
         const keep = visible.includes(id);
         el.classList.toggle('hidden', !keep);
       });
+
+      const blogPostArticles = document.querySelectorAll('article[id^="blog-post-"]');
+      blogPostArticles.forEach((article) => {
+        article.classList.toggle('hidden', pageKey !== 'blog');
+      });
     }
 
     // Initialize Element SDK
