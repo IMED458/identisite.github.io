@@ -84,6 +84,8 @@
         gift.photoUrls ||
         gift.photos ||
         gift.images ||
+        gift.media?.photoUrls ||
+        gift.media?.photos ||
         [];
       if (!Array.isArray(raw)) return [];
       return raw
@@ -102,6 +104,7 @@
         gift.videoUrl ||
         gift.video ||
         gift.video_url ||
+        gift.media?.videoUrl ||
         '';
       if (typeof raw === 'string') return cloudinaryDeliveryUrl(raw, 'video');
       if (raw && typeof raw.url === 'string') return cloudinaryDeliveryUrl(raw.url, 'video');
@@ -307,6 +310,31 @@
       }
     }
 
+    function startMediaSelfHeal(gift) {
+      const hasPhotos = normalizePhotoUrls(gift).length > 0;
+      const hasVideo = Boolean(normalizeVideoUrl(gift));
+      if (!hasPhotos && !hasVideo) return;
+
+      let tries = 0;
+      const maxTries = 8;
+      const timer = setInterval(() => {
+        tries += 1;
+        const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
+        const renderedPhotos = document.querySelectorAll('.photo-placeholder img').length;
+        const renderedVideo = document.querySelectorAll('#video-section video, .video-placeholder video').length;
+        const needPhotoHeal = hasPhotos && photoPlaceholders.length > 0 && renderedPhotos === 0;
+        const needVideoHeal = hasVideo && renderedVideo === 0;
+
+        if (needPhotoHeal || needVideoHeal) {
+          hydrateUploadedMedia(gift);
+        }
+
+        if (tries >= maxTries) {
+          clearInterval(timer);
+        }
+      }, 700);
+    }
+
     async function renderGift() {
       const slug = new URLSearchParams(window.location.search).get('slug') || '';
       if (!slug) {
@@ -370,6 +398,7 @@
       setTimeout(runHydration, 60);
       setTimeout(runHydration, 180);
       setTimeout(runHydration, 420);
+      startMediaSelfHeal(gift);
 
       document.title = `${gift.recipientName || 'Gift'} | ${slug}`;
     }

@@ -307,7 +307,14 @@
           paymentAmount: fd.get('paymentAmount') || '',
           paymentCurrency: 'GEL',
           photoUrls,
+          photos: photoUrls,
+          images: photoUrls,
           videoUrl,
+          media: {
+            photoUrls,
+            photos: photoUrls,
+            videoUrl
+          },
           createdAt: new Date().toISOString()
         };
 
