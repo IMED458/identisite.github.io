@@ -159,7 +159,8 @@
       firebaseReady,
       giftSlugExists,
       saveGiftPage,
-      uploadGiftAsset
+      uploadGiftAsset,
+      pullSettingsFromCloud
     } from './assets/js/firebase-data.js';
 
     const slugEl = document.getElementById('slug');
@@ -178,6 +179,10 @@
     const addReasonBtn = document.getElementById('addReasonBtn');
     const reasonsWrap = document.getElementById('reasonsWrap');
     const loadingOverlay = document.getElementById('loadingOverlay');
+    let paymentUnlocked = false;
+    let paymentCheckoutUrl = '';
+    let paymentAmount = '';
+    let paymentCurrency = 'GEL';
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
@@ -188,6 +193,63 @@
       if (!raw) return 'ჩემო სიყვარულო';
       if (raw === 'ჩემი სიყვარული') return 'ჩემო სიყვარულო';
       return raw;
+    }
+
+    function renderPaymentGate() {
+      let gate = document.getElementById('paymentGate');
+      if (!gate) {
+        gate = document.createElement('div');
+        gate.id = 'paymentGate';
+        gate.className = 'rounded-2xl border border-emerald-200 bg-emerald-50 p-4';
+        gate.innerHTML = `
+          <div class="flex items-start justify-between gap-3 flex-wrap">
+            <div>
+              <p class="font-semibold text-emerald-800">გადახდა გენერაციამდე</p>
+              <p id="paymentGateText" class="text-emerald-700 text-sm mt-1"></p>
+            </div>
+            <a id="payNowBtn" href="#" target="_blank" rel="noopener" class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700">გადახდა</a>
+          </div>
+          <p id="paymentGateStatus" class="text-sm mt-3"></p>
+        `;
+        submitBtn.parentNode.insertBefore(gate, submitBtn);
+      }
+
+      const textEl = document.getElementById('paymentGateText');
+      const statusEl = document.getElementById('paymentGateStatus');
+      const payBtn = document.getElementById('payNowBtn');
+      if (textEl) {
+        textEl.textContent = paymentAmount ? `თანხა: ${paymentAmount} ${paymentCurrency}.` : 'გადაიხადე და დაბრუნდი გენერაციაზე.';
+      }
+      if (payBtn) {
+        payBtn.href = paymentCheckoutUrl || '#';
+        payBtn.classList.toggle('pointer-events-none', !paymentCheckoutUrl);
+        payBtn.classList.toggle('opacity-50', !paymentCheckoutUrl);
+      }
+      if (statusEl) {
+        statusEl.textContent = paymentUnlocked ? '✅ გადახდა დადასტურებულია. შეგიძლია გენერაცია.' : '⏳ ჯერ გადაიხადე, შემდეგ გააგრძელე.';
+        statusEl.className = paymentUnlocked ? 'text-sm mt-3 text-emerald-700' : 'text-sm mt-3 text-amber-700';
+      }
+    }
+
+    async function initPaymentGate() {
+      const params = new URLSearchParams(window.location.search);
+      const justPaid = params.get('paid') === '1';
+      if (justPaid) {
+        localStorage.setItem('gift_payment_unlocked', '1');
+      }
+      paymentUnlocked = localStorage.getItem('gift_payment_unlocked') === '1';
+
+      try {
+        const settings = await pullSettingsFromCloud();
+        paymentCheckoutUrl = String(settings?.gift_payment_checkout_url || '').trim();
+        paymentAmount = String(settings?.gift_payment_amount || '').trim();
+        paymentCurrency = String(settings?.gift_payment_currency || 'GEL').trim() || 'GEL';
+      } catch (_) {
+        // no-op fallback
+      }
+
+      renderPaymentGate();
+      submitBtn.disabled = !paymentUnlocked;
     }
 
     function collectReasons() {
@@ -237,6 +299,8 @@
       localStorage.setItem('gift_last_hero_title', heroTitleEl.value || '');
     });
 
+    initPaymentGate();
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorBox.classList.add('hidden');
@@ -244,6 +308,12 @@
 
       if (!firebaseReady) {
         errorBox.textContent = 'Firebase არ ჩაიტვირთა';
+        errorBox.classList.remove('hidden');
+        return;
+      }
+
+      if (!paymentUnlocked) {
+        errorBox.textContent = 'ჯერ საჭიროა გადახდის დასრულება.';
         errorBox.classList.remove('hidden');
         return;
       }
@@ -321,6 +391,10 @@
         await saveGiftPage(slug, payload);
         localStorage.setItem('gift_last_slug', slug);
         localStorage.setItem('gift_last_hero_title', payload.heroTitle);
+        localStorage.removeItem('gift_payment_unlocked');
+        paymentUnlocked = false;
+        submitBtn.disabled = true;
+        renderPaymentGate();
 
         const generatedUrl = `${window.location.origin}/gift-view.html?slug=${encodeURIComponent(slug)}`;
         resultLink.href = generatedUrl;
@@ -333,7 +407,7 @@
         errorBox.classList.remove('hidden');
         formStatus.textContent = '';
       } finally {
-        submitBtn.disabled = false;
+        submitBtn.disabled = !paymentUnlocked;
         loadingOverlay.classList.add('hidden');
         loadingOverlay.classList.remove('flex');
       }
