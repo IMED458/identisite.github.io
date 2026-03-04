@@ -33,9 +33,9 @@
   <main class="max-w-6xl mx-auto px-6 py-10 space-y-10">
     <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
       <h2 class="text-2xl font-bold mb-2">შაბლონის დემოები</h2>
-      <p class="text-slate-600 mb-6">ნახე ორივე ვერსია და ფორმაში მიუთითე რომელი გინდა.</p>
+      <p class="text-slate-600 mb-6">ნახე სამივე ვერსია და ფორმაში მიუთითე რომელი გინდა.</p>
 
-      <div class="grid md:grid-cols-2 gap-6">
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         <article class="rounded-2xl border border-slate-200 p-5 bg-gradient-to-br from-rose-50 to-pink-50">
           <h3 class="font-semibold text-xl">შეყვარებულის შაბლონი</h3>
           <p class="text-sm text-slate-600 mt-2">რომანტიკული, რბილი ფერები და ემოციური ანიმაციები.</p>
@@ -46,6 +46,12 @@
           <h3 class="font-semibold text-xl">მეუღლის შაბლონი</h3>
           <p class="text-sm text-slate-600 mt-2">ელეგანტური, თბილი ტონები და კლასიკური ვიზუალი.</p>
           <a href="./templates/wife.html" target="_blank" rel="noopener" class="inline-flex mt-4 px-4 py-2 rounded-lg bg-amber-600 text-white font-medium hover:bg-amber-700">დემო ნახვა</a>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 p-5 bg-gradient-to-br from-slate-900 to-slate-700 text-white">
+          <h3 class="font-semibold text-xl">The Map of Stars</h3>
+          <p class="text-sm text-slate-200 mt-2">კინემატოგრაფიული ღამის თემა ვარსკვლავურ გზასთან.</p>
+          <a href="./templates/map-of-stars.html" target="_blank" rel="noopener" class="inline-flex mt-4 px-4 py-2 rounded-lg bg-amber-500 text-slate-900 font-medium hover:bg-amber-400">დემო ნახვა</a>
         </article>
       </div>
     </section>
@@ -97,7 +103,7 @@
 
         <div>
           <label class="block mb-2 font-medium">რომელი შაბლონი გინდა? *</label>
-          <div class="grid md:grid-cols-2 gap-3">
+          <div class="grid md:grid-cols-3 gap-3">
             <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
               <input type="radio" name="template_choice" value="შეყვარებულის შაბლონი" required>
               <span>შეყვარებულის შაბლონი</span>
@@ -105,6 +111,10 @@
             <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
               <input type="radio" name="template_choice" value="მეუღლის შაბლონი" required>
               <span>მეუღლის შაბლონი</span>
+            </label>
+            <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
+              <input type="radio" name="template_choice" value="The Map of Stars" required>
+              <span>The Map of Stars</span>
             </label>
           </div>
         </div>

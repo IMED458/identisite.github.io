@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ka" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Map of Stars | La La Land</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A9%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@1,400;1,600&family=Fira+Go:wght@300;400;700&display=swap');
+
+        :root { --gold: #f3cc4d; --bg: #05070a; }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Fira Go', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .cinzel { font-family: 'Cinzel', serif; letter-spacing: 0.3em; color: var(--gold); }
+        .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
+
+        .stars-overlay {
+            position: fixed;
+            inset: 0;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.4;
+            z-index: -1;
+        }
+
+        .path-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .memory-section {
+            position: relative;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .star-trigger {
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--gold), 0 0 40px var(--gold);
+            cursor: pointer;
+            z-index: 10;
+            animation: pulse 2s infinite;
+            transition: transform 0.3s;
+        }
+
+        .star-trigger:hover { transform: scale(1.5); }
+
+        .memory-box {
+            position: absolute;
+            width: 85%;
+            max-width: 320px;
+            background: rgba(10, 14, 26, 0.95);
+            border: 1px solid var(--gold);
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+            display: none;
+            z-index: 20;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px var(--gold); }
+            50% { box-shadow: 0 0 30px var(--gold), 0 0 50px var(--gold); }
+            100% { box-shadow: 0 0 10px var(--gold); }
+        }
+
+        @media (min-width: 768px) {
+            .pos-left { left: 15%; }
+            .pos-right { left: 65%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars-overlay"></div>
+
+    <header class="h-screen flex flex-col items-center justify-center text-center px-6">
+        <h1 class="cinzel text-3xl md:text-5xl animate__animated animate__fadeIn">The Map of Stars</h1>
+        <div class="w-24 h-px bg-amber-500/30 mx-auto my-6"></div>
+        <p class="serif-italic text-lg md:text-xl text-slate-400 max-w-md animate__animated animate__fadeIn animate__delay-1s">
+            "City of stars, are you shining just for me?"
+        </p>
+        <div class="mt-20 animate__animated animate__fadeIn animate__infinite animate__slower">
+            <span class="text-[10px] uppercase tracking-[0.5em] text-amber-500/50">ჩამოსქროლე და აანთე მოგონებები</span>
+        </div>
+    </header>
+
+    <section class="relative">
+        <div class="path-line"></div>
+
+        <div class="memory-section">
+            <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
+            <div class="memory-box">
+                <span class="cinzel text-[10px] text-amber-500">The Lighthouse Cafe</span>
+                <h3 class="serif-italic text-xl my-2">პირველი ნოტები</h3>
+                <p class="text-sm text-slate-300 italic">"აქ, სადაც ჯაზი სუნთქავს... შენ მასწავლე, რომ ვნებას საზღვრები არ აქვს."</p>
+            </div>
+        </div>
+
+        <div class="memory-section">
+            <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
+            <div class="memory-box">
+                <span class="cinzel text-[10px] text-amber-500">Griffith Observatory</span>
+                <h3 class="serif-italic text-xl my-2">ცეკვა ვარსკვლავებს შორის</h3>
+                <p class="text-sm text-slate-300 italic">"აქ ჩვენი ისტორია რეალობას გასცდა. პლანეტარიუმის ცაზე ავიჭერით."</p>
+            </div>
+        </div>
+
+        <div class="memory-section">
+            <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
+            <div class="memory-box">
+                <span class="cinzel text-[10px] text-amber-500">Colorado Street Bridge</span>
+                <h3 class="serif-italic text-xl my-2">ოცნებების ხიდი</h3>
+                <p class="text-sm text-slate-300 italic">"შენ დამინახე მაშინაც, როცა მე საკუთარ თავს ვერ ვხედავდი. მადლობა რწმენისთვის."</p>
+            </div>
+        </div>
+
+        <div class="memory-section">
+            <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
+            <div class="memory-box">
+                <span class="cinzel text-[10px] text-amber-500">Date Invitation</span>
+                <h3 class="serif-italic text-xl my-2">პაემანზე მოწვევა</h3>
+                <p class="text-sm text-slate-300 italic">"პარასკევს, 20:00-ზე, ჩვენს საყვარელ ადგილზე გელოდები. თუ დაგთანხმდები, ეს ღამე მხოლოდ ჩვენი იქნება ✨"</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="h-screen flex flex-col items-center justify-center text-center px-6">
+        <div class="text-4xl mb-8 animate__animated animate__pulse animate__infinite">🎹</div>
+        <p class="serif-italic text-2xl text-amber-400 mb-4 animate__animated animate__fadeInUp">"Here's to the fools who dream."</p>
+        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500">გილოცავ 8 მარტს, ჩემო ვარსკვლავო!</p>
+        <div class="w-px h-24 bg-gradient-to-b from-amber-500 to-transparent mt-12"></div>
+    </footer>
+
+    <script>
+        function toggleBox(star) {
+            const allBoxes = document.querySelectorAll('.memory-box');
+            allBoxes.forEach((b) => {
+                if (b !== star.nextElementSibling && b.style.display === 'block') {
+                    b.style.display = 'none';
+                }
+            });
+
+            const box = star.nextElementSibling;
+            if (box.style.display === 'block') {
+                box.classList.remove('animate__fadeInUp');
+                box.classList.add('animate__animated', 'animate__fadeOutDown');
+                setTimeout(() => {
+                    box.style.display = 'none';
+                    box.classList.remove('animate__fadeOutDown');
+                }, 500);
+            } else {
+                box.style.display = 'block';
+                box.classList.remove('animate__fadeOutDown');
+                box.classList.add('animate__animated', 'animate__fadeInUp');
+            }
+        }
+    </script>
+</body>
+</html>
