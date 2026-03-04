@@ -15,6 +15,13 @@
   </style>
 </head>
 <body class="h-full bg-white">
+  <div id="loadingOverlay" class="fixed inset-0 z-[100] hidden items-center justify-center bg-white/85 backdrop-blur-sm">
+    <div class="text-center">
+      <div class="text-6xl mb-4 animate-bounce">⏳</div>
+      <p class="text-slate-700 text-lg font-medium">იტვირთება...</p>
+      <p class="text-slate-500 text-sm mt-1">გთხოვ დაელოდე, ვქმნით შენს ბმულს</p>
+    </div>
+  </div>
   <header class="py-14 px-6 bg-gradient-to-br from-pink-50 via-white to-rose-50">
     <div class="max-w-5xl mx-auto text-center">
       <h1 class="text-4xl md:text-5xl font-bold text-slate-800">8 მარტის საიტის გენერატორი</h1>
@@ -159,6 +166,7 @@
     const heroTitleEl = form.querySelector('input[name="heroTitle"]');
     const addReasonBtn = document.getElementById('addReasonBtn');
     const reasonsWrap = document.getElementById('reasonsWrap');
+    const loadingOverlay = document.getElementById('loadingOverlay');
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
@@ -238,6 +246,8 @@
 
       submitBtn.disabled = true;
       formStatus.textContent = 'იტვირთება Cloudinary + Firebase...';
+      loadingOverlay.classList.remove('hidden');
+      loadingOverlay.classList.add('flex');
 
       try {
         const alreadyExists = await giftSlugExists(slug);
@@ -303,6 +313,8 @@
         formStatus.textContent = '';
       } finally {
         submitBtn.disabled = false;
+        loadingOverlay.classList.add('hidden');
+        loadingOverlay.classList.remove('flex');
       }
     });
   </script>
