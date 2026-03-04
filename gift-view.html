@@ -149,6 +149,18 @@
       return output;
     }
 
+    function applyEmojiFavicon(emoji = '📩') {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${emoji}</text></svg>`;
+      const href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+      let icon = document.querySelector('link[rel="icon"]');
+      if (!icon) {
+        icon = document.createElement('link');
+        icon.setAttribute('rel', 'icon');
+        document.head.appendChild(icon);
+      }
+      icon.setAttribute('href', href);
+    }
+
     function hydrateUploadedMedia(gift) {
       const photoUrls = normalizePhotoUrls(gift);
       const videoUrl = normalizeVideoUrl(gift);
@@ -369,6 +381,7 @@
       setTimeout(runHydration, 180);
       setTimeout(runHydration, 420);
       startMediaSelfHeal(gift);
+      applyEmojiFavicon('📩');
 
       document.title = `${gift.recipientName || 'Gift'} | ${slug}`;
     }
