@@ -1,107 +1,114 @@
 <!doctype html>
 <html lang="ka" class="h-full">
-<head>
+ <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="8 მარტისთვის უნიკალური საჩუქარი — პერსონალური ვებგვერდი საყვარელი ადამიანისთვის.">
-  <title>8 მარტის უნიკალური საჩუქარი | IDENTISITE</title>
+  <title>8 მარტის უნიკალური საჩუქარი</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
     * { font-family: 'Noto Sans Georgian', sans-serif; }
-    .page-bg {
-      background:
-        radial-gradient(1000px 500px at 15% 0%, rgba(244, 114, 182, 0.16), transparent 60%),
-        radial-gradient(900px 500px at 100% 10%, rgba(249, 115, 22, 0.14), transparent 55%),
-        #fff;
-    }
-    .hero-title {
-      background: linear-gradient(130deg, #db2777 0%, #ea580c 55%, #be185d 100%);
+    .gradient-text {
+      background: linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .glass {
-      background: rgba(255, 255, 255, 0.78);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.65);
+    .hero-gradient {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%);
     }
-    .rise { transition: transform .25s ease, box-shadow .25s ease; }
-    .rise:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -20px rgba(190,24,93,.45); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-4px); }
+    .floating { animation: float 3s ease-in-out infinite; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+    .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.6); }
+    }
+    .feature-icon {
+      background: linear-gradient(135deg, #fce7f3 0%, #fff7ed 100%);
+    }
+    .content-text p {
+      line-height: 1.72;
+    }
   </style>
-</head>
-<body class="h-full page-bg text-slate-800">
-  <div class="min-h-full">
-    <header class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
-      <a href="blog.html" class="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors">
-        <span>←</span><span>სიახლეებში დაბრუნება</span>
-      </a>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-      <section class="grid lg:grid-cols-2 gap-8 items-center mb-12">
-        <div>
-          <span class="inline-flex items-center px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-sm font-semibold mb-4">8 მარტის სპეციალური შეთავაზება</span>
-          <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-5">
-            <span class="hero-title">აჩუქე საყვარელ ადამიანს</span><br>
-            <span>პერსონალური ვებგვერდი</span>
-          </h1>
-          <p class="text-lg text-slate-600 leading-relaxed mb-7">დაივიწყე ტრადიციული საჩუქრები. წელს აჩუქე ციფრული ემოცია: პირადად მისთვის შექმნილი ვებგვერდი ფოტოებით, სიყვარულის ტექსტითა და ლამაზი ანიმაციებით.</p>
-          <div class="flex flex-wrap gap-3">
-            <a href="contact.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-7 py-3 rounded-xl bg-gradient-to-r from-pink-600 to-orange-500 text-white font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all">შეუკვეთე ახლავე</a>
-            <a href="#details" class="inline-flex items-center justify-center px-7 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold hover:border-slate-500 transition-colors">ვრცლად</a>
-          </div>
-        </div>
-        <div class="relative">
-          <div class="absolute -inset-2 rounded-3xl bg-gradient-to-r from-pink-500/30 to-orange-400/30 blur-xl"></div>
-          <img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1400&q=80" alt="8 მარტის ყვავილები" class="relative w-full h-[360px] object-cover rounded-3xl shadow-2xl">
-        </div>
-      </section>
-
-      <section id="details" class="space-y-6 mb-12">
-        <div class="glass rounded-2xl p-6 sm:p-8">
-          <h2 class="text-2xl font-bold mb-4">როგორ მუშაობს?</h2>
-          <div class="grid md:grid-cols-3 gap-4">
-            <article class="rise rounded-xl bg-white p-5 border border-pink-100">
-              <div class="text-2xl mb-2">📝</div>
-              <h3 class="font-semibold mb-1">1. შეკვეთა</h3>
-              <p class="text-slate-600 text-sm">გვიგზავნი ფოტოებს, ტექსტს და სურვილებს.</p>
-            </article>
-            <article class="rise rounded-xl bg-white p-5 border border-pink-100">
-              <div class="text-2xl mb-2">🎨</div>
-              <h3 class="font-semibold mb-1">2. დიზაინი</h3>
-              <p class="text-slate-600 text-sm">ვქმნით უნიკალურ და მობილურზე მორგებულ გვერდს.</p>
-            </article>
-            <article class="rise rounded-xl bg-white p-5 border border-pink-100">
-              <div class="text-2xl mb-2">🔗</div>
-              <h3 class="font-semibold mb-1">3. ლინკი</h3>
-              <p class="text-slate-600 text-sm">იღებ ლინკს და უგზავნი საყვარელ ადამიანს.</p>
-            </article>
-          </div>
-        </div>
-
-        <div class="glass rounded-2xl p-6 sm:p-8">
-          <h2 class="text-2xl font-bold mb-4">რას მოიცავს ეს საჩუქარი?</h2>
-          <div class="grid sm:grid-cols-2 gap-3 text-slate-700">
-            <p>📸 ფოტოგალერეა თქვენი საუკეთესო მომენტებით</p>
-            <p>💌 სიყვარულის წერილი და პერსონალური ტექსტები</p>
-            <p>🎵 თქვენი საერთო სიმღერა ფონად</p>
-            <p>✨ ლამაზი ანიმაციები და ემოციური ეფექტები</p>
-            <p>📱 სრულად მობილურზე მორგებული გვერდი</p>
-            <p>🔒 მხოლოდ მისთვის უნიკალური ბმული</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="rounded-3xl p-8 sm:p-10 text-center bg-gradient-to-r from-pink-600 via-rose-600 to-orange-500 text-white shadow-2xl shadow-pink-700/20">
-        <div class="text-4xl mb-3">💝</div>
-        <h2 class="text-2xl sm:text-3xl font-bold mb-3">დროებითი შეთავაზება 8 მარტისთვის</h2>
-        <p class="opacity-95 max-w-2xl mx-auto mb-6">რომ საჩუქარი დროზე მზად იყოს, დაგვიკავშირდი რაც შეიძლება მალე. პროექტს ვამზადებთ სწრაფად და ინდივიდუალური სურვილებით.</p>
-        <a href="contact.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center px-8 py-3 rounded-xl bg-white text-pink-700 font-bold hover:bg-pink-50 transition-colors">🎁 შეუკვეთე საიტი</a>
-      </section>
-    </main>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full bg-white">
+  <div class="h-full overflow-auto">
+   <header class="hero-gradient py-16 px-6 relative overflow-hidden">
+    <div class="absolute top-10 left-10 text-6xl floating opacity-20">💐</div>
+    <div class="absolute top-20 right-16 text-5xl floating opacity-20" style="animation-delay: 0.5s;">💝</div>
+    <div class="absolute bottom-10 left-1/4 text-4xl floating opacity-20" style="animation-delay: 1s;">✨</div>
+    <div class="max-w-4xl mx-auto text-center relative z-10">
+     <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">🆕 ახალი სერვისი</div>
+     <h1 id="main-title" class="text-4xl md:text-5xl font-bold mb-6 leading-tight"><span class="gradient-text">8 მარტს აჩუქე საყვარელ ადამიანს</span> <br><span class="text-gray-800">პერსონალური ვებგვერდი</span></h1>
+     <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">დაივიწყე ტრადიციული ყვავილები და შოკოლადი — წელს გააკვირვე შენი საყვარელი ადამიანი ციფრული საჩუქრით, რომელიც სამუდამოდ დარჩება მის გულში 💖</p>
+    </div>
+   </header>
+   <main class="max-w-4xl mx-auto px-6 py-12">
+    <article class="prose prose-lg max-w-none content-text">
+     <p class="text-lg text-gray-700 leading-relaxed mb-8">წარმოიდგინე: შენს დედას, მეუღლეს ან შეყვარებულს უგზავნი ლინკს და როცა ის ხსნის, ეკრანზე გამოჩნდება მხოლოდ მისთვის შექმნილი ვებგვერდი — თქვენი საერთო ფოტოებით, სიყვარულის ისტორიით, ლამაზი ანიმაციებით და რომანტიული მუსიკით. ეს არის საჩუქარი, რომელიც არ დაჭკნება, არ გაცვდება და ყოველთვის იქნება ხელმისაწვდომი ერთი დაკლიკებით.</p>
+     <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">1</span> როგორ მუშაობს?</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
+        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">📝</div>
+        <h3 class="font-semibold text-gray-800 mb-2">შეკვეთის გაკეთება</h3>
+        <p class="text-gray-600 text-sm">გვიგზავნი ფოტოებს, ტექსტს და სურვილებს — რა გინდა რომ იყოს საიტზე.</p>
+       </div>
+       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
+        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">🎨</div>
+        <h3 class="font-semibold text-gray-800 mb-2">დიზაინის შექმნა</h3>
+        <p class="text-gray-600 text-sm">ჩვენი გუნდი ქმნის უნიკალურ, ლამაზ და მობილურზე მორგებულ ვებგვერდს.</p>
+       </div>
+       <div class="bg-gradient-to-br from-pink-50 to-orange-50 p-6 rounded-2xl card-hover">
+        <div class="feature-icon w-14 h-14 rounded-xl flex items-center justify-center text-2xl mb-4">🔗</div>
+        <h3 class="font-semibold text-gray-800 mb-2">ლინკის მიღება</h3>
+        <p class="text-gray-600 text-sm">იღებ უნიკალურ ლინკს, რომელსაც უგზავნი საყვარელ ადამიანს.</p>
+       </div>
+      </div>
+     </section>
+     <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">2</span> რა შეიძლება იყოს ამ საიტში?</h2>
+      <div class="bg-white border border-pink-100 rounded-2xl p-8 shadow-lg">
+       <div class="grid md:grid-cols-2 gap-4">
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📸</span> <span class="text-gray-700"><strong>ფოტოგალერეა</strong> — თქვენი საუკეთესო მომენტები</span></div>
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">💌</span> <span class="text-gray-700"><strong>სიყვარულის წერილი</strong> — გულწრფელი სიტყვები</span></div>
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">🎵</span> <span class="text-gray-700"><strong>მუსიკა</strong> — თქვენი საერთო სიმღერა</span></div>
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📖</span> <span class="text-gray-700"><strong>თქვენი ისტორია</strong> — როგორ შეხვდით</span></div>
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">✨</span> <span class="text-gray-700"><strong>ანიმაციები</strong> — ლამაზი ვიზუალური ეფექტები</span></div>
+        <div class="flex items-center gap-4 p-3 rounded-xl hover:bg-pink-50 transition-colors"><span class="text-2xl">📱</span> <span class="text-gray-700"><strong>QR კოდი</strong> — დაბეჭდე და აჩუქე</span></div>
+       </div>
+      </div>
+     </section>
+     <section class="mb-12">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3"><span class="bg-gradient-to-r from-pink-500 to-orange-400 text-white w-10 h-10 rounded-full flex items-center justify-center text-lg">3</span> რატომ არის ეს განსხვავებული საჩუქარი?</h2>
+      <div class="space-y-4">
+       <div class="flex gap-4 items-start bg-gradient-to-r from-pink-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>უნიკალურობა</strong> — ეს საჩუქარი მხოლოდ ერთი ადამიანისთვის იქმნება, მსოფლიოში მეორე ასეთი არ არსებობს.</p></div>
+       <div class="flex gap-4 items-start bg-gradient-to-r from-orange-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>მუდმივობა</strong> — ყვავილები ჭკნება, შოკოლადი მთავრდება, მაგრამ ვებგვერდი რჩება სამუდამოდ.</p></div>
+       <div class="flex gap-4 items-start bg-gradient-to-r from-pink-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>ემოცია</strong> — ყოველ ჯერზე, როცა გახსნის ამ საიტს, ისევ იგრძნობს სიყვარულს და ზრუნვას.</p></div>
+       <div class="flex gap-4 items-start bg-gradient-to-r from-orange-50 to-transparent p-4 rounded-xl"><span class="text-green-500 text-xl">✓</span><p class="text-gray-700"><strong>გაზიარების სიმარტივე</strong> — ერთი ლინკი საკმარისია, რომ საჩუქარი მიიღოს ნებისმიერი მოწყობილობიდან.</p></div>
+      </div>
+     </section>
+     <section class="text-center bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 rounded-3xl p-10 text-white pulse-glow">
+      <div class="text-5xl mb-4">💝</div>
+      <h2 class="text-2xl md:text-3xl font-bold mb-4">შეუკვეთე 8 მარტამდე!</h2>
+      <p class="text-lg opacity-90 mb-8 max-w-xl mx-auto">დრო გადის სწრაფად! რომ საჩუქარი დროზე მზად იყოს, გთხოვთ შეკვეთა გააკეთოთ რაც შეიძლება მალე. ჩვენი გუნდი იზრუნებს, რომ ყველაფერი სრულყოფილი იყოს.</p>
+      <a href="contact.html" target="_blank" rel="noopener noreferrer" id="cta-button" class="inline-block bg-white text-pink-600 font-bold px-10 py-4 rounded-full text-lg hover:bg-pink-50 hover:scale-105 transition-all shadow-lg">🎁 შეუკვეთე ახლავე</a>
+      <p class="mt-6 text-sm opacity-80">შეკვეთის გასაფორმებლად გადადით კონტაქტის გვერდზე</p>
+     </section>
+    </article>
+   </main>
+   <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
+    <p class="text-gray-500 text-sm">© 2026 ყველა უფლება დაცულია | შექმნილია ❤️-ით ჩვენი გუნდის მიერ</p>
+   </footer>
   </div>
-</body>
+ </body>
 </html>
