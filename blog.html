@@ -1141,7 +1141,23 @@
       }
     };
 
-    let currentLang = 'ka';
+    const LANG_STORAGE_KEY = 'identisite_lang';
+
+    function getInitialLanguage() {
+      try {
+        const savedLang = localStorage.getItem(LANG_STORAGE_KEY);
+        if (savedLang === 'ka' || savedLang === 'en') return savedLang;
+      } catch (error) {}
+      return 'ka';
+    }
+
+    function persistLanguage(lang) {
+      try {
+        localStorage.setItem(LANG_STORAGE_KEY, lang);
+      } catch (error) {}
+    }
+
+    let currentLang = getInitialLanguage();
     let submissions = [];
     const phraseMap = {
       'მთავარი': 'Home',
@@ -1445,6 +1461,7 @@
     const langSwitch = document.getElementById('langSwitch');
     langSwitch.addEventListener('click', () => {
       currentLang = currentLang === 'ka' ? 'en' : 'ka';
+      persistLanguage(currentLang);
       applyLanguage(currentLang);
     });
     applyLanguage(currentLang);
