@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>8 მარტის უნიკალური საჩუქარი</title>
+  <title>8 მარტის საიტის გენერატორი</title>
   <link rel="icon" type="image/png" href="identisite.png">
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,401 +12,197 @@
   <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <style>
     * { font-family: 'Noto Sans Georgian', sans-serif; }
-    .hero-gradient { background: linear-gradient(135deg, #fdf2f8 0%, #fff7ed 50%, #fce7f3 100%); }
-    .gradient-text {
-      background: linear-gradient(135deg, #ec4899 0%, #f97316 50%, #ec4899 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
   </style>
 </head>
-
 <body class="h-full bg-white">
-  <!-- შენი hero/კონტენტი შეგიძლია დატოვო როგორც გაქვს -->
-  <header class="hero-gradient py-16 px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <div class="inline-block bg-pink-500 text-white text-sm font-medium px-4 py-1 rounded-full mb-6">🆕 ახალი სერვისი</div>
-      <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
-        <span class="gradient-text">8 მარტს აჩუქე საყვარელ ადამიანს</span><br>
-        <span class="text-gray-800">პერსონალური ვებგვერდი</span>
-      </h1>
-      <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-        შეავსე ფორმა, ატვირთე ფოტო/ვიდეო და მიიღე მზა საიტის ლინკი + QR 💖
-      </p>
-      <a href="#order" class="inline-block mt-8 bg-pink-600 text-white font-bold px-8 py-4 rounded-full hover:opacity-90 transition">
-        🎁 შეუკვეთე ახლავე
-      </a>
+  <header class="py-14 px-6 bg-gradient-to-br from-pink-50 via-white to-rose-50">
+    <div class="max-w-5xl mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-slate-800">8 მარტის საიტის გენერატორი</h1>
+      <p class="text-slate-600 mt-4 text-lg">აირჩიე შაბლონი, ატვირთე ფოტო/ვიდეო, ჩაწერე ტექსტები და მიიღე მზა ლინკი.</p>
     </div>
   </header>
 
-  <main class="max-w-5xl mx-auto px-6 py-12">
-    <!-- ====================== ORDER / GENERATOR SECTION ====================== -->
-    <section id="order" class="scroll-mt-16">
-      <div class="flex items-start justify-between gap-6 flex-col md:flex-row md:items-center">
+  <main class="max-w-6xl mx-auto px-6 py-10">
+    <div class="grid lg:grid-cols-2 gap-8">
+      <form id="giftForm" class="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
         <div>
-          <h2 class="text-3xl font-bold text-gray-800">საიტის გენერატორი</h2>
-          <p class="text-gray-600 mt-2">აირჩიე საიტის სახელი, შეავსე ინფორმაცია, ატვირთე მედია და დავაგენერირებთ საჯარო ლინკს.</p>
+          <label class="block mb-1 font-medium text-slate-700">შაბლონი *</label>
+          <select name="templateType" class="w-full border rounded-xl px-4 py-3" required>
+            <option value="girlfriend">შეყვარებულისთვის</option>
+            <option value="wife">მეუღლისთვის</option>
+          </select>
         </div>
-        <div class="text-sm text-gray-500">
-          * ლინკი შეიქმნება ფორმის გაგზავნის შემდეგ
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">საიტის სახელი (slug) *</label>
+          <input id="slug" name="slug" class="w-full border rounded-xl px-4 py-3" placeholder="mag: nino-8marti" required>
+          <p id="slugError" class="text-sm text-red-600 mt-1 hidden"></p>
         </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">მიმღების სახელი *</label>
+            <input name="recipientName" class="w-full border rounded-xl px-4 py-3" required>
+          </div>
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">გამგზავნის სახელი *</label>
+            <input name="senderName" class="w-full border rounded-xl px-4 py-3" required>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">Hero სათაური</label>
+            <input name="heroTitle" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: ჩემი სიყვარული">
+          </div>
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">Hero ქვესათაური</label>
+            <input name="heroSubtitle" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: ეს გვერდი შენთვის შევქმენი">
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">სიყვარულის ტექსტი *</label>
+          <textarea name="loveMessage" rows="4" class="w-full border rounded-xl px-4 py-3" required></textarea>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">ჩვენი ისტორია</label>
+            <textarea name="ourStory" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+          </div>
+          <div>
+            <label class="block mb-1 font-medium text-slate-700">მოგონება (მეუღლის შაბლონი)</label>
+            <textarea name="memoryStory" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <input name="reason1" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 1">
+          <input name="reason2" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 2">
+          <input name="reason3" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 3">
+          <input name="reason4" class="w-full border rounded-xl px-4 py-3" placeholder="მიზეზი 4">
+          <input name="reason5" class="w-full border rounded-xl px-4 py-3 md:col-span-2" placeholder="მიზეზი 5">
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">საბოლოო ტექსტი</label>
+          <textarea name="finalMessage" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">პაემანზე მოწვევის ტექსტი</label>
+          <textarea name="dateInviteText" rows="3" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: პარასკევს 20:00-ზე გიწვევ ვახშმად"></textarea>
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">მუსიკის ბმული (YouTube/Spotify)</label>
+          <input name="musicLink" class="w-full border rounded-xl px-4 py-3">
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">ფოტოები (მაქს 15)</label>
+          <input id="photos" name="photos" type="file" accept="image/*" multiple class="w-full border rounded-xl px-4 py-3">
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium text-slate-700">ვიდეო (1 ფაილი)</label>
+          <input id="video" name="video" type="file" accept="video/*" class="w-full border rounded-xl px-4 py-3">
+        </div>
+
+        <button id="submitBtn" type="submit" class="w-full bg-gradient-to-r from-pink-600 to-rose-500 text-white font-semibold py-4 rounded-xl">გენერაცია</button>
+        <p id="formStatus" class="text-sm text-slate-500"></p>
+      </form>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6">
+        <h3 class="text-2xl font-bold text-slate-800">შედეგი</h3>
+        <p class="text-slate-600 mt-2">გენერაციის შემდეგ აქ გამოჩნდება ბმული და QR.</p>
+
+        <div class="mt-6 p-4 bg-white rounded-xl border">
+          <div class="text-sm text-slate-500">URL preview</div>
+          <div id="urlPreview" class="font-medium text-slate-800 mt-1 break-all">/gift/...</div>
+        </div>
+
+        <div id="successBox" class="hidden mt-6 p-4 bg-white rounded-xl border border-green-200">
+          <div class="text-green-700 font-semibold">✅ მზადაა!</div>
+          <a id="resultLink" href="#" target="_blank" class="text-pink-600 underline break-all"></a>
+          <canvas id="qrCanvas" class="mt-4 border rounded"></canvas>
+        </div>
+
+        <div id="errorBox" class="hidden mt-6 p-4 bg-white rounded-xl border border-red-200 text-red-700"></div>
       </div>
-
-      <div class="mt-8 grid lg:grid-cols-2 gap-8">
-        <!-- Form -->
-        <form id="giftForm" class="bg-white border border-pink-100 rounded-2xl p-6 shadow-sm space-y-5">
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">შაბლონი *</label>
-            <select name="template" class="w-full border rounded-xl px-4 py-3" required>
-              <option value="romantic">Romantic (ვარდისფერი)</option>
-              <option value="elegant">Elegant (მუქი/ოქროსფერი)</option>
-              <option value="minimal">Minimal (თეთრი/ნეიტრალური)</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">საიტის სახელი (ლათინურად) *</label>
-            <input id="slug" name="slug" class="w-full border rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-pink-300"
-                   placeholder="მაგ: nino-gift" autocomplete="off" required>
-            <p id="slugHelp" class="text-sm text-gray-500 mt-2">დაშვებულია მხოლოდ a-z, 0-9 და დეფისი (-).</p>
-            <p id="slugError" class="text-sm text-red-600 mt-1 hidden"></p>
-          </div>
-
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block font-medium text-gray-700 mb-1">ვისთვის კეთდება? *</label>
-              <input name="recipientName" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: ნინო" required>
-            </div>
-            <div>
-              <label class="block font-medium text-gray-700 mb-1">ვინ უძღვნის? *</label>
-              <input name="senderName" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: გიორგი" required>
-            </div>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">კავშირი *</label>
-            <select name="relationshipType" class="w-full border rounded-xl px-4 py-3" required>
-              <option value="girlfriend">შეყვარებული</option>
-              <option value="wife">მეუღლე</option>
-              <option value="mother">დედა</option>
-              <option value="friend">მეგობარი</option>
-              <option value="other">სხვა</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">სიყვარულის ტექსტი *</label>
-            <textarea name="message" rows="4" class="w-full border rounded-xl px-4 py-3"
-                      placeholder="რა გინდა რომ ეწეროს წერილში?" required></textarea>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">ჩვენი ისტორია (არასავალდებულო)</label>
-            <textarea name="story" rows="3" class="w-full border rounded-xl px-4 py-3"
-                      placeholder="როგორ შეხვდით, რა გაკავშირებთ..."></textarea>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-2">რატომ მიყვარხარ (3–10 პუნქტი)</label>
-            <div id="reasonsWrap" class="space-y-2"></div>
-            <div class="flex gap-2 mt-2">
-              <button type="button" id="addReason" class="text-sm px-3 py-2 rounded-lg border hover:bg-gray-50">+ დამატება</button>
-              <button type="button" id="removeReason" class="text-sm px-3 py-2 rounded-lg border hover:bg-gray-50">− წაშლა</button>
-            </div>
-            <p class="text-sm text-gray-500 mt-2">რეკომენდაცია: მოკლე, გულწრფელი ფრაზები.</p>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">მუსიკის ლინკი (YouTube/Spotify)</label>
-            <input name="musicLink" class="w-full border rounded-xl px-4 py-3"
-                   placeholder="მაგ: https://youtu.be/.... ან https://open.spotify.com/track/...">
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">Final ტექსტი (არასავალდებულო)</label>
-            <input name="closingMessage" class="w-full border rounded-xl px-4 py-3"
-                   placeholder="მაგ: გილოცავ 8 მარტს ❤️">
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-1">პაემანზე მოწვევის ტექსტი (არასავალდებულო)</label>
-            <textarea name="dateInviteText" rows="3" class="w-full border rounded-xl px-4 py-3"
-                      placeholder="მაგ: პარასკევს 20:00-ზე გიწვევ ვახშმად ჩვენს საყვარელ ადგილზე 💌"></textarea>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-2">ფოტოები (მაქს 15)</label>
-            <input id="photos" name="photos" type="file" accept="image/*" multiple
-                   class="w-full border rounded-xl px-4 py-3">
-            <div id="photoPreview" class="mt-3 grid grid-cols-3 md:grid-cols-5 gap-2"></div>
-            <p id="photoError" class="text-sm text-red-600 mt-1 hidden"></p>
-          </div>
-
-          <div>
-            <label class="block font-medium text-gray-700 mb-2">ვიდეო (არასავალდებულო, 1 ცალი)</label>
-            <input id="video" name="video" type="file" accept="video/*"
-                   class="w-full border rounded-xl px-4 py-3">
-            <div id="videoInfo" class="text-sm text-gray-600 mt-2"></div>
-            <p id="videoError" class="text-sm text-red-600 mt-1 hidden"></p>
-          </div>
-
-          <button id="submitBtn" type="submit"
-                  class="w-full bg-gradient-to-r from-pink-600 to-orange-400 text-white font-bold py-4 rounded-xl hover:opacity-95 transition">
-            🚀 გენერაცია და ლინკის მიღება
-          </button>
-
-          <div id="formStatus" class="text-sm mt-2"></div>
-        </form>
-
-        <!-- Result / QR -->
-        <div class="bg-gradient-to-br from-pink-50 to-orange-50 border border-pink-100 rounded-2xl p-6 shadow-sm">
-          <h3 class="text-xl font-bold text-gray-800">შედეგი</h3>
-          <p class="text-gray-600 mt-2">გენერაციის შემდეგ აქ გამოჩნდება ლინკი და QR კოდი.</p>
-
-          <div class="mt-6 p-4 bg-white rounded-2xl border border-pink-100">
-            <div class="text-sm text-gray-500">საბოლოო URL (preview):</div>
-            <div id="urlPreview" class="mt-2 font-medium text-gray-800 break-all">/gift/...</div>
-          </div>
-
-          <div id="successBox" class="mt-6 hidden">
-            <div class="p-4 bg-white rounded-2xl border border-green-200">
-              <div class="font-bold text-green-700">✅ მზადაა!</div>
-              <a id="resultLink" class="text-pink-600 underline break-all" href="#" target="_blank" rel="noopener"></a>
-
-              <div class="mt-4">
-                <div class="text-sm text-gray-600 mb-2">QR კოდი:</div>
-                <canvas id="qrCanvas" class="border rounded-xl"></canvas>
-              </div>
-
-              <button id="copyBtn" type="button" class="mt-4 px-4 py-2 rounded-lg border hover:bg-gray-50 text-sm">
-                📋 ლინკის კოპირება
-              </button>
-            </div>
-          </div>
-
-          <div id="errorBox" class="mt-6 hidden">
-            <div class="p-4 bg-white rounded-2xl border border-red-200 text-red-700" id="errorText"></div>
-          </div>
-
-          <div class="mt-6 text-sm text-gray-500">
-            <div class="font-medium text-gray-700 mb-1">რჩევა:</div>
-            საიტის სახელი შეარჩიე მოკლე და ლათინურად: <span class="font-mono">nino-gift</span>, <span class="font-mono">mari-8march</span>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- ===================================================================== -->
+    </div>
   </main>
 
-  <footer class="bg-gray-50 py-8 px-6 text-center border-t border-gray-100">
-    <p class="text-gray-500 text-sm">© 2025 ყველა უფლება დაცულია | შექმნილია ❤️-ით</p>
-  </footer>
-
   <script>
-    // ----------------- Frontend logic -----------------
     const slugEl = document.getElementById('slug');
     const slugErrorEl = document.getElementById('slugError');
     const urlPreviewEl = document.getElementById('urlPreview');
-
-    const photosEl = document.getElementById('photos');
-    const photoPreviewEl = document.getElementById('photoPreview');
-    const photoErrorEl = document.getElementById('photoError');
-
-    const videoEl = document.getElementById('video');
-    const videoInfoEl = document.getElementById('videoInfo');
-    const videoErrorEl = document.getElementById('videoError');
-
     const form = document.getElementById('giftForm');
     const submitBtn = document.getElementById('submitBtn');
     const formStatus = document.getElementById('formStatus');
-
     const successBox = document.getElementById('successBox');
     const resultLink = document.getElementById('resultLink');
     const qrCanvas = document.getElementById('qrCanvas');
-    const copyBtn = document.getElementById('copyBtn');
-
     const errorBox = document.getElementById('errorBox');
-    const errorText = document.getElementById('errorText');
-
-    const reasonsWrap = document.getElementById('reasonsWrap');
-    const addReasonBtn = document.getElementById('addReason');
-    const removeReasonBtn = document.getElementById('removeReason');
 
     function isValidSlug(slug) {
       return /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug);
     }
 
-    function setSlugError(msg) {
-      if (!msg) {
+    slugEl.addEventListener('input', () => {
+      const slug = slugEl.value.trim();
+      urlPreviewEl.textContent = slug ? `/gift/${slug}/` : '/gift/...';
+      if (!slug || isValidSlug(slug)) {
         slugErrorEl.classList.add('hidden');
         slugErrorEl.textContent = '';
-        return;
+      } else {
+        slugErrorEl.classList.remove('hidden');
+        slugErrorEl.textContent = 'მხოლოდ a-z, 0-9 და დეფისი (-)';
       }
-      slugErrorEl.textContent = msg;
-      slugErrorEl.classList.remove('hidden');
-    }
-
-    function updateUrlPreview() {
-      const slug = (slugEl.value || '').trim();
-      urlPreviewEl.textContent = slug ? `/gift/${slug}/` : '/gift/...';
-    }
-
-    slugEl.addEventListener('input', () => {
-      const v = slugEl.value.trim();
-      updateUrlPreview();
-      if (!v) return setSlugError(null);
-      if (!isValidSlug(v)) return setSlugError('მხოლოდ a-z, 0-9 და დეფისი (-).');
-      setSlugError(null);
-    });
-
-    // Reasons inputs init
-    function addReason(value = '') {
-      const count = reasonsWrap.querySelectorAll('input').length;
-      if (count >= 10) return;
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.className = 'w-full border rounded-xl px-4 py-3';
-      input.placeholder = 'მაგ: ყოველთვის მაძლევ მოტივაციას';
-      input.value = value;
-      input.name = 'reasons';
-      reasonsWrap.appendChild(input);
-    }
-    function removeReason() {
-      const inputs = reasonsWrap.querySelectorAll('input');
-      if (inputs.length <= 3) return;
-      inputs[inputs.length - 1].remove();
-    }
-    // start with 3
-    addReason(); addReason(); addReason();
-
-    addReasonBtn.addEventListener('click', () => addReason());
-    removeReasonBtn.addEventListener('click', () => removeReason());
-
-    // Photos preview + limit
-    function renderPhotoPreview(files) {
-      photoPreviewEl.innerHTML = '';
-      Array.from(files).forEach(file => {
-        const url = URL.createObjectURL(file);
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = 'photo';
-        img.className = 'w-full h-20 object-cover rounded-xl border';
-        photoPreviewEl.appendChild(img);
-      });
-    }
-
-    photosEl.addEventListener('change', () => {
-      const files = photosEl.files;
-      photoErrorEl.classList.add('hidden');
-      if (files && files.length > 15) {
-        photoErrorEl.textContent = 'მაქსიმუმ 15 ფოტო.';
-        photoErrorEl.classList.remove('hidden');
-        photosEl.value = '';
-        photoPreviewEl.innerHTML = '';
-        return;
-      }
-      renderPhotoPreview(files || []);
-    });
-
-    // Video info + limit
-    videoEl.addEventListener('change', () => {
-      videoErrorEl.classList.add('hidden');
-      videoInfoEl.textContent = '';
-      const f = videoEl.files?.[0];
-      if (!f) return;
-      // simple size guard (client-side)
-      const max = 80 * 1024 * 1024; // 80MB
-      if (f.size > max) {
-        videoErrorEl.textContent = 'ვიდეო ძალიან დიდია (მაქს ~80MB).';
-        videoErrorEl.classList.remove('hidden');
-        videoEl.value = '';
-        return;
-      }
-      videoInfoEl.textContent = `არჩეული ვიდეო: ${f.name}`;
-    });
-
-    function showError(msg) {
-      errorText.textContent = msg;
-      errorBox.classList.remove('hidden');
-      successBox.classList.add('hidden');
-    }
-    function showSuccess(url) {
-      errorBox.classList.add('hidden');
-      successBox.classList.remove('hidden');
-      resultLink.href = url;
-      resultLink.textContent = url;
-
-      // QR
-      const qr = new QRious({
-        element: qrCanvas,
-        value: url,
-        size: 220
-      });
-    }
-
-    copyBtn?.addEventListener('click', async () => {
-      const url = resultLink?.href;
-      if (!url) return;
-      await navigator.clipboard.writeText(url);
-      copyBtn.textContent = '✅ დაკოპირდა';
-      setTimeout(() => (copyBtn.textContent = '📋 ლინკის კოპირება'), 1200);
     });
 
     const apiFromQuery = new URLSearchParams(window.location.search).get('api') || '';
     const apiFromStorage = localStorage.getItem('giftApiBase') || '';
-    const API_BASE = apiFromQuery || apiFromStorage || (window.location.hostname.endsWith('onrender.com')
-      ? ''
-      : 'https://identisite-api.onrender.com');
+    const API_BASE = apiFromQuery || apiFromStorage || 'https://identisite-api.onrender.com';
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      formStatus.textContent = '';
       errorBox.classList.add('hidden');
       successBox.classList.add('hidden');
 
       const slug = slugEl.value.trim();
-      if (!slug) return setSlugError('საიტის სახელი აუცილებელია.');
-      if (!isValidSlug(slug)) return setSlugError('მხოლოდ a-z, 0-9 და დეფისი (-).');
-      setSlugError(null);
-
-      const photos = photosEl.files || [];
-      if (photos.length > 15) return showError('მაქსიმუმ 15 ფოტო.');
+      if (!slug || !isValidSlug(slug)) {
+        slugErrorEl.classList.remove('hidden');
+        slugErrorEl.textContent = 'საიტის სახელი არასწორია';
+        return;
+      }
 
       submitBtn.disabled = true;
-      submitBtn.textContent = '⏳ იტვირთება...';
-      formStatus.textContent = 'გთხოვ მოითმინე — ვაგენერირებთ საიტს და ვტვირთავთ ფაილებს.';
+      formStatus.textContent = 'იტვირთება...';
 
       try {
         const fd = new FormData(form);
-
-        // NOTE: reasons inputs share same name="reasons" => FormData will include multiple values automatically.
-        // photos & video included automatically by inputs.
-
-        const resp = await fetch(`${API_BASE}/api/generate`, {
-          method: 'POST',
-          body: fd
-        });
-
+        const resp = await fetch(`${API_BASE}/api/generate`, { method: 'POST', body: fd });
         const data = await resp.json().catch(() => ({}));
+
         if (!resp.ok) {
-          const msg = data?.error || 'შეცდომა გენერაციისას.';
-          showError(msg);
-          return;
+          throw new Error(data.error || 'შეცდომა გენერაციისას');
         }
 
-        showSuccess(data.url);
-        formStatus.textContent = '✅ მზადაა!';
+        resultLink.href = data.url;
+        resultLink.textContent = data.url;
+        new QRious({ element: qrCanvas, value: data.url, size: 220 });
+        successBox.classList.remove('hidden');
+        formStatus.textContent = '✅ დასრულდა';
       } catch (err) {
-        console.error(err);
-        showError('ქსელის შეცდომა. სავარაუდოდ API URL არასწორია ან backend გათიშულია (Render).');
+        errorBox.textContent = err.message || 'ქსელის შეცდომა';
+        errorBox.classList.remove('hidden');
+        formStatus.textContent = '';
       } finally {
         submitBtn.disabled = false;
-        submitBtn.textContent = '🚀 გენერაცია და ლინკის მიღება';
       }
     });
-
-    updateUrlPreview();
   </script>
 </body>
 </html>

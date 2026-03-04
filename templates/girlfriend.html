@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ka" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8 მარტი - სიყვარულით</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans Georgian', sans-serif; }
+    .font-display { font-family: 'Playfair Display', serif; }
+    .text-gradient {
+      background: linear-gradient(135deg, #ec407a, #f06292, #f48fb1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body class="h-full bg-gradient-to-b from-rose-50 via-pink-50 to-rose-100 overflow-auto">
+  <section class="min-h-screen flex items-center justify-center px-4 py-16 text-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-6xl mb-6">💕</div>
+      <p class="text-rose-400 tracking-widest uppercase mb-4">8 მარტი</p>
+      <h1 class="font-display text-5xl md:text-7xl font-bold text-gradient mb-4">{{hero_title}}</h1>
+      <h2 class="font-display text-3xl md:text-5xl italic mb-6 text-rose-900">{{recipient_name}}</h2>
+      <p class="text-xl text-rose-700/80 max-w-2xl mx-auto">{{hero_subtitle}}</p>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto glass-card rounded-3xl p-8 md:p-12 shadow-xl text-center">
+      <h3 class="font-display text-3xl md:text-4xl text-rose-900 mb-6">სიყვარულის წერილი</h3>
+      <p class="text-lg md:text-xl italic text-rose-800 leading-relaxed">{{love_message}}</p>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-white/50">
+    <div class="max-w-5xl mx-auto">
+      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">ჩვენი ისტორია</h3>
+      <div class="glass-card rounded-3xl p-8 shadow-xl">
+        <p class="text-lg text-rose-800 leading-relaxed">{{our_story}}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto">
+      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">რატომ მიყვარხარ</h3>
+      <div class="space-y-4">
+        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_1}}</div>
+        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_2}}</div>
+        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_3}}</div>
+        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_4}}</div>
+        <div class="glass-card rounded-2xl p-6 text-rose-800">♥ {{reason_5}}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h3 class="font-display text-4xl text-center text-rose-900 mb-10">ჩვენი მომენტები</h3>
+      <div id="uploaded-gallery" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">{{uploaded_photos}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-white/60">
+    <div class="max-w-4xl mx-auto text-center">
+      <h3 class="font-display text-4xl text-rose-900 mb-8">ჩვენი ვიდეო</h3>
+      <div class="glass-card rounded-3xl p-4">{{uploaded_video}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h3 class="font-display text-4xl text-rose-900 mb-8">ჩვენი სიმღერა</h3>
+      <div class="glass-card rounded-3xl p-6">{{music_embed}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-gradient-to-br from-rose-300 via-pink-200 to-rose-400 text-center">
+    <div class="max-w-4xl mx-auto glass-card rounded-3xl p-10">
+      <h3 class="font-display text-4xl text-rose-900 mb-6">გილოცავ 8 მარტს!</h3>
+      <p class="text-xl text-rose-800 mb-6">{{final_message}}</p>
+      <p class="text-lg text-rose-700">უსაზღვრო სიყვარულით,</p>
+      <p class="font-display text-3xl italic text-rose-900">{{sender_name}}</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 text-center bg-rose-50" id="date-invite-section">{{date_invite_section}}</section>
+
+  <footer class="py-8 text-center text-rose-500">შექმნილია სიყვარულით 💕 8 მარტი, 2026</footer>
+</body>
+</html>

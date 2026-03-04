@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ka" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>8 მარტს გილოცავ</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Serif Georgian', Georgia, serif; }
+    .shimmer-text {
+      background: linear-gradient(90deg, #d4973a 0%, #f5e29e 25%, #e6b84a 50%, #f5e29e 75%, #d4973a 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 4s linear infinite;
+    }
+    @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+    .card-shadow { box-shadow: 0 10px 40px -10px rgba(212, 151, 58, 0.2); }
+  </style>
+</head>
+<body class="h-full bg-gradient-to-b from-rose-50 via-white to-amber-50 overflow-auto">
+  <section class="min-h-screen flex items-center justify-center px-4 py-20 text-center">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-5xl mb-6">💛</div>
+      <p class="text-amber-600 tracking-widest uppercase mb-4">8 მარტი</p>
+      <h1 class="text-4xl md:text-6xl font-light mb-6">
+        <span class="block text-rose-800 mb-2">გილოცავ ქალთა დღეს</span>
+        <span class="shimmer-text font-semibold">{{recipient_name}}</span>
+      </h1>
+      <p class="text-rose-700 text-xl">ეს გვერდი მხოლოდ შენთვის შევქმენი</p>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-white/60">
+    <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-12 card-shadow border border-rose-100">
+      <h2 class="text-3xl md:text-4xl text-rose-800 text-center mb-8">სიყვარულის წერილი</h2>
+      <p class="text-rose-700 text-lg leading-loose italic">{{message}}</p>
+      <div class="mt-8 text-right">
+        <p class="text-amber-700">სიყვარულით,</p>
+        <p class="text-rose-800 text-2xl font-semibold">{{sender_name}}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-12 card-shadow border border-amber-100">
+      <h2 class="text-3xl md:text-4xl text-center text-rose-800 mb-8">ჩვენი მოგონება</h2>
+      <p class="text-rose-700 text-lg leading-relaxed">{{memory_story}}</p>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-gradient-to-b from-white to-rose-50">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl md:text-4xl text-center text-rose-800 mb-10">რატომ ხარ საუკეთესო მეუღლე</h2>
+      <div class="space-y-4">
+        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">1. {{reason_1}}</div>
+        <div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">2. {{reason_2}}</div>
+        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">3. {{reason_3}}</div>
+        <div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">4. {{reason_4}}</div>
+        <div class="bg-white rounded-2xl p-6 border border-amber-100 card-shadow text-rose-700">5. {{reason_5}}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl md:text-4xl text-center text-rose-800 mb-10">ჩვენი ფოტოები</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">{{uploaded_photos}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-white/60">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl text-rose-800 mb-8">ვიდეო მოგონება</h2>
+      <div class="bg-white rounded-3xl p-4 border border-amber-200 card-shadow">{{uploaded_video}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl text-rose-800 mb-8">ჩვენი სიმღერა</h2>
+      <div class="bg-white rounded-3xl p-6 border border-rose-100 card-shadow">{{music_embed}}</div>
+    </div>
+  </section>
+
+  <section class="py-20 px-4 bg-gradient-to-b from-rose-50 to-amber-50">
+    <div class="max-w-3xl mx-auto text-center bg-white rounded-3xl p-10 md:p-16 card-shadow border border-rose-100">
+      <h2 class="text-3xl text-rose-800 mb-6">საბოლოო სიტყვები</h2>
+      <p class="text-xl text-rose-700 italic mb-8">{{final_message}}</p>
+      <p class="text-amber-700">სამუდამოდ შენი,</p>
+      <p class="text-rose-800 text-2xl font-semibold shimmer-text mt-2">{{sender_name}}</p>
+    </div>
+  </section>
+
+  <section class="py-16 px-4 text-center bg-amber-50" id="date-invite-section">{{date_invite_section}}</section>
+
+  <footer class="py-10 text-center text-rose-600">შექმნილია სიყვარულით ♥ 8 მარტი, 2026</footer>
+</body>
+</html>
