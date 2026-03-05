@@ -1,10 +1,8 @@
-<!doctype html>
-<html lang="ka" class="h-full">
+<html lang="ka">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Map of Stars</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A9%3C/text%3E%3C/svg%3E">
+    <title>The Map of Stars | La La Land</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
@@ -31,6 +29,7 @@
             z-index: -1;
         }
 
+        /* ცენტრალური ხაზი */
         .path-line {
             position: absolute;
             left: 50%;
@@ -50,6 +49,7 @@
             justify-content: center;
         }
 
+        /* მოციმციმე ვარსკვლავი-ღილაკი */
         .star-trigger {
             width: 20px;
             height: 20px;
@@ -64,6 +64,7 @@
 
         .star-trigger:hover { transform: scale(1.5); }
 
+        /* მესიჯის ბოქსი */
         .memory-box {
             position: absolute;
             width: 85%;
@@ -73,7 +74,7 @@
             padding: 25px;
             backdrop-filter: blur(15px);
             text-align: center;
-            display: none;
+            display: none; /* თავიდან დამალულია */
             z-index: 20;
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
@@ -84,6 +85,7 @@
             100% { box-shadow: 0 0 10px var(--gold); }
         }
 
+        /* განლაგება მობილურზე და დესკტოპზე */
         @media (min-width: 768px) {
             .pos-left { left: 15%; }
             .pos-right { left: 65%; }
@@ -100,9 +102,8 @@
         <p class="serif-italic text-lg md:text-xl text-slate-400 max-w-md animate__animated animate__fadeIn animate__delay-1s">
             "City of stars, are you shining just for me?"
         </p>
-        <p class="text-sm md:text-base text-amber-400/80 mt-4 animate__animated animate__fadeIn animate__delay-1s">[ვინ უძღვნის] {{map_from_name}} → [ვის უძღვნის] {{map_to_name}}</p>
         <div class="mt-20 animate__animated animate__fadeIn animate__infinite animate__slower">
-            <span class="text-xs md:text-sm uppercase tracking-[0.32em] text-amber-500/60">ჩამოსქროლე და აანთე მოგონებები</span>
+            <span class="text-[10px] uppercase tracking-[0.5em] text-amber-500/50">ჩამოსქროლე და აანთე მოგონებები</span>
         </div>
     </header>
 
@@ -112,36 +113,36 @@
         <div class="memory-section">
             <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">{{map_memory_1_location}}</span>
-                <h3 class="serif-italic text-xl my-2">{{map_memory_1_title}}</h3>
-                <p class="text-sm text-slate-300 italic">{{map_memory_1_content}}</p>
+                <span class="cinzel text-[10px] text-amber-500">The Lighthouse Cafe</span>
+                <h3 class="serif-italic text-xl my-2">პირველი ნოტები</h3>
+                <p class="text-sm text-slate-300 italic">"აქ, სადაც ჯაზი სუნთქავს... შენ მასწავლე, რომ ვნებას საზღვრები არ აქვს."</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">{{map_memory_2_location}}</span>
-                <h3 class="serif-italic text-xl my-2">{{map_memory_2_title}}</h3>
-                <p class="text-sm text-slate-300 italic">{{map_memory_2_content}}</p>
+                <span class="cinzel text-[10px] text-amber-500">Griffith Observatory</span>
+                <h3 class="serif-italic text-xl my-2">ცეკვა ვარსკვლავებს შორის</h3>
+                <p class="text-sm text-slate-300 italic">"აქ ჩვენი ისტორია რეალობას გასცდა. პლანეტარიუმის ცაზე ავიჭერით."</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-left" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">{{map_memory_3_location}}</span>
-                <h3 class="serif-italic text-xl my-2">{{map_memory_3_title}}</h3>
-                <p class="text-sm text-slate-300 italic">{{map_memory_3_content}}</p>
+                <span class="cinzel text-[10px] text-amber-500">Colorado Street Bridge</span>
+                <h3 class="serif-italic text-xl my-2">ოცნებების ხიდი</h3>
+                <p class="text-sm text-slate-300 italic">"შენ დამინახე მაშინაც, როცა მე საკუთარ თავს ვერ ვხედავდი. მადლობა რწმენისთვის."</p>
             </div>
         </div>
 
         <div class="memory-section">
             <div class="star-trigger pos-right" onclick="toggleBox(this)"></div>
             <div class="memory-box">
-                <span class="cinzel text-[10px] text-amber-500">{{map_memory_4_location}}</span>
-                <h3 class="serif-italic text-xl my-2">{{map_memory_4_title}}</h3>
-                <p class="text-sm text-slate-300 italic">{{map_memory_4_content}}</p>
+                <span class="cinzel text-[10px] text-amber-500">Seb's Club</span>
+                <h3 class="serif-italic text-xl my-2">ჩემი სახლი შენ ხარ</h3>
+                <p class="text-sm text-slate-300 italic">"სადაც არ უნდა ვიყოთ, ეს რუკა ყოველთვის შენთან მომიყვანს. ჩემი სიმშვიდე შენ ხარ."</p>
             </div>
         </div>
     </section>
@@ -149,27 +150,19 @@
     <footer class="h-screen flex flex-col items-center justify-center text-center px-6">
         <div class="text-4xl mb-8 animate__animated animate__pulse animate__infinite">🎹</div>
         <p class="serif-italic text-2xl text-amber-400 mb-4 animate__animated animate__fadeInUp">"Here's to the fools who dream."</p>
-        <p class="text-xs md:text-sm uppercase tracking-[0.3em] text-slate-400">{{map_footer_text}}</p>
+        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500">გილოცავ 8 მარტს, ჩემო ვარსკვლავო!</p>
         <div class="w-px h-24 bg-gradient-to-b from-amber-500 to-transparent mt-12"></div>
     </footer>
 
     <script>
         function toggleBox(star) {
-            const allBoxes = document.querySelectorAll('.memory-box');
-            allBoxes.forEach((b) => {
-                if (b !== star.nextElementSibling && b.style.display === 'block') {
-                    b.style.display = 'none';
-                }
-            });
-
+            // ვპოულობთ შესაბამის ბოქსს, რომელიც ვარსკვლავის გვერდითაა
             const box = star.nextElementSibling;
+            
+            // თუ უკვე ღიაა - ვხურავთ, თუ არა - ვხსნით
             if (box.style.display === 'block') {
-                box.classList.remove('animate__fadeInUp');
-                box.classList.add('animate__animated', 'animate__fadeOutDown');
-                setTimeout(() => {
-                    box.style.display = 'none';
-                    box.classList.remove('animate__fadeOutDown');
-                }, 500);
+                box.classList.replace('animate__fadeInUp', 'animate__fadeOutDown');
+                setTimeout(() => { box.style.display = 'none'; }, 500);
             } else {
                 box.style.display = 'block';
                 box.classList.remove('animate__fadeOutDown');
