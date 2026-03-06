@@ -651,14 +651,15 @@
     .embla__container {
       display: flex;
       touch-action: pan-y pinch-zoom;
-      margin-right: 12px;
+      padding-left: 15%;
+      padding-right: 15%;
     }
     .embla__slide {
       flex: 0 0 70%;
       min-width: 0;
-      padding-left: 12px;
+      padding-left: 0;
       transform: translateZ(0);
-      scroll-snap-align: start;
+      scroll-snap-align: center;
     }
     .embla-controls {
       display: flex;
@@ -1098,6 +1099,7 @@
       .embla__slide { flex-basis: 82%; }
       .embla-controls { max-width: 100%; }
       .embla-progress { width: 120px; }
+      .embla__container { padding-left: 9%; padding-right: 9%; }
       #about, #services, #portfolio, #process, #testimonials, #blog, #contact, #why-us {
         display: block;
       }
@@ -2466,7 +2468,8 @@
     if (!embla || !slides.length) return;
     const max = slides.length - 1;
     portfolioIndex = ((index % slides.length) + slides.length) % slides.length;
-    const targetLeft = Math.max(0, slides[Math.min(max, portfolioIndex)].offsetLeft - 12);
+    const targetSlide = slides[Math.min(max, portfolioIndex)];
+    const targetLeft = Math.max(0, targetSlide.offsetLeft - (embla.clientWidth - targetSlide.clientWidth) / 2);
     embla.scrollTo({ left: targetLeft, behavior: smooth ? 'smooth' : 'auto' });
     updatePortfolioDots();
     restartPortfolioProgress();
@@ -2511,7 +2514,9 @@
         let closest = 0;
         let dist = Number.POSITIVE_INFINITY;
         slides.forEach((slide, i) => {
-          const d = Math.abs(slide.offsetLeft - 12 - left);
+          const slideCenter = slide.offsetLeft + (slide.clientWidth / 2);
+          const viewportCenter = left + (embla.clientWidth / 2);
+          const d = Math.abs(slideCenter - viewportCenter);
           if (d < dist) { dist = d; closest = i; }
         });
         if (closest !== portfolioIndex) {
