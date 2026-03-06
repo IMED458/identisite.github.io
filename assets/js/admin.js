@@ -178,6 +178,8 @@ async function saveSettings(form) {
     contact_email: fd.get('contact_email') || '',
     contact_phone: fd.get('contact_phone') || '',
     contact_address: fd.get('contact_address') || '',
+    social_instagram: fd.get('social_instagram') || '',
+    social_facebook: fd.get('social_facebook') || '',
     updatedAt: nowIso()
   };
 
@@ -207,7 +209,7 @@ function loadSettings() {
   const form = document.getElementById('settings-form');
   if (!form) return;
 
-  ['hero_title', 'hero_subtitle', 'contact_email', 'contact_phone', 'contact_address'].forEach((key) => {
+  ['hero_title', 'hero_subtitle', 'contact_email', 'contact_phone', 'contact_address', 'social_instagram', 'social_facebook'].forEach((key) => {
     const input = form.elements.namedItem(key);
     if (input) input.value = data[key] || '';
   });
