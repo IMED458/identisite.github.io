@@ -588,7 +588,7 @@
       border-radius: 20px;
       overflow: hidden;
       aspect-ratio: 4/3;
-      cursor: pointer;
+      cursor: default;
       transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .port-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
@@ -1409,48 +1409,42 @@
       <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">გაეცანით ჩვენს წარმატებულ პროექტებს</p>
     </div>
     <div id="portfolioGrid" class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#3730a3,#6366f1)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#3730a3,#6366f1)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">კორპორატიული ვებსაიტი</div>
           <div class="port-title">TechCorp Website</div>
           <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">Tailwind</span><span class="port-tag">Node.js</span></div>
         </div></div>
       </div>
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">ონლაინ მაღაზია</div>
           <div class="port-title">StyleShop E-commerce</div>
           <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">Stripe</span><span class="port-tag">PostgreSQL</span></div>
         </div></div>
       </div>
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#92400e,#f59e0b)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#92400e,#f59e0b)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">მობილური აპლიკაცია</div>
           <div class="port-title">FoodDelivery App</div>
           <div class="port-tags"><span class="port-tag">React Native</span><span class="port-tag">Firebase</span></div>
         </div></div>
       </div>
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">სამედიცინო პლატფორმა</div>
           <div class="port-title">HealthCare Portal</div>
           <div class="port-tags"><span class="port-tag">Vue.js</span><span class="port-tag">Laravel</span></div>
         </div></div>
       </div>
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#064e3b,#10b981)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#064e3b,#10b981)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">სასწავლო პლატფორმა</div>
           <div class="port-title">EduLearn Platform</div>
           <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">MongoDB</span></div>
         </div></div>
       </div>
-      <div class="port-card" onclick="location.href='#contact'" role="link" tabindex="0" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="port-card" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat" data-lang="ka">უძრავი ქონების პორტალი</div>
           <div class="port-title">RealEstate Pro</div>
@@ -2271,12 +2265,16 @@
     if (!grid || !items.length) return;
     grid.innerHTML = items.map(item => {
       const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
-      const target = item.project_url||'#contact';
+      const target = (item.project_url || '').trim();
+      const hasLink = Boolean(target);
       const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
       const media = item.image?`<img src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0f172a;padding:8px">`:``; 
-      return `<div class="port-card" onclick="location.href='${target}'" style="${bg}" role="link" tabindex="0">
+      const arrow = hasLink
+        ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
+        : ``;
+      return `<div class="port-card" style="${bg}">
         ${media}
-        <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        ${arrow}
         <div class="port-overlay"><div class="port-info">
           <div class="port-cat">${item.category||''}</div>
           <div class="port-title">${item.title||''}</div>
