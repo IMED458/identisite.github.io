@@ -152,17 +152,25 @@
       text-decoration: none;
     }
     .nav-logo-mark {
-      width: 38px; height: 38px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: transparent;
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      font-size: 16px;
-      color: white;
-      box-shadow: 0 0 20px var(--glow-primary);
+      font-size: 22px;
+      color: var(--text-primary);
+      box-shadow: none;
+      overflow: hidden;
+    }
+    .nav-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .nav-logo-text {
       font-family: 'Syne', sans-serif;
@@ -254,11 +262,12 @@
     }
     .mobile-btn {
       display: none;
-      background: none;
-      border: none;
-      color: var(--text-secondary);
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
       cursor: pointer;
       padding: 8px;
+      border-radius: 10px;
     }
 
     /* --- SECTION LABEL --- */
@@ -913,7 +922,7 @@
       top: 80px;
       background: rgba(7, 7, 14, 0.97);
       backdrop-filter: blur(24px);
-      z-index: 99;
+      z-index: 120;
       padding: 32px 2rem;
       flex-direction: column;
       gap: 8px;
@@ -933,6 +942,12 @@
     .mobile-nav-link:hover { color: var(--text-primary); background: rgba(255,255,255,0.04); }
 
     @media (max-width: 1024px) {
+      #navbar { padding: 0 1rem; }
+      .nav-inner { height: 74px; }
+      #mobileMenu { top: 74px; padding: 24px 1rem; }
+      #navCtaDesktop { display: none !important; }
+      .lang-btn { padding: 6px 10px; font-size: 11px; }
+      .nav-actions { gap: 8px; }
       .hero-content { grid-template-columns: 1fr; gap: 60px; }
       .hero-visual { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
@@ -944,12 +959,16 @@
       .process-content { padding: 0; }
     }
     @media (max-width: 768px) {
+      #navbar { padding: 0 0.75rem; }
       .nav-links { display: none; }
       .mobile-btn { display: flex; align-items: center; justify-content: center; }
-      .section { padding: 80px 1.5rem; }
-      .hero-content { padding: 60px 1.5rem; }
-      .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 16px; }
-      .hero-title { font-size: 2.4rem; }
+      .nav-logo { gap: 8px; }
+      .nav-logo-mark { width: 44px; height: 44px; }
+      .nav-logo-text { font-size: 18px; }
+      .section { padding: 80px 1.1rem; }
+      .hero-content { padding: 60px 1.1rem; }
+      .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+      .hero-title { font-size: 2.15rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 32px; }
       .footer-bottom { flex-direction: column; text-align: center; }
       #about, #services, #portfolio, #process, #testimonials, #blog, #contact, #why-us {
@@ -2159,7 +2178,7 @@
     const logoSrc = s.logo_data_url || s.logo_url || '';
     if (logoSrc) {
       document.querySelectorAll('[data-site-logo-box]').forEach(box => {
-        box.innerHTML = `<img src="${logoSrc}" alt="IDENTISITE Logo" style="width:30px;height:30px;object-fit:contain">`;
+        box.innerHTML = `<img src="${logoSrc}" alt="IDENTISITE Logo" style="width:46px;height:46px;object-fit:contain">`;
       });
     }
   }
