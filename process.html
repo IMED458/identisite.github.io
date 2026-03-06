@@ -1075,20 +1075,6 @@
           <span data-lang="ka">ვნახოთ ნამუშევრები</span>
         </a>
       </div>
-      <div class="hero-stats reveal reveal-delay-4">
-        <div class="stat-item">
-          <div class="stat-number">150+</div>
-          <div class="stat-label" data-lang="ka">პროექტი</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">98%</div>
-          <div class="stat-label" data-lang="ka">კმაყოფილება</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number">5+</div>
-          <div class="stat-label" data-lang="ka">წლიანი გამოცდილება</div>
-        </div>
-      </div>
     </div>
 
     <!-- Hero Visual -->
@@ -2222,7 +2208,7 @@
       const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
       const target = item.project_url||'#contact';
       const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
-      const media = item.image?`<img src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:``; 
+      const media = item.image?`<img src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0f172a;padding:8px">`:``; 
       return `<div class="port-card" onclick="location.href='${target}'" style="${bg}" role="link" tabindex="0">
         ${media}
         <div class="port-arrow"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
