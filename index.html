@@ -856,41 +856,69 @@
     .pw3d-card {
       position: absolute;
       border-radius: 16px;
-      padding: 12px;
+      padding: 14px 14px 12px;
       border: 1px solid rgba(255,255,255,0.16);
       background: rgba(15,23,42,0.62);
       box-shadow: 0 16px 42px rgba(0,0,0,0.34);
       backdrop-filter: blur(14px);
       transition: transform 0.25s ease;
       will-change: transform;
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-    .pw3d-card img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
+    .pw3d-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+    }
+    .pw3d-card-icon {
+      width: 30px;
+      height: 30px;
       border-radius: 10px;
+      background: linear-gradient(135deg, rgba(165,180,252,0.45), rgba(34,211,238,0.35));
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
     }
-    .pw3d-card-sm { width: min(26%, 230px); }
-    .pw3d-card-lg { width: min(30%, 280px); }
+    .pw3d-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #e2e8f0;
+      letter-spacing: 0.01em;
+    }
+    .pw3d-card-sm { width: min(22%, 220px); }
+    .pw3d-card-lg { width: min(24%, 240px); }
     .pw3d-card-a {
       left: 5%;
-      top: 12%;
+      top: 10%;
       transform: translate3d(0, 0, 80px) rotateY(16deg) rotateX(-8deg);
       animation: pw3d-float-a 6.2s ease-in-out infinite;
     }
     .pw3d-card-b {
-      right: 4%;
-      top: 16%;
+      right: 5%;
+      top: 12%;
       transform: translate3d(0, 0, 60px) rotateY(-15deg) rotateX(7deg);
       animation: pw3d-float-b 6.8s ease-in-out infinite;
     }
     .pw3d-card-c {
-      right: 14%;
-      bottom: 9%;
+      right: 12%;
+      bottom: 11%;
       transform: translate3d(0, 0, 70px) rotateY(-11deg) rotateX(6deg);
       animation: pw3d-float-c 7.4s ease-in-out infinite;
     }
+    .pw3d-cards {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .pw3d-cards .pw3d-card { pointer-events: auto; }
     @keyframes pw3d-float-a {
       0%,100% { transform: translate3d(0,0,80px) rotateY(16deg) rotateX(-8deg); }
       50% { transform: translate3d(0,-12px,80px) rotateY(19deg) rotateX(-10deg); }
@@ -930,27 +958,62 @@
       .pw3d-shell { min-height: 420px; }
       .pw3d-scene { min-height: 360px; }
       .pw3d-device { width: min(72%, 580px); }
-      .pw3d-card-sm { width: min(30%, 190px); }
-      .pw3d-card-lg { width: min(34%, 220px); }
+      .pw3d-card-sm { width: min(28%, 180px); }
+      .pw3d-card-lg { width: min(30%, 190px); }
+      .pw3d-card-name { font-size: 12px; }
     }
     @media (max-width: 768px) {
-      .pw3d-shell { padding: 12px; min-height: 360px; }
-      .pw3d-scene { min-height: 320px; }
+      .pw3d-shell { padding: 10px; min-height: auto; }
+      .pw3d-scene {
+        min-height: auto;
+        aspect-ratio: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px;
+        overflow: hidden;
+      }
+      .pw3d-grid { display: none; }
       .pw3d-device {
+        position: relative;
+        left: auto;
+        top: auto;
         width: 88%;
-        top: 55%;
-        transform: translate3d(-50%, -50%, 36px) rotateY(-7deg) rotateX(5deg);
+        max-width: none;
+        margin: 0 auto;
+        transform: none !important;
         padding: 14px;
       }
       .pw3d-screen { min-height: 170px; padding: 12px; }
       .pw3d-title { font-size: 19px; }
       .pw3d-text { font-size: 12px; }
-      .pw3d-card { padding: 8px; border-radius: 12px; }
-      .pw3d-card-sm { width: 34%; }
-      .pw3d-card-lg { width: 42%; }
-      .pw3d-card-a { left: 3%; top: 8%; }
-      .pw3d-card-b { right: 2%; top: 10%; }
-      .pw3d-card-c { right: 6%; bottom: 6%; }
+      .pw3d-cards {
+        position: relative;
+        inset: auto;
+        width: 88%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .pw3d-card {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+        padding: 10px;
+        border-radius: 12px;
+        min-height: 72px;
+        transform: none !important;
+        animation: none !important;
+      }
+      .pw3d-card-sm, .pw3d-card-lg { width: 100%; }
+      .pw3d-card-icon { width: 24px; height: 24px; border-radius: 8px; }
+      .pw3d-card-name { font-size: 11px; }
+      .pw3d-tag { margin-top: 6px; padding: 4px 9px; font-size: 10px; }
+      .pw3d-metrics { grid-template-columns: 1fr; gap: 7px; }
     }
 
     /* --- PROCESS TIMELINE --- */
@@ -1538,17 +1601,34 @@
             </div>
           </div>
         </div>
-        <div class="pw3d-card pw3d-card-sm pw3d-card-a" id="pw3dCardA">
-          <img src="/identisite.png" alt="Identisite concept card">
-          <span class="pw3d-tag pw3d-tag-a" data-lang="ka">კონცეპტ ქარდი</span>
-        </div>
-        <div class="pw3d-card pw3d-card-sm pw3d-card-b" id="pw3dCardB">
-          <img src="/identisite.png" alt="Identisite visual card">
-          <span class="pw3d-tag pw3d-tag-b" data-lang="ka">ვებ ქარდი</span>
-        </div>
-        <div class="pw3d-card pw3d-card-lg pw3d-card-c" id="pw3dCardC">
-          <img src="/identisite.png" alt="Identisite web card">
-          <span class="pw3d-tag pw3d-tag-c" data-lang="ka">სერვის ქარდი</span>
+        <div class="pw3d-cards">
+          <div class="pw3d-card pw3d-card-sm pw3d-card-a" id="pw3dCardA">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Concept</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-a" data-lang="ka">კონცეპტ ქარდი</span>
+          </div>
+          <div class="pw3d-card pw3d-card-sm pw3d-card-b" id="pw3dCardB">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 14l2.6-2.6a1 1 0 011.4 0L14 13.4l2-2a1 1 0 011.4 0L20 14"></path><circle cx="9" cy="9" r="1.4"></circle></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Visual</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-b" data-lang="ka">ვებ ქარდი</span>
+          </div>
+          <div class="pw3d-card pw3d-card-lg pw3d-card-c" id="pw3dCardC">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7a3 3 0 013-3h12a3 3 0 013 3v10a3 3 0 01-3 3H6a3 3 0 01-3-3V7z"></path><path d="M7 9h10M7 13h7M7 17h4"></path></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Service</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-c" data-lang="ka">სერვის ქარდი</span>
+          </div>
         </div>
       </div>
     </div>
