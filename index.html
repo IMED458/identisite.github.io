@@ -725,6 +725,234 @@
     }
     .embla-toggle:hover { background: rgba(255,255,255,0.16); }
 
+    /* --- PERSONAL WEBSITE 3D SECTION --- */
+    .pw3d-shell {
+      position: relative;
+      border-radius: 24px;
+      padding: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(99,102,241,0.28), transparent 40%),
+        radial-gradient(circle at 86% 78%, rgba(34,211,238,0.22), transparent 40%),
+        linear-gradient(140deg, #0b1020 0%, #121a33 48%, #0c1326 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      min-height: 460px;
+    }
+    .pw3d-scene {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      min-height: 420px;
+      transform-style: preserve-3d;
+      perspective: 1200px;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(3,8,22,0.8) 0%, rgba(3,8,22,0.45) 42%, rgba(3,8,22,0.85) 100%);
+      isolation: isolate;
+    }
+    .pw3d-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(165,180,252,0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(165,180,252,0.09) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.28;
+      transform: translateZ(-120px) rotateX(60deg) scale(1.35);
+      transform-origin: bottom center;
+      animation: pw3d-grid-drift 12s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes pw3d-grid-drift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 48px, 48px 0; }
+    }
+    .pw3d-device {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      width: min(62%, 640px);
+      transform: translate3d(-50%, -50%, 45px) rotateY(-12deg) rotateX(7deg);
+      border-radius: 24px;
+      background: linear-gradient(150deg, rgba(19,24,43,0.95), rgba(11,15,29,0.95));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow:
+        0 28px 72px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(99,102,241,0.24) inset;
+      padding: 22px;
+      transition: transform 0.25s ease;
+    }
+    .pw3d-device-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pw3d-device-dots { display: flex; gap: 6px; }
+    .pw3d-device-dots span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+    }
+    .pw3d-screen {
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 16px;
+      background: linear-gradient(150deg, rgba(99,102,241,0.15), rgba(34,211,238,0.11));
+      min-height: 210px;
+    }
+    .pw3d-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      background: rgba(15,23,42,0.5);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 12px;
+    }
+    .pw3d-title {
+      font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+      color: #f8fafc;
+      margin-bottom: 10px;
+    }
+    .pw3d-text {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.68;
+      max-width: 96%;
+    }
+    .pw3d-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .pw3d-metric {
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(15,23,42,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .pw3d-metric strong {
+      display: block;
+      font-size: 16px;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+    .pw3d-metric span { font-size: 11px; color: #cbd5e1; }
+    .pw3d-card {
+      position: absolute;
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(15,23,42,0.62);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.34);
+      backdrop-filter: blur(14px);
+      transition: transform 0.25s ease;
+      will-change: transform;
+    }
+    .pw3d-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+    .pw3d-card-sm { width: min(26%, 230px); }
+    .pw3d-card-lg { width: min(30%, 280px); }
+    .pw3d-card-a {
+      left: 5%;
+      top: 12%;
+      transform: translate3d(0, 0, 80px) rotateY(16deg) rotateX(-8deg);
+      animation: pw3d-float-a 6.2s ease-in-out infinite;
+    }
+    .pw3d-card-b {
+      right: 4%;
+      top: 16%;
+      transform: translate3d(0, 0, 60px) rotateY(-15deg) rotateX(7deg);
+      animation: pw3d-float-b 6.8s ease-in-out infinite;
+    }
+    .pw3d-card-c {
+      right: 14%;
+      bottom: 9%;
+      transform: translate3d(0, 0, 70px) rotateY(-11deg) rotateX(6deg);
+      animation: pw3d-float-c 7.4s ease-in-out infinite;
+    }
+    @keyframes pw3d-float-a {
+      0%,100% { transform: translate3d(0,0,80px) rotateY(16deg) rotateX(-8deg); }
+      50% { transform: translate3d(0,-12px,80px) rotateY(19deg) rotateX(-10deg); }
+    }
+    @keyframes pw3d-float-b {
+      0%,100% { transform: translate3d(0,0,60px) rotateY(-15deg) rotateX(7deg); }
+      50% { transform: translate3d(0,-14px,60px) rotateY(-18deg) rotateX(9deg); }
+    }
+    @keyframes pw3d-float-c {
+      0%,100% { transform: translate3d(0,0,70px) rotateY(-11deg) rotateX(6deg); }
+      50% { transform: translate3d(0,-11px,70px) rotateY(-14deg) rotateX(8deg); }
+    }
+    .pw3d-tag {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #e0e7ff;
+      background: rgba(99,102,241,0.25);
+      border: 1px solid rgba(129,140,248,0.5);
+    }
+    .pw3d-tag-a {
+      background: linear-gradient(135deg, rgba(99,102,241,0.45), rgba(34,211,238,0.28));
+      border-color: rgba(165,180,252,0.7);
+    }
+    .pw3d-tag-b {
+      background: linear-gradient(135deg, rgba(16,185,129,0.34), rgba(6,182,212,0.28));
+      border-color: rgba(94,234,212,0.65);
+    }
+    .pw3d-tag-c {
+      background: linear-gradient(135deg, rgba(244,114,182,0.34), rgba(139,92,246,0.32));
+      border-color: rgba(233,213,255,0.65);
+    }
+    @media (max-width: 1024px) {
+      .pw3d-shell { min-height: 420px; }
+      .pw3d-scene { min-height: 360px; }
+      .pw3d-device { width: min(72%, 580px); }
+      .pw3d-card-sm { width: min(30%, 190px); }
+      .pw3d-card-lg { width: min(34%, 220px); }
+    }
+    @media (max-width: 768px) {
+      .pw3d-shell { padding: 12px; min-height: 360px; }
+      .pw3d-scene { min-height: 320px; }
+      .pw3d-device {
+        width: 88%;
+        top: 55%;
+        transform: translate3d(-50%, -50%, 36px) rotateY(-7deg) rotateX(5deg);
+        padding: 14px;
+      }
+      .pw3d-screen { min-height: 170px; padding: 12px; }
+      .pw3d-title { font-size: 19px; }
+      .pw3d-text { font-size: 12px; }
+      .pw3d-card { padding: 8px; border-radius: 12px; }
+      .pw3d-card-sm { width: 34%; }
+      .pw3d-card-lg { width: 42%; }
+      .pw3d-card-a { left: 3%; top: 8%; }
+      .pw3d-card-b { right: 2%; top: 10%; }
+      .pw3d-card-c { right: 6%; bottom: 6%; }
+    }
+
     /* --- PROCESS TIMELINE --- */
     .process-grid { position: relative; }
     .process-line {
@@ -1291,15 +1519,37 @@
       <h2 class="section-title reveal reveal-delay-1" data-lang="ka">შექმენი პერსონალური ვებსაიტი</h2>
       <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">ინტერაქციული 3D პრეზენტაცია თანამედროვე ვიზუალით. ეს ბლოკი ჩასმულია მთავარ გვერდზე როგორც ცოცხალი დემო გამოცდილება.</p>
     </div>
-    <div class="glass reveal reveal-delay-2" style="padding:14px;border-radius:24px;overflow:hidden">
-      <div style="position:relative;width:100%;aspect-ratio:16/9;min-height:380px;background:radial-gradient(circle at 20% 20%,rgba(99,102,241,0.18),transparent 45%),radial-gradient(circle at 80% 80%,rgba(34,211,238,0.15),transparent 45%),#0b1020;border-radius:18px;overflow:hidden">
-        <iframe
-          src="https://my.spline.design/react3dwebsite-pIyJxwiXTmm7EQdATXqxKO8B/"
-          title="3D Personal Website Demo"
-          loading="lazy"
-          allow="fullscreen; xr-spatial-tracking"
-          style="position:absolute;inset:0;width:100%;height:100%;border:0;"
-        ></iframe>
+    <div class="pw3d-shell reveal reveal-delay-2">
+      <div class="pw3d-scene" id="pw3dScene">
+        <div class="pw3d-grid"></div>
+        <div class="pw3d-device" id="pw3dDevice">
+          <div class="pw3d-device-head">
+            <span>IDENTISITE STUDIO</span>
+            <div class="pw3d-device-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="pw3d-screen">
+            <div class="pw3d-badge">• PREMIUM CONCEPT</div>
+            <h3 class="pw3d-title" data-lang="ka">შექმენი პერსონალური ვებსაიტი</h3>
+            <p class="pw3d-text" data-lang="ka">ბიზნეს ვებსაიტები, ადმინისტრირების სისტემები, პერსონალური ვებსაიტები, სპორტდარბაზისა და სასტუმროს მართვის სისტემები. ვიზუალი და ბრენდინგი ერთიანდება თანამედროვე გამოცდილებად.</p>
+            <div class="pw3d-metrics">
+              <div class="pw3d-metric"><strong>3D</strong><span data-lang="ka">ინტერაქციული ეფექტი</span></div>
+              <div class="pw3d-metric"><strong>Fast</strong><span data-lang="ka">მობილურზე ოპტიმიზაცია</span></div>
+              <div class="pw3d-metric"><strong>Live</strong><span data-lang="ka">რეალურ დროში დემო</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pw3d-card pw3d-card-sm pw3d-card-a" id="pw3dCardA">
+          <img src="/identisite.png" alt="Identisite concept card">
+          <span class="pw3d-tag pw3d-tag-a" data-lang="ka">კონცეპტ ქარდი</span>
+        </div>
+        <div class="pw3d-card pw3d-card-sm pw3d-card-b" id="pw3dCardB">
+          <img src="/identisite.png" alt="Identisite visual card">
+          <span class="pw3d-tag pw3d-tag-b" data-lang="ka">ვებ ქარდი</span>
+        </div>
+        <div class="pw3d-card pw3d-card-lg pw3d-card-c" id="pw3dCardC">
+          <img src="/identisite.png" alt="Identisite web card">
+          <span class="pw3d-tag pw3d-tag-c" data-lang="ka">სერვის ქარდი</span>
+        </div>
       </div>
     </div>
   </div>
@@ -2010,6 +2260,13 @@
     'ანიმაციური დემო': 'Animated Demo',
     'შექმენი პერსონალური ვებსაიტი': 'Create a Personal Website',
     'ინტერაქციული 3D პრეზენტაცია თანამედროვე ვიზუალით. ეს ბლოკი ჩასმულია მთავარ გვერდზე როგორც ცოცხალი დემო გამოცდილება.': 'An interactive 3D presentation with modern visuals. This block is placed on the homepage as a live demo experience.',
+    'ბიზნეს ვებსაიტები, ადმინისტრირების სისტემები, პერსონალური ვებსაიტები, სპორტდარბაზისა და სასტუმროს მართვის სისტემები. ვიზუალი და ბრენდინგი ერთიანდება თანამედროვე გამოცდილებად.': 'Business websites, admin systems, personal websites, gym and hotel management systems. Visuals and branding merge into a modern experience.',
+    'ინტერაქციული ეფექტი': 'Interactive Effect',
+    'მობილურზე ოპტიმიზაცია': 'Mobile Optimized',
+    'რეალურ დროში დემო': 'Real-time Demo',
+    'კონცეპტ ქარდი': 'Concept Card',
+    'ვებ ქარდი': 'Web Card',
+    'სერვის ქარდი': 'Service Card',
     'ბრენდის იდენტობას ციფრულ გამოცდილებად ვაქცევთ': 'We Turn Brand Identity into Digital Experience',
     'IDENTISITE არის პრემიუმ ვებ სააგენტო, რომელიც ბიზნესებს ეხმარება ციფრულ სამყაროში გამორჩეული და დასამახსოვრებელი იდენტობის შექმნაში.': 'IDENTISITE is a premium web agency helping businesses build a distinctive and memorable digital identity.',
     'ჩვენი ისტორია': 'Our Story',
@@ -2719,6 +2976,37 @@
   }
   setContactGrid();
   window.addEventListener('resize', setContactGrid);
+
+  function initPw3dScene() {
+    const scene = document.getElementById('pw3dScene');
+    const device = document.getElementById('pw3dDevice');
+    const cardA = document.getElementById('pw3dCardA');
+    const cardB = document.getElementById('pw3dCardB');
+    const cardC = document.getElementById('pw3dCardC');
+    if (!scene || !device || !cardA || !cardB || !cardC) return;
+
+    const move = (clientX, clientY) => {
+      const rect = scene.getBoundingClientRect();
+      const x = ((clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((clientY - rect.top) / rect.height - 0.5) * 2;
+      const rx = Math.max(-1, Math.min(1, -y));
+      const ry = Math.max(-1, Math.min(1, x));
+
+      device.style.transform = `translate3d(-50%, -50%, 45px) rotateY(${(-12 + ry * 8).toFixed(2)}deg) rotateX(${(7 + rx * 6).toFixed(2)}deg)`;
+      cardA.style.transform = `translate3d(${(ry * 6).toFixed(2)}px, ${(rx * -5).toFixed(2)}px, 80px) rotateY(${(16 + ry * 8).toFixed(2)}deg) rotateX(${(-8 + rx * 6).toFixed(2)}deg)`;
+      cardB.style.transform = `translate3d(${(ry * 8).toFixed(2)}px, ${(rx * -6).toFixed(2)}px, 60px) rotateY(${(-15 + ry * 8).toFixed(2)}deg) rotateX(${(7 + rx * 6).toFixed(2)}deg)`;
+      cardC.style.transform = `translate3d(${(ry * 7).toFixed(2)}px, ${(rx * -5).toFixed(2)}px, 70px) rotateY(${(-11 + ry * 6).toFixed(2)}deg) rotateX(${(6 + rx * 5).toFixed(2)}deg)`;
+    };
+
+    scene.addEventListener('pointermove', (e) => move(e.clientX, e.clientY), { passive: true });
+    scene.addEventListener('pointerleave', () => {
+      device.style.transform = 'translate3d(-50%, -50%, 45px) rotateY(-12deg) rotateX(7deg)';
+      cardA.style.transform = '';
+      cardB.style.transform = '';
+      cardC.style.transform = '';
+    });
+  }
+  initPw3dScene();
 </script>
 <script type="module" src="./assets/js/firebase-public.js"></script>
 </body>
