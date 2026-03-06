@@ -628,10 +628,100 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 0;
-      transition: opacity 0.4s ease, transform 0.4s ease;
+      opacity: 1;
+      transform: scale(1);
+      z-index: 4;
+      text-decoration: none;
+      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.25);
     }
-    .port-card:hover .port-arrow { opacity: 1; transform: scale(1); }
+    .port-card:hover .port-arrow { transform: scale(1.06); }
+    .port-arrow:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.45); }
+
+    .portfolio-carousel { width: 100%; }
+    .embla {
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      border-radius: 20px;
+    }
+    .embla::-webkit-scrollbar { display: none; }
+    .embla__container {
+      display: flex;
+      touch-action: pan-y pinch-zoom;
+      margin-right: 12px;
+    }
+    .embla__slide {
+      flex: 0 0 70%;
+      min-width: 0;
+      padding-left: 12px;
+      transform: translateZ(0);
+      scroll-snap-align: start;
+    }
+    .embla-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .embla-dots { display: flex; justify-content: center; gap: 8px; }
+    .embla-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .embla-dot:hover { background: rgba(255,255,255,0.2); }
+    .embla-dot.active { background: var(--text-primary); border-color: var(--text-primary); }
+    .embla-progress {
+      border-radius: 999px;
+      border: 2px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      height: 8px;
+      width: 160px;
+      max-width: 90%;
+      overflow: hidden;
+      position: relative;
+      transition: opacity 0.3s ease;
+    }
+    .embla-progress-bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -100%;
+      width: 100%;
+      background: var(--text-primary);
+      animation-name: autoplay-progress;
+      animation-timing-function: linear;
+      animation-iteration-count: 1;
+      animation-play-state: paused;
+    }
+    @keyframes autoplay-progress {
+      from { transform: translateX(0); }
+      to { transform: translateX(100%); }
+    }
+    .embla-toggle {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.08);
+      color: var(--text-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .embla-toggle:hover { background: rgba(255,255,255,0.16); }
 
     /* --- PROCESS TIMELINE --- */
     .process-grid { position: relative; }
@@ -1005,6 +1095,9 @@
       .hero-title { font-size: 2.15rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 32px; }
       .footer-bottom { flex-direction: column; text-align: center; }
+      .embla__slide { flex-basis: 82%; }
+      .embla-controls { max-width: 100%; }
+      .embla-progress { width: 120px; }
       #about, #services, #portfolio, #process, #testimonials, #blog, #contact, #why-us {
         display: block;
       }
@@ -1408,48 +1501,71 @@
       <h2 class="section-title reveal reveal-delay-1" data-lang="ka">ჩვენი ნამუშევრები</h2>
       <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">გაეცანით ჩვენს წარმატებულ პროექტებს</p>
     </div>
-    <div id="portfolioGrid" class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-      <div class="port-card" style="background:linear-gradient(135deg,#3730a3,#6366f1)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">კორპორატიული ვებსაიტი</div>
-          <div class="port-title">TechCorp Website</div>
-          <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">Tailwind</span><span class="port-tag">Node.js</span></div>
-        </div></div>
+    <div class="portfolio-carousel reveal">
+      <div class="embla" id="portfolioEmbla">
+        <div id="portfolioGrid" class="embla__container">
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#3730a3,#6366f1)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">კორპორატიული ვებსაიტი</div>
+                <div class="port-title">TechCorp Website</div>
+                <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">Tailwind</span><span class="port-tag">Node.js</span></div>
+              </div></div>
+            </div>
+          </div>
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">ონლაინ მაღაზია</div>
+                <div class="port-title">StyleShop E-commerce</div>
+                <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">Stripe</span><span class="port-tag">PostgreSQL</span></div>
+              </div></div>
+            </div>
+          </div>
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#92400e,#f59e0b)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">მობილური აპლიკაცია</div>
+                <div class="port-title">FoodDelivery App</div>
+                <div class="port-tags"><span class="port-tag">React Native</span><span class="port-tag">Firebase</span></div>
+              </div></div>
+            </div>
+          </div>
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">სამედიცინო პლატფორმა</div>
+                <div class="port-title">HealthCare Portal</div>
+                <div class="port-tags"><span class="port-tag">Vue.js</span><span class="port-tag">Laravel</span></div>
+              </div></div>
+            </div>
+          </div>
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#064e3b,#10b981)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">სასწავლო პლატფორმა</div>
+                <div class="port-title">EduLearn Platform</div>
+                <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">MongoDB</span></div>
+              </div></div>
+            </div>
+          </div>
+          <div class="embla__slide">
+            <div class="port-card" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">
+              <div class="port-overlay"><div class="port-info">
+                <div class="port-cat" data-lang="ka">უძრავი ქონების პორტალი</div>
+                <div class="port-title">RealEstate Pro</div>
+                <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">GraphQL</span></div>
+              </div></div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="port-card" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">ონლაინ მაღაზია</div>
-          <div class="port-title">StyleShop E-commerce</div>
-          <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">Stripe</span><span class="port-tag">PostgreSQL</span></div>
-        </div></div>
-      </div>
-      <div class="port-card" style="background:linear-gradient(135deg,#92400e,#f59e0b)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">მობილური აპლიკაცია</div>
-          <div class="port-title">FoodDelivery App</div>
-          <div class="port-tags"><span class="port-tag">React Native</span><span class="port-tag">Firebase</span></div>
-        </div></div>
-      </div>
-      <div class="port-card" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">სამედიცინო პლატფორმა</div>
-          <div class="port-title">HealthCare Portal</div>
-          <div class="port-tags"><span class="port-tag">Vue.js</span><span class="port-tag">Laravel</span></div>
-        </div></div>
-      </div>
-      <div class="port-card" style="background:linear-gradient(135deg,#064e3b,#10b981)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">სასწავლო პლატფორმა</div>
-          <div class="port-title">EduLearn Platform</div>
-          <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">MongoDB</span></div>
-        </div></div>
-      </div>
-      <div class="port-card" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat" data-lang="ka">უძრავი ქონების პორტალი</div>
-          <div class="port-title">RealEstate Pro</div>
-          <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">GraphQL</span></div>
-        </div></div>
+      <div class="embla-controls">
+        <div id="portfolioDots" class="embla-dots"></div>
+        <div id="portfolioProgressWrap" class="embla-progress">
+          <div id="portfolioProgressBar" class="embla-progress-bar"></div>
+        </div>
+        <button id="portfolioAutoplayToggle" type="button" class="embla-toggle" aria-label="Pause autoplay" title="Pause autoplay">❚❚</button>
       </div>
     </div>
   </div>
@@ -2262,7 +2378,10 @@
   function renderPortfolio() {
     const items = getCmsList('portfolio');
     const grid = document.getElementById('portfolioGrid');
-    if (!grid || !items.length) return;
+    if (!grid || !items.length) {
+      initPortfolioCarousel();
+      return;
+    }
     grid.innerHTML = items.map(item => {
       const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
       const target = (item.project_url || '').trim();
@@ -2272,16 +2391,159 @@
       const arrow = hasLink
         ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
         : ``;
-      return `<div class="port-card" style="${bg}">
-        ${media}
-        ${arrow}
-        <div class="port-overlay"><div class="port-info">
-          <div class="port-cat">${item.category||''}</div>
-          <div class="port-title">${item.title||''}</div>
-          <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
-        </div></div>
-      </div>`;
+      return `<div class="embla__slide"><div class="port-card" style="${bg}">
+          ${media}
+          ${arrow}
+          <div class="port-overlay"><div class="port-info">
+            <div class="port-cat">${item.category||''}</div>
+            <div class="port-title">${item.title||''}</div>
+            <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
+          </div></div>
+        </div></div>`;
     }).join('');
+    initPortfolioCarousel();
+  }
+
+  let portfolioIndex = 0;
+  let portfolioAutoplayTimer = null;
+  let portfolioAutoplayPlaying = true;
+  const PORTFOLIO_AUTOPLAY_DELAY = 3000;
+  let portfolioScrollRaf = null;
+
+  function getPortfolioSlides() {
+    return Array.from(document.querySelectorAll('#portfolioGrid .embla__slide'));
+  }
+
+  function updatePortfolioDots() {
+    const dots = document.querySelectorAll('#portfolioDots .embla-dot');
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === portfolioIndex));
+  }
+
+  function renderPortfolioDots() {
+    const dotsWrap = document.getElementById('portfolioDots');
+    const slides = getPortfolioSlides();
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = slides.map((_, i) => `<button type="button" class="embla-dot${i === portfolioIndex ? ' active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>`).join('');
+    dotsWrap.querySelectorAll('.embla-dot').forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.getAttribute('data-index') || 0);
+        onPortfolioAutoplayButtonClick(() => scrollToPortfolioSlide(idx));
+      });
+    });
+  }
+
+  function restartPortfolioProgress() {
+    const wrap = document.getElementById('portfolioProgressWrap');
+    const bar = document.getElementById('portfolioProgressBar');
+    if (!wrap || !bar) return;
+    wrap.style.opacity = portfolioAutoplayPlaying ? '1' : '0';
+    bar.style.animationName = 'none';
+    bar.style.animationPlayState = 'paused';
+    if (!portfolioAutoplayPlaying) return;
+    void bar.offsetWidth;
+    bar.style.animationDuration = `${PORTFOLIO_AUTOPLAY_DELAY}ms`;
+    bar.style.animationName = 'autoplay-progress';
+    bar.style.animationPlayState = 'running';
+  }
+
+  function updatePortfolioAutoplayButton() {
+    const btn = document.getElementById('portfolioAutoplayToggle');
+    if (!btn) return;
+    if (portfolioAutoplayPlaying) {
+      btn.textContent = '❚❚';
+      btn.setAttribute('aria-label', 'Pause autoplay');
+      btn.setAttribute('title', 'Pause autoplay');
+    } else {
+      btn.textContent = '▶';
+      btn.setAttribute('aria-label', 'Play autoplay');
+      btn.setAttribute('title', 'Play autoplay');
+    }
+  }
+
+  function scrollToPortfolioSlide(index, smooth = true) {
+    const embla = document.getElementById('portfolioEmbla');
+    const slides = getPortfolioSlides();
+    if (!embla || !slides.length) return;
+    const max = slides.length - 1;
+    portfolioIndex = ((index % slides.length) + slides.length) % slides.length;
+    const targetLeft = Math.max(0, slides[Math.min(max, portfolioIndex)].offsetLeft - 12);
+    embla.scrollTo({ left: targetLeft, behavior: smooth ? 'smooth' : 'auto' });
+    updatePortfolioDots();
+    restartPortfolioProgress();
+  }
+
+  function clearPortfolioAutoplay() {
+    if (portfolioAutoplayTimer) {
+      clearInterval(portfolioAutoplayTimer);
+      portfolioAutoplayTimer = null;
+    }
+  }
+
+  function startPortfolioAutoplay() {
+    clearPortfolioAutoplay();
+    const slides = getPortfolioSlides();
+    if (!portfolioAutoplayPlaying || slides.length <= 1) {
+      restartPortfolioProgress();
+      return;
+    }
+    portfolioAutoplayTimer = setInterval(() => {
+      scrollToPortfolioSlide(portfolioIndex + 1);
+    }, PORTFOLIO_AUTOPLAY_DELAY);
+    restartPortfolioProgress();
+  }
+
+  function onPortfolioAutoplayButtonClick(callback) {
+    if (portfolioAutoplayPlaying) {
+      startPortfolioAutoplay();
+    }
+    callback();
+  }
+
+  function bindPortfolioScrollSync() {
+    const embla = document.getElementById('portfolioEmbla');
+    if (!embla) return;
+    embla.addEventListener('scroll', () => {
+      if (portfolioScrollRaf) cancelAnimationFrame(portfolioScrollRaf);
+      portfolioScrollRaf = requestAnimationFrame(() => {
+        const slides = getPortfolioSlides();
+        if (!slides.length) return;
+        const left = embla.scrollLeft;
+        let closest = 0;
+        let dist = Number.POSITIVE_INFINITY;
+        slides.forEach((slide, i) => {
+          const d = Math.abs(slide.offsetLeft - 12 - left);
+          if (d < dist) { dist = d; closest = i; }
+        });
+        if (closest !== portfolioIndex) {
+          portfolioIndex = closest;
+          updatePortfolioDots();
+        }
+      });
+    }, { passive: true });
+  }
+
+  function initPortfolioCarousel() {
+    const slides = getPortfolioSlides();
+    if (!slides.length) return;
+    portfolioIndex = 0;
+    renderPortfolioDots();
+    scrollToPortfolioSlide(0, false);
+    const toggle = document.getElementById('portfolioAutoplayToggle');
+    if (toggle && !toggle.dataset.bound) {
+      toggle.dataset.bound = '1';
+      toggle.addEventListener('click', () => {
+        portfolioAutoplayPlaying = !portfolioAutoplayPlaying;
+        updatePortfolioAutoplayButton();
+        startPortfolioAutoplay();
+      });
+    }
+    const embla = document.getElementById('portfolioEmbla');
+    if (embla && !embla.dataset.bound) {
+      embla.dataset.bound = '1';
+      bindPortfolioScrollSync();
+    }
+    updatePortfolioAutoplayButton();
+    startPortfolioAutoplay();
   }
 
   function renderWhyUs() {
@@ -2401,19 +2663,16 @@
   function setServiceGridCols() {
     const g = document.getElementById('servicesGrid');
     const w = document.getElementById('whyGrid');
-    const p = document.getElementById('portfolioGrid');
     const t = document.getElementById('testimonialsGrid');
     const b = document.getElementById('blogGrid');
     if (window.innerWidth < 768) {
       if (g) g.style.gridTemplateColumns = '1fr';
       if (w) w.style.gridTemplateColumns = '1fr 1fr';
-      if (p) p.style.gridTemplateColumns = '1fr 1fr';
       if (t) t.style.gridTemplateColumns = '1fr';
       if (b) b.style.gridTemplateColumns = '1fr';
     } else if (window.innerWidth < 1024) {
       if (g) g.style.gridTemplateColumns = '1fr 1fr';
       if (w) w.style.gridTemplateColumns = '1fr 1fr';
-      if (p) p.style.gridTemplateColumns = '1fr 1fr';
       if (t) t.style.gridTemplateColumns = '1fr 1fr 1fr';
       if (b) b.style.gridTemplateColumns = '1fr 1fr';
     }
