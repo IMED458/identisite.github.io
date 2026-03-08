@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>პორტფოლიო | IDENTISITE - ვებ პროექტები საქართველოში</title>
-  <meta name="description" content="IDENTISITE პორტფოლიო: კორპორატიული ვებსაიტები, E-commerce მაღაზიები, სამედიცინო და სასწავლო პლატფორმები. ნახეთ ჩვენი საუკეთესო ნამუშევრები.">
+  <title>IDENTISITE | საიტების დამზადება, ვებსაიტების გაკეთება, საიტების ფასები</title>
+  <meta name="description" content="IDENTISITE - საიტების დამზადება და ვებსაიტების გაკეთება ბიზნესებისთვის. გაიგე საიტების ფასები, მომსახურებები, პორტფოლიო და დაიწყე პროექტი დღესვე.">
   <meta name="keywords" content="საიტების დამზადება, ვებსაიტების გაკეთება, საიტების ფასები, ვებ საიტის დამზადება, ვებ დეველოპმენტი, identisite, website development georgia, web design georgia">
   <meta name="author" content="IDENTISITE">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://identisite.imed.com.ge/portfolio/">
+  <link rel="canonical" href="https://identisite.imed.com.ge/">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="ka_GE">
   <meta property="og:site_name" content="IDENTISITE">
-  <meta property="og:title" content="პორტფოლიო | IDENTISITE - ჩვენი ნამუშევრები">
-  <meta property="og:description" content="IDENTISITE-ის პორტფოლიო - 150+ წარმატებული ვებ პროექტი. კორპორატიული საიტები, E-commerce, მობილური აპლიკაციები და სხვა.">
-  <meta property="og:url" content="https://identisite.imed.com.ge/portfolio/">
+  <meta property="og:title" content="IDENTISITE | საიტების დამზადება, ვებსაიტების გაკეთება, საიტების ფასები">
+  <meta property="og:description" content="პროფესიონალური ვებსაიტების დამზადება, UX/UI დიზაინი, E-commerce გადაწყვეტილებები და გაყიდვებზე ორიენტირებული შედეგი.">
+  <meta property="og:url" content="https://identisite.imed.com.ge/">
   <meta property="og:image" content="https://identisite.imed.com.ge/identisite.png">
   <meta name="twitter:site" content="@IDENTISITE">
   <meta property="og:image:alt" content="IDENTISITE - ვებ სააგენტო">
@@ -84,7 +84,6 @@
       overflow-x: hidden;
       line-height: 1.6;
     }
-
     h1, h2, h3, h4, h5 {
       font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
       line-height: 1.15;
@@ -150,9 +149,12 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      transition: all 0.4s ease;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       padding: 0 2rem;
+      transform: translateY(-100px);
+      opacity: 0;
     }
+    body.page-ready #navbar { transform: translateY(0); opacity: 1; }
     #navbar.scrolled {
       background: rgba(7, 7, 14, 0.85);
       backdrop-filter: blur(24px);
@@ -276,6 +278,7 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 32px var(--glow-primary);
     }
+    .btn-primary:active { transform: scale(0.95); }
     .btn-secondary {
       display: inline-flex;
       align-items: center;
@@ -297,6 +300,7 @@
       background: rgba(99, 102, 241, 0.08);
       transform: translateY(-2px);
     }
+    .btn-secondary:active { transform: scale(0.95); }
     .mobile-btn {
       display: none;
       background: transparent;
@@ -305,6 +309,41 @@
       cursor: pointer;
       padding: 8px;
       border-radius: 10px;
+    }    .loader-logo {
+      width: 66px; height: 66px;
+      display: grid; place-items: center;
+      border-radius: 16px;
+      border: 1px solid rgba(99,102,241,0.35);
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+      animation: loader-pop 0.5s ease both;
+    }
+    .loader-progress {
+      width: 180px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-progress-bar {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: var(--accent-secondary);
+      animation: loader-fill 1s 0.5s ease forwards;
+    }
+    @keyframes loader-pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes loader-fill {
+      from { width: 0; }
+      to { width: 100%; }
     }
 
     /* --- SECTION LABEL --- */
@@ -398,7 +437,11 @@
       letter-spacing: -0.04em;
       margin-bottom: 24px;
       color: var(--text-primary);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    body.page-ready .hero-title { opacity: 1; transform: translateY(0); }
     .hero-divider {
       width: 80px;
       height: 2px;
@@ -413,7 +456,8 @@
       margin-bottom: 40px;
       font-weight: 300;
     }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; opacity: 0; transform: translateY(28px); transition: opacity 0.8s 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.8s 0.35s cubic-bezier(0.16,1,0.3,1); }
+    body.page-ready .hero-ctas { opacity: 1; transform: translateY(0); }
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -438,7 +482,11 @@
     .float-card {
       position: absolute;
       border-radius: 16px;
+      opacity: 0;
+      transform: translateY(40px) scale(0.85);
+      transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
     }
+    body.page-ready .float-card { opacity: 1; transform: translateY(0) scale(1); }
     @keyframes float-a {
       0%, 100% { transform: translateY(0px) rotate(-1deg); }
       50% { transform: translateY(-16px) rotate(-1deg); }
@@ -644,6 +692,59 @@
     }
     .port-card:hover .port-arrow { transform: scale(1.06); }
     .port-arrow:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.45); }
+    .port-readmore-btn {
+      margin-top: 12px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .port-readmore-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+
+    .portfolio-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 7, 18, 0.76);
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .portfolio-modal.open { display: flex; }
+    .portfolio-modal-card {
+      width: min(720px, 100%);
+      max-height: 82vh;
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+      padding: 22px;
+    }
+    .portfolio-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .portfolio-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
 
     .portfolio-carousel { width: 100%; }
     .embla {
@@ -1055,6 +1156,16 @@
       padding-top: 32px;
       position: relative;
     }
+    .process-number-wrap::after {
+      content: '';
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(79,70,229,0.35);
+      z-index: 0;
+      animation: process-ping 2s infinite;
+    }
     .process-number {
       width: 48px; height: 48px;
       border-radius: 50%;
@@ -1070,6 +1181,11 @@
       z-index: 2;
       position: relative;
       flex-shrink: 0;
+    }
+    @keyframes process-ping {
+      0% { transform: scale(1); opacity: .22; }
+      70% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(1.3); opacity: 0; }
     }
     .process-empty { }
     .process-step h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
@@ -1422,8 +1538,88 @@
     .form-input:focus { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
   </style>
   <style>body { box-sizing: border-box; }</style>
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "IDENTISITE",
+    "description": "პრემიუმ ვებ სააგენტო - კორპორატიული ვებსაიტები, E-commerce, UI/UX დიზაინი, SEO ოპტიმიზაცია",
+    "url": "https://identisite.imed.com.ge",
+    "logo": "https://identisite.imed.com.ge/identisite.png",
+    "image": "https://identisite.imed.com.ge/identisite.png",
+    "telephone": "+995555123456",
+    "email": "info@identisite.ge",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "თბილისი",
+      "addressCountry": "GE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 41.6938,
+      "longitude": 44.8015
+    },
+    "foundingDate": "2019",
+    "numberOfEmployees": {"@type": "QuantitativeValue", "value": 5},
+    "areaServed": {"@type": "Country", "name": "Georgia"},
+    "serviceType": ["ვებსაიტების დამზადება", "E-commerce", "UI/UX Design", "SEO Optimization"],
+    "priceRange": "₾₾",
+    "sameAs": [
+      "https://instagram.com",
+      "https://facebook.com"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "IDENTISITE",
+    "url": "https://identisite.imed.com.ge",
+    "description": "საიტების დამზადება, ვებსაიტების გაკეთება",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://identisite.imed.com.ge/portfolio/",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "რა ღირს ვებსაიტის შექმნა?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ფასი დამოკიდებულია პროექტის სირთულეზე. მარტივი Landing Page იწყება 500₾-დან, სრულფასოვანი E-commerce პლატფორმა — 3000₾-დან."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "რამდენ ხანში დამზადდება ვებსაიტი?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Landing Page: 1-2 კვირა, კორპორატიული ვებსაიტი: 3-4 კვირა, E-commerce: 4-8 კვირა."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "გთავაზობთ თუ არა ტექნიკურ მხარდაჭერას?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "დიახ! პირველი 3 თვე უფასოა, შემდეგ ყოველთვიური პაკეტები 50₾-დან."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
-<body>
+<body class="page-ready">
 
 <!-- ========== NAVBAR ========== -->
 <nav id="navbar">
@@ -1511,6 +1707,16 @@
 
     <!-- Hero Visual -->
     <div class="hero-visual">
+      <svg class="hero-wire" viewBox="0 0 1000 520" fill="none" aria-hidden="true">
+        <path d="M70 160C220 80 320 260 470 190C610 125 690 300 930 220" stroke="url(#heroWireGrad)" stroke-width="2"/>
+        <defs>
+          <linearGradient id="heroWireGrad" x1="70" y1="160" x2="930" y2="220" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/>
+            <stop offset="0.5" stop-color="#22d3ee"/>
+            <stop offset="1" stop-color="#a855f7"/>
+          </linearGradient>
+        </defs>
+      </svg>
       <!-- Floating card 1 -->
       <div class="float-card float-a glass" style="top:0;left:20px;width:240px;padding:20px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
@@ -1580,6 +1786,66 @@
       <div class="ticker-item"><span>DigitalHub</span><div class="ticker-dot"></div></div>
       <div class="ticker-item"><span>InnovateLab</span><div class="ticker-dot"></div></div>
       <div class="ticker-item"><span>FutureTech</span><div class="ticker-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PERSONAL WEBSITE 3D ========== -->
+<section id="personal-website-3d" class="section" style="padding-top:72px;padding-bottom:72px">
+  <div class="section-inner">
+    <div class="section-header" style="margin-bottom:28px">
+      <div class="section-label reveal" data-lang="ka">ანიმაციური დემო</div>
+      <h2 class="section-title reveal reveal-delay-1" data-lang="ka">შექმენი პერსონალური ვებსაიტი</h2>
+    </div>
+    <div class="pw3d-shell reveal reveal-delay-2">
+      <div class="pw3d-scene" id="pw3dScene">
+        <div class="pw3d-grid"></div>
+        <div class="pw3d-device" id="pw3dDevice">
+          <div class="pw3d-device-head">
+            <span>IDENTISITE STUDIO</span>
+            <div class="pw3d-device-dots"><span></span><span></span><span></span></div>
+          </div>
+          <div class="pw3d-screen">
+            <div class="pw3d-badge">• PREMIUM CONCEPT</div>
+            <h3 class="pw3d-title" data-lang="ka">შექმენი პერსონალური ვებსაიტი</h3>
+            <p class="pw3d-text" data-lang="ka">ბიზნეს ვებსაიტები, ადმინისტრირების სისტემები, პერსონალური ვებსაიტები, სპორტდარბაზისა და სასტუმროს მართვის სისტემები. ვიზუალი და ბრენდინგი ერთიანდება თანამედროვე გამოცდილებად.</p>
+            <div class="pw3d-metrics">
+              <div class="pw3d-metric"><strong>3D</strong><span data-lang="ka">ინტერაქციული ეფექტი</span></div>
+              <div class="pw3d-metric"><strong>Fast</strong><span data-lang="ka">მობილურზე ოპტიმიზაცია</span></div>
+              <div class="pw3d-metric"><strong>Live</strong><span data-lang="ka">რეალურ დროში დემო</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="pw3d-cards">
+          <div class="pw3d-card pw3d-card-sm pw3d-card-a" id="pw3dCardA">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="3" y="3" width="18" height="18" rx="4"></rect><path d="M8 8h8M8 12h8M8 16h5"></path></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Concept</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-a" data-lang="ka">კონცეპტ ქარდი</span>
+          </div>
+          <div class="pw3d-card pw3d-card-sm pw3d-card-b" id="pw3dCardB">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 14l2.6-2.6a1 1 0 011.4 0L14 13.4l2-2a1 1 0 011.4 0L20 14"></path><circle cx="9" cy="9" r="1.4"></circle></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Visual</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-b" data-lang="ka">ვებ ქარდი</span>
+          </div>
+          <div class="pw3d-card pw3d-card-lg pw3d-card-c" id="pw3dCardC">
+            <div class="pw3d-card-head">
+              <span class="pw3d-card-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 7a3 3 0 013-3h12a3 3 0 013 3v10a3 3 0 01-3 3H6a3 3 0 01-3-3V7z"></path><path d="M7 9h10M7 13h7M7 17h4"></path></svg>
+              </span>
+              <span class="pw3d-card-name">Identisite Service</span>
+            </div>
+            <span class="pw3d-tag pw3d-tag-c" data-lang="ka">სერვის ქარდი</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -2205,6 +2471,18 @@
 
 </main>
 
+<div id="portfolioModal" class="portfolio-modal" aria-hidden="true">
+  <div class="portfolio-modal-card">
+    <div class="portfolio-modal-head">
+      <h3 id="portfolioModalTitle" style="font-size:24px;font-weight:800">Project</h3>
+      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
+    </div>
+    <p id="portfolioModalCategory" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px"></p>
+    <p id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8;white-space:pre-line"></p>
+  </div>
+</div>
+
+
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
   <div class="footer-inner">
@@ -2289,6 +2567,15 @@
     'პროექტი': 'Projects', 'კმაყოფილება': 'Satisfaction', 'წლიანი გამოცდილება': 'Years Experience',
     'პროექტი დასრულდა': 'Project Complete', 'ვიზიტორი დღეს': 'Visitors Today', 'კონვერსია': 'Conversion',
     'ჩვენ გვენდობიან': 'Trusted By',
+    'ანიმაციური დემო': 'Animated Demo',
+    'შექმენი პერსონალური ვებსაიტი': 'Create a Personal Website',
+    'ბიზნეს ვებსაიტები, ადმინისტრირების სისტემები, პერსონალური ვებსაიტები, სპორტდარბაზისა და სასტუმროს მართვის სისტემები. ვიზუალი და ბრენდინგი ერთიანდება თანამედროვე გამოცდილებად.': 'Business websites, admin systems, personal websites, gym and hotel management systems. Visuals and branding merge into a modern experience.',
+    'ინტერაქციული ეფექტი': 'Interactive Effect',
+    'მობილურზე ოპტიმიზაცია': 'Mobile Optimized',
+    'რეალურ დროში დემო': 'Real-time Demo',
+    'კონცეპტ ქარდი': 'Concept Card',
+    'ვებ ქარდი': 'Web Card',
+    'სერვის ქარდი': 'Service Card',
     'ბრენდის იდენტობას ციფრულ გამოცდილებად ვაქცევთ': 'We Turn Brand Identity into Digital Experience',
     'IDENTISITE არის პრემიუმ ვებ სააგენტო, რომელიც ბიზნესებს ეხმარება ციფრულ სამყაროში გამორჩეული და დასამახსოვრებელი იდენტობის შექმნაში.': 'IDENTISITE is a premium web agency helping businesses build a distinctive and memorable digital identity.',
     'ჩვენი ისტორია': 'Our Story',
@@ -2482,6 +2769,35 @@
   if (blogDetails) blogDetails.style.display = page === "blog" ? "block" : "none";
 }
 
+  // ---- PORTFOLIO MODAL ----
+  const portfolioModal = document.getElementById('portfolioModal');
+  const portfolioModalTitle = document.getElementById('portfolioModalTitle');
+  const portfolioModalCategory = document.getElementById('portfolioModalCategory');
+  const portfolioModalText = document.getElementById('portfolioModalText');
+  const portfolioModalClose = document.getElementById('portfolioModalClose');
+
+  function openPortfolioModal(title, category, text) {
+    if (!portfolioModal) return;
+    portfolioModalTitle.textContent = title || 'Project';
+    portfolioModalCategory.textContent = category || '';
+    portfolioModalText.textContent = text || '';
+    portfolioModal.classList.add('open');
+    portfolioModal.setAttribute('aria-hidden', 'false');
+  }
+  function closePortfolioModal() {
+    if (!portfolioModal) return;
+    portfolioModal.classList.remove('open');
+    portfolioModal.setAttribute('aria-hidden', 'true');
+  }
+  if (portfolioModalClose) portfolioModalClose.addEventListener('click', closePortfolioModal);
+  if (portfolioModal) {
+    portfolioModal.addEventListener('click', (e) => {
+      if (e.target === portfolioModal) closePortfolioModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePortfolioModal();
+  });
 
   // ---- NAVBAR SCROLL ----
   window.addEventListener('scroll', () => {
@@ -2550,7 +2866,15 @@
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
-
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.port-readmore-btn');
+    if (!btn) return;
+    openPortfolioModal(
+      btn.getAttribute('data-port-title') || '',
+      btn.getAttribute('data-port-category') || '',
+      btn.getAttribute('data-port-text') || ''
+    );
+  });
   // ---- CONTACT FORM ----
   document.getElementById('contactForm').addEventListener('submit', async e => {
     e.preventDefault();
@@ -2721,6 +3045,7 @@
       const hasLink = Boolean(target);
       const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
       const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
+      const fullText = (item.full_description || item.short_description || item.description || '').trim();
       const arrow = hasLink
         ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
         : ``;
@@ -2731,6 +3056,7 @@
             <div class="port-cat">${item.category||''}</div>
             <div class="port-title">${item.title||''}</div>
             <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
+            ${fullText ? `<button type="button" class="port-readmore-btn" data-port-title="${(item.title || '').replace(/"/g, '&quot;')}" data-port-category="${(item.category || '').replace(/"/g, '&quot;')}" data-port-text="${fullText.replace(/"/g, '&quot;')}">ვრცლად</button>` : ``}
           </div></div>
         </div></div>`;
     }).join('');
@@ -3025,6 +3351,37 @@
   }
   setContactGrid();
   window.addEventListener('resize', setContactGrid);
+
+  function initPw3dScene() {
+    const scene = document.getElementById('pw3dScene');
+    const device = document.getElementById('pw3dDevice');
+    const cardA = document.getElementById('pw3dCardA');
+    const cardB = document.getElementById('pw3dCardB');
+    const cardC = document.getElementById('pw3dCardC');
+    if (!scene || !device || !cardA || !cardB || !cardC) return;
+
+    const move = (clientX, clientY) => {
+      const rect = scene.getBoundingClientRect();
+      const x = ((clientX - rect.left) / rect.width - 0.5) * 2;
+      const y = ((clientY - rect.top) / rect.height - 0.5) * 2;
+      const rx = Math.max(-1, Math.min(1, -y));
+      const ry = Math.max(-1, Math.min(1, x));
+
+      device.style.transform = `translate3d(-50%, -50%, 45px) rotateY(${(-12 + ry * 8).toFixed(2)}deg) rotateX(${(7 + rx * 6).toFixed(2)}deg)`;
+      cardA.style.transform = `translate3d(${(ry * 6).toFixed(2)}px, ${(rx * -5).toFixed(2)}px, 80px) rotateY(${(16 + ry * 8).toFixed(2)}deg) rotateX(${(-8 + rx * 6).toFixed(2)}deg)`;
+      cardB.style.transform = `translate3d(${(ry * 8).toFixed(2)}px, ${(rx * -6).toFixed(2)}px, 60px) rotateY(${(-15 + ry * 8).toFixed(2)}deg) rotateX(${(7 + rx * 6).toFixed(2)}deg)`;
+      cardC.style.transform = `translate3d(${(ry * 7).toFixed(2)}px, ${(rx * -5).toFixed(2)}px, 70px) rotateY(${(-11 + ry * 6).toFixed(2)}deg) rotateX(${(6 + rx * 5).toFixed(2)}deg)`;
+    };
+
+    scene.addEventListener('pointermove', (e) => move(e.clientX, e.clientY), { passive: true });
+    scene.addEventListener('pointerleave', () => {
+      device.style.transform = 'translate3d(-50%, -50%, 45px) rotateY(-12deg) rotateX(7deg)';
+      cardA.style.transform = '';
+      cardB.style.transform = '';
+      cardC.style.transform = '';
+    });
+  }
+  initPw3dScene();
 </script>
 <script type="module" src="./assets/js/firebase-public.js"></script>
 </body>

@@ -692,6 +692,59 @@
     }
     .port-card:hover .port-arrow { transform: scale(1.06); }
     .port-arrow:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.45); }
+    .port-readmore-btn {
+      margin-top: 12px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .port-readmore-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+
+    .portfolio-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 7, 18, 0.76);
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .portfolio-modal.open { display: flex; }
+    .portfolio-modal-card {
+      width: min(720px, 100%);
+      max-height: 82vh;
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+      padding: 22px;
+    }
+    .portfolio-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .portfolio-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
 
     .portfolio-carousel { width: 100%; }
     .embla {
@@ -2418,6 +2471,17 @@
 
 </main>
 
+<div id="portfolioModal" class="portfolio-modal" aria-hidden="true">
+  <div class="portfolio-modal-card">
+    <div class="portfolio-modal-head">
+      <h3 id="portfolioModalTitle" style="font-size:24px;font-weight:800">Project</h3>
+      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
+    </div>
+    <p id="portfolioModalCategory" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px"></p>
+    <p id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8;white-space:pre-line"></p>
+  </div>
+</div>
+
 
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
@@ -2705,6 +2769,36 @@
   if (blogDetails) blogDetails.style.display = page === "blog" ? "block" : "none";
 }
 
+  // ---- PORTFOLIO MODAL ----
+  const portfolioModal = document.getElementById('portfolioModal');
+  const portfolioModalTitle = document.getElementById('portfolioModalTitle');
+  const portfolioModalCategory = document.getElementById('portfolioModalCategory');
+  const portfolioModalText = document.getElementById('portfolioModalText');
+  const portfolioModalClose = document.getElementById('portfolioModalClose');
+
+  function openPortfolioModal(title, category, text) {
+    if (!portfolioModal) return;
+    portfolioModalTitle.textContent = title || 'Project';
+    portfolioModalCategory.textContent = category || '';
+    portfolioModalText.textContent = text || '';
+    portfolioModal.classList.add('open');
+    portfolioModal.setAttribute('aria-hidden', 'false');
+  }
+  function closePortfolioModal() {
+    if (!portfolioModal) return;
+    portfolioModal.classList.remove('open');
+    portfolioModal.setAttribute('aria-hidden', 'true');
+  }
+  if (portfolioModalClose) portfolioModalClose.addEventListener('click', closePortfolioModal);
+  if (portfolioModal) {
+    portfolioModal.addEventListener('click', (e) => {
+      if (e.target === portfolioModal) closePortfolioModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePortfolioModal();
+  });
+
   // ---- NAVBAR SCROLL ----
   window.addEventListener('scroll', () => {
     const navbar = document.getElementById('navbar');
@@ -2771,6 +2865,15 @@
       const target = document.querySelector(a.getAttribute('href'));
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
+  });
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.port-readmore-btn');
+    if (!btn) return;
+    openPortfolioModal(
+      btn.getAttribute('data-port-title') || '',
+      btn.getAttribute('data-port-category') || '',
+      btn.getAttribute('data-port-text') || ''
+    );
   });
   // ---- CONTACT FORM ----
   document.getElementById('contactForm').addEventListener('submit', async e => {
@@ -2942,6 +3045,7 @@
       const hasLink = Boolean(target);
       const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
       const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
+      const fullText = (item.full_description || item.short_description || item.description || '').trim();
       const arrow = hasLink
         ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
         : ``;
@@ -2952,6 +3056,7 @@
             <div class="port-cat">${item.category||''}</div>
             <div class="port-title">${item.title||''}</div>
             <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
+            ${fullText ? `<button type="button" class="port-readmore-btn" data-port-title="${(item.title || '').replace(/"/g, '&quot;')}" data-port-category="${(item.category || '').replace(/"/g, '&quot;')}" data-port-text="${fullText.replace(/"/g, '&quot;')}">ვრცლად</button>` : ``}
           </div></div>
         </div></div>`;
     }).join('');
