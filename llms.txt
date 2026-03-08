@@ -1,0 +1,34 @@
+# IDENTISITE
+
+IDENTISITE is a Georgian web agency website focused on:
+- Corporate websites
+- E-commerce websites
+- UI/UX design
+- SEO optimization
+- Admin dashboards
+
+Primary language: Georgian (`ka`), with English toggle (`en`).
+
+Canonical site:
+- https://identisite.imed.com.ge/
+
+Primary pages:
+- https://identisite.imed.com.ge/
+- https://identisite.imed.com.ge/about.html
+- https://identisite.imed.com.ge/services.html
+- https://identisite.imed.com.ge/portfolio.html
+- https://identisite.imed.com.ge/process.html
+- https://identisite.imed.com.ge/blog.html
+- https://identisite.imed.com.ge/contact.html
+- https://identisite.imed.com.ge/privacy.html
+- https://identisite.imed.com.ge/terms.html
+- https://identisite.imed.com.ge/news-8-marti.html
+
+Brand assets:
+- Logo: /identisite.png
+- Favicons: /favicon.ico, /favicon-32x32.png, /favicon-192x192.png, /apple-touch-icon.png
+
+Contact:
+- Email: info@identisite.ge
+- Phone: +995 555 123 456
+- Location: Tbilisi, Georgia

@@ -1521,7 +1521,7 @@
       <a href="contact.html" class="nav-link" data-lang="ka">კონტაქტი</a>
     </div>
     <div class="nav-actions">
-      <button id="langSwitch" class="lang-btn">EN</button>
+      <button id="langSwitch" class="lang-btn" aria-label="Switch language">EN</button>
       <a href="contact.html" class="btn-primary" style="display:none" id="navCta">
         <span data-lang="ka">დავიწყოთ</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1553,6 +1553,8 @@
     <a href="contact.html" class="btn-primary" data-lang="ka" style="flex:1;justify-content:center">დავიწყოთ</a>
   </div>
 </div>
+
+<main id="main-content" role="main">
 
 <!-- ========== HERO ========== -->
 <section id="home">
@@ -2293,28 +2295,28 @@
       <h3 class="section-title reveal" style="text-align:center;margin-bottom:40px" data-lang="ka">ხშირად დასმული კითხვები</h3>
       <div style="max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:10px" id="faqContainer" class="reveal">
         <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-label="Toggle FAQ answer" aria-expanded="false">
             <span class="faq-question" data-lang="ka">რა ღირს ვებსაიტის შექმნა?</span>
             <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </button>
           <div class="faq-answer"><div class="faq-answer-inner" data-lang="ka">ფასი დამოკიდებულია პროექტის სირთულეზე და მოთხოვნებზე. მარტივი Landing Page იწყება 500₾-დან, ხოლო სრულფასოვანი E-commerce პლატფორმა — 3000₾-დან. დაგვიკავშირდით უფასო კონსულტაციისთვის და ზუსტი შეფასებისთვის.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-label="Toggle FAQ answer" aria-expanded="false">
             <span class="faq-question" data-lang="ka">რამდენ ხანში დამზადდება ვებსაიტი?</span>
             <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </button>
           <div class="faq-answer"><div class="faq-answer-inner" data-lang="ka">Landing Page: 1-2 კვირა, კორპორატიული ვებსაიტი: 3-4 კვირა, E-commerce: 4-8 კვირა. ვადები დამოკიდებულია პროექტის მოცულობაზე და თქვენი უკუკავშირის სისწრაფეზე.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-label="Toggle FAQ answer" aria-expanded="false">
             <span class="faq-question" data-lang="ka">გთავაზობთ თუ არა ტექნიკურ მხარდაჭერას?</span>
             <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </button>
           <div class="faq-answer"><div class="faq-answer-inner" data-lang="ka">დიახ! გთავაზობთ 24/7 ტექნიკურ მხარდაჭერას. პირველი 3 თვე უფასოა, შემდეგ კი გვაქვს ყოველთვიური მხარდაჭერის პაკეტები 50₾-დან.</div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-btn" onclick="toggleFaq(this)">
+          <button class="faq-btn" onclick="toggleFaq(this)" aria-label="Toggle FAQ answer" aria-expanded="false">
             <span class="faq-question" data-lang="ka">როგორ მიმდინარეობს თანამშრომლობა?</span>
             <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           </button>
@@ -2338,6 +2340,8 @@
     <p style="font-size:14px;color:var(--text-secondary);line-height:1.8" data-lang="ka">თანამშრომლობა იწყება მოთხოვნის დაზუსტებით, ვადებისა და ფასის შეთანხმებით. პროექტის დაწყება/მიწოდება ხორციელდება დადასტურებული ეტაპების მიხედვით.</p>
   </div>
 </section>
+
+</main>
 
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
@@ -2640,10 +2644,11 @@
     const isOpen = answer.classList.contains('open');
     // Close all
     document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-    document.querySelectorAll('.faq-btn').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.faq-btn').forEach(b => { b.classList.remove('open'); b.setAttribute('aria-expanded', 'false'); });
     if (!isOpen) {
       answer.classList.add('open');
       btn.classList.add('open');
+      btn.setAttribute('aria-expanded', 'true');
     }
   }
 
@@ -3086,7 +3091,7 @@
     if (!holder || !items.length) return;
     holder.innerHTML = items.map(item => `
       <div class="faq-item">
-        <button class="faq-btn" onclick="toggleFaq(this)">
+        <button class="faq-btn" onclick="toggleFaq(this)" aria-label="Toggle FAQ answer" aria-expanded="false">
           <span class="faq-question">${item.question||''}</span>
           <div class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         </button>
