@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Gift Page</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 2rem; background: #f8fafc; color: #334155; }
+    .loading { max-width: 680px; margin: 10vh auto; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="loading" id="loading">იტვირთება...</div>
+
+  <script type="module">
+    import { getGiftPage } from './assets/js/firebase-data.js';
+
+    function esc(str = '') {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function normalizeHeroTitle(value = '') {
+      const raw = String(value || '').trim();
+      if (!raw) return 'ჩემო სიყვარულო';
+      if (raw === 'ჩემი სიყვარული') return 'ჩემო სიყვარულო';
+      return raw;
+    }
+
+    function musicEmbed(url = '') {
+      if (!url) return '<p class="text-gray-500">მუსიკის ბმული არ არის დამატებული</p>';
+      const yt = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/) || url.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/);
+      if (yt?.[1]) {
+        return `<div class="aspect-video w-full overflow-hidden rounded-xl"><iframe class="w-full h-full" src="https://www.youtube.com/embed/${yt[1]}" frameborder="0" allowfullscreen></iframe></div>`;
+      }
+      const sp = url.match(/open\.spotify\.com\/(track|album|playlist)\/([A-Za-z0-9]+)/);
+      if (sp) {
+        return `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${sp[1]}/${sp[2]}" width="100%" height="152" frameborder="0" loading="lazy"></iframe>`;
+      }
+      return `<a class="underline text-pink-600" href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>`;
+    }
+
+    function extractYouTubeId(url = '') {
+      const yt = String(url || '').match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{6,})/) ||
+                 String(url || '').match(/youtube\.com\/embed\/([A-Za-z0-9_-]{6,})/);
+      return yt?.[1] || '';
+    }
+
+    function extractSpotify(url = '') {
+      const sp = String(url || '').match(/open\.spotify\.com\/(track|album|playlist)\/([A-Za-z0-9]+)/);
+      return sp ? { type: sp[1], id: sp[2] } : null;
+    }
+
+    function photosGrid(urls = []) {
+      if (!urls.length) return '<p class="text-gray-500">ფოტოები არ არის ატვირთული</p>';
+      return urls.map((u) => `<div class="overflow-hidden rounded-2xl"><img src="${esc(u)}" class="w-full h-56 object-cover" loading="lazy" alt="photo"></div>`).join('');
+    }
+
+    function videoBlock(url = '') {
+      if (!url) return '<p class="text-gray-500 py-8">ვიდეო არ არის ატვირთული</p>';
+      return `<video class="w-full rounded-xl" controls src="${esc(url)}"></video>`;
+    }
+
+    function cloudinaryDeliveryUrl(url = '', kind = 'image') {
+      const raw = String(url || '');
+      if (!raw.includes('res.cloudinary.com') || !raw.includes('/upload/')) {
+        return raw;
+      }
+      const imgTransform = '/upload/f_auto,q_auto,fl_progressive/';
+      const videoTransform = '/upload/f_mp4,q_auto/';
+      const targetTransform = kind === 'video' ? videoTransform : imgTransform;
+      if (raw.includes('/upload/f_auto') || raw.includes('/upload/f_mp4')) {
+        return raw;
+      }
+      return raw.replace('/upload/', targetTransform);
+    }
+
+    function normalizePhotoUrls(gift = {}) {
+      const raw =
+        gift.photoUrls ||
+        gift.photos ||
+        gift.images ||
+        gift.media?.photoUrls ||
+        gift.media?.photos ||
+        [];
+      if (!Array.isArray(raw)) return [];
+      return raw
+        .map((item) => {
+          if (typeof item === 'string') return item;
+          if (item && typeof item.url === 'string') return item.url;
+          if (item && typeof item.secure_url === 'string') return item.secure_url;
+          return '';
+        })
+        .filter(Boolean)
+        .map((u) => cloudinaryDeliveryUrl(u, 'image'));
+    }
+
+    function normalizeVideoUrl(gift = {}) {
+      const raw =
+        gift.videoUrl ||
+        gift.video ||
+        gift.video_url ||
+        gift.media?.videoUrl ||
+        '';
+      if (typeof raw === 'string') return cloudinaryDeliveryUrl(raw, 'video');
+      if (raw && typeof raw.url === 'string') return cloudinaryDeliveryUrl(raw.url, 'video');
+      return '';
+    }
+
+    function inviteSection(text = '') {
+      if (!text) return '';
+      return `<div class="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow border border-pink-100"><h3 class="text-2xl mb-3 text-rose-700">პაემანზე მოწვევა</h3><p class="text-lg text-rose-700">${esc(text)}</p></div>`;
+    }
+
+    function reasonsHtml(gift = {}) {
+      const reasons = [
+        gift.reason1,
+        gift.reason2,
+        gift.reason3,
+        gift.reason4,
+        gift.reason5
+      ].map((r) => (r || '').trim()).filter(Boolean);
+
+      if (!reasons.length) {
+        return '<div class="text-gray-500">მიზეზი არ არის დამატებული</div>';
+      }
+
+      if (gift.templateType === 'wife') {
+        return reasons
+          .map((r, idx) => `<div class="bg-white rounded-2xl p-6 border border-rose-100 card-shadow text-rose-700">${idx + 1}. ${esc(r)}</div>`)
+          .join('');
+      }
+
+      return reasons
+        .map((r) => `<div class="glass-card rounded-2xl p-6 text-rose-800">♥ ${esc(r)}</div>`)
+        .join('');
+    }
+
+    function replaceVars(template, vars) {
+      let output = template;
+      Object.entries(vars).forEach(([k, v]) => {
+        const re = new RegExp(`\\{\\{${k}\\}\\}`, 'g');
+        output = output.replace(re, v ?? '');
+      });
+      return output;
+    }
+
+    function pickFirstValue(...candidates) {
+      for (const item of candidates) {
+        if (item === null || item === undefined) continue;
+        const value = String(item).trim();
+        if (value) return value;
+      }
+      return '';
+    }
+
+    function resolveTemplateName(gift = {}) {
+      const raw = pickFirstValue(gift.templateType, gift.template_choice, gift.templateChoice).toLowerCase();
+      if (!raw) return 'girlfriend';
+      if (raw.includes('map') || raw.includes('stars') || raw.includes('ვარსკვლ')) return 'map-of-stars';
+      if (raw.includes('wife') || raw.includes('მეუღლ') || raw.includes('ცოლ')) return 'wife';
+      return 'girlfriend';
+    }
+
+    function applyEmojiFavicon(emoji = '📩') {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${emoji}</text></svg>`;
+      const href = `data:image/svg+xml,${encodeURIComponent(svg)}`;
+      let icon = document.querySelector('link[rel="icon"]');
+      if (!icon) {
+        icon = document.createElement('link');
+        icon.setAttribute('rel', 'icon');
+        document.head.appendChild(icon);
+      }
+      icon.setAttribute('href', href);
+    }
+
+    function hydrateUploadedMedia(gift) {
+      const photoUrls = normalizePhotoUrls(gift);
+      const videoUrl = normalizeVideoUrl(gift);
+
+      // Inject uploaded photos into all placeholder cards in order.
+      const photoSlots = Array.from(document.querySelectorAll('.photo-placeholder'));
+      photoSlots.forEach((slot, i) => {
+        const url = photoUrls[i];
+        if (!url) return;
+        const fallback = String(url).replace('/upload/f_auto,q_auto,fl_progressive/', '/upload/f_jpg,q_auto/');
+        slot.innerHTML = `<img src="${esc(url)}" alt="photo ${i + 1}" class="w-full h-full object-cover" loading="lazy" onerror="if(this.dataset.fbk!=='1'){this.dataset.fbk='1';this.src='${esc(fallback)}';}">`;
+      });
+
+      // Inject uploaded video into template video blocks.
+      if (videoUrl) {
+        const videoSlots = [
+          document.querySelector('#video-section .aspect-video'),
+          document.querySelector('.video-placeholder.aspect-video')
+        ].filter(Boolean);
+        videoSlots.forEach((slot) => {
+          slot.innerHTML = `<video class="w-full h-full object-cover rounded-2xl" controls playsinline src="${esc(videoUrl)}"></video>`;
+        });
+      }
+
+      // Inject music embed where a music placeholder block exists.
+      if (gift.musicLink) {
+        const musicSlot = document.querySelector('#music-section .aspect-video');
+        if (musicSlot) {
+          const ytId = extractYouTubeId(gift.musicLink);
+          const sp = extractSpotify(gift.musicLink);
+          if (ytId) {
+            musicSlot.classList.remove('items-center', 'justify-center');
+            musicSlot.innerHTML = `<iframe class="w-full h-full" src="https://www.youtube.com/embed/${ytId}" title="YouTube player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+          } else if (sp) {
+            musicSlot.classList.remove('items-center', 'justify-center');
+            musicSlot.innerHTML = `<iframe style="border-radius:12px" src="https://open.spotify.com/embed/${sp.type}/${sp.id}" width="100%" height="100%" frameborder="0" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+          } else {
+            musicSlot.innerHTML = `<a class="underline text-pink-600" href="${esc(gift.musicLink)}" target="_blank" rel="noopener">${esc(gift.musicLink)}</a>`;
+          }
+        }
+      }
+
+      // Avoid clipping for long dynamic hero text in exact templates.
+      const heroTitleEl = document.getElementById('hero-title');
+      if (heroTitleEl) {
+        heroTitleEl.style.wordBreak = 'break-word';
+        heroTitleEl.style.overflowWrap = 'anywhere';
+        if ((heroTitleEl.textContent || '').trim().length > 22) {
+          heroTitleEl.style.fontSize = 'clamp(2.1rem, 7vw, 4.4rem)';
+          heroTitleEl.style.lineHeight = '1.18';
+        }
+      }
+
+      const heroSection = document.getElementById('hero-section');
+      if (heroSection) {
+        heroSection.style.overflow = 'visible';
+      }
+
+      const longTextIds = [
+        'love-message-text',
+        'our-story-text',
+        'reason-1',
+        'reason-2',
+        'reason-3',
+        'reason-4',
+        'reason-5',
+        'final-message-text',
+        'love-letter-text',
+        'memory-story-text'
+      ];
+      longTextIds.forEach((id) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.style.overflowWrap = 'anywhere';
+        el.style.wordBreak = 'break-word';
+        if (!el.style.whiteSpace) {
+          el.style.whiteSpace = 'pre-wrap';
+        }
+      });
+
+      // Hide empty reason cards so user can keep only one reason if needed.
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`reason-${i}`);
+        if (!el) continue;
+        if (!(el.textContent || '').trim()) {
+          const card = el.closest('.glass-card');
+          if (card) card.remove();
+        }
+      }
+
+      // Wife template: remove numbered cards where reason text is empty.
+      const wifeReasonCards = Array.from(document.querySelectorAll('section .space-y-6 > div'));
+      wifeReasonCards.forEach((card) => {
+        const p = card.querySelector('p.text-blush-600');
+        if (!p) return;
+        if (!(p.textContent || '').trim()) {
+          card.remove();
+        } else {
+          p.style.overflowWrap = 'anywhere';
+          p.style.wordBreak = 'break-word';
+        }
+      });
+
+      // Always render date invite text as a dedicated block if provided.
+      const inviteText = String(gift.dateInviteText || '').trim();
+      if (inviteText) {
+        const existing = document.getElementById('date-invite-block');
+        if (!existing) {
+          const section = document.createElement('section');
+          section.id = 'date-invite-block';
+          section.className = 'max-w-4xl mx-auto px-4 py-10';
+          section.innerHTML = `
+            <div class="rounded-2xl p-6 md:p-8 border border-rose-200/70 bg-white/80 backdrop-blur shadow-md">
+              <h3 class="text-2xl md:text-3xl font-semibold mb-3 text-rose-700">პაემანზე მოწვევა</h3>
+              <p class="text-lg md:text-xl leading-relaxed text-rose-800" style="white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word;">${esc(inviteText)}</p>
+            </div>
+          `;
+
+          const finalSection =
+            document.getElementById('final-section') ||
+            Array.from(document.querySelectorAll('section')).at(-1);
+          if (finalSection && finalSection.parentNode) {
+            finalSection.parentNode.insertBefore(section, finalSection);
+          } else {
+            document.body.appendChild(section);
+          }
+        }
+      }
+
+    }
+
+    function startMediaSelfHeal(gift) {
+      const hasPhotos = normalizePhotoUrls(gift).length > 0;
+      const hasVideo = Boolean(normalizeVideoUrl(gift));
+      if (!hasPhotos && !hasVideo) return;
+
+      let tries = 0;
+      const maxTries = 8;
+      const timer = setInterval(() => {
+        tries += 1;
+        const photoPlaceholders = document.querySelectorAll('.photo-placeholder');
+        const renderedPhotos = document.querySelectorAll('.photo-placeholder img').length;
+        const renderedVideo = document.querySelectorAll('#video-section video, .video-placeholder video').length;
+        const needPhotoHeal = hasPhotos && photoPlaceholders.length > 0 && renderedPhotos === 0;
+        const needVideoHeal = hasVideo && renderedVideo === 0;
+
+        if (needPhotoHeal || needVideoHeal) {
+          hydrateUploadedMedia(gift);
+        }
+
+        if (tries >= maxTries) {
+          clearInterval(timer);
+        }
+      }, 700);
+    }
+
+    async function renderGift() {
+      const slug = new URLSearchParams(window.location.search).get('slug') || '';
+      if (!slug) {
+        document.getElementById('loading').textContent = 'Slug არ არის მითითებული';
+        return;
+      }
+
+      const gift = await getGiftPage(slug);
+      if (!gift) {
+        document.getElementById('loading').textContent = 'გვერდი ვერ მოიძებნა';
+        return;
+      }
+
+      const templateName = resolveTemplateName(gift);
+      const res = await fetch(`./templates/${templateName}.html`, { cache: 'no-store' });
+      if (!res.ok) {
+        document.getElementById('loading').textContent = 'თემფლეითი ვერ მოიძებნა';
+        return;
+      }
+      const template = await res.text();
+
+      const normalizedPhotos = normalizePhotoUrls(gift);
+      const normalizedVideo = normalizeVideoUrl(gift);
+
+      const html = replaceVars(template, {
+        recipient_name: esc(pickFirstValue(gift.recipientName, gift.recipient_name, 'ჩემო სიყვარულო')),
+        sender_name: esc(pickFirstValue(gift.senderName, gift.sender_name, 'შენი ადამიანი')),
+        hero_title: esc(pickFirstValue(normalizeHeroTitle(gift.heroTitle), gift.hero_title, 'ჩემო სიყვარულო')),
+        hero_subtitle: esc(pickFirstValue(gift.heroSubtitle, gift.hero_subtitle, 'გილოცავ 8 მარტს 💖')),
+        love_message: esc(pickFirstValue(gift.loveMessage, gift.love_message, 'ეს საიტი მხოლოდ შენთვის შევქმენი.')),
+        message: esc(pickFirstValue(gift.loveMessage, gift.love_message, 'ეს საიტი მხოლოდ შენთვის შევქმენი.')),
+        our_story: esc(pickFirstValue(gift.ourStory, gift.our_story, 'ჩვენი ისტორია გრძელდება ყოველდღე.')),
+        memory_story: esc(pickFirstValue(gift.memoryStory, gift.memory_story, 'ჩვენი ყოველი დღე განსაკუთრებულია.')),
+        reason_1: esc(pickFirstValue(gift.reason1, gift.reason_1, 'შენ მაძლევ ძალას.')),
+        reason_2: esc(pickFirstValue(gift.reason2, gift.reason_2, 'შენ მაძლევ სიმშვიდეს.')),
+        reason_3: esc(pickFirstValue(gift.reason3, gift.reason_3, 'შენთან ცხოვრება ლამაზია.')),
+        reason_4: esc(pickFirstValue(gift.reason4, gift.reason_4, 'შენი სიცილი ჩემი ენერგიაა.')),
+        reason_5: esc(pickFirstValue(gift.reason5, gift.reason_5, 'შენი სიყვარული ჩემი სახლი.')),
+        reasons_html: reasonsHtml(gift),
+        final_message: esc(pickFirstValue(gift.finalMessage, gift.final_message, 'გილოცავ 8 მარტს, ჩემო ვარსკვლავო!')),
+        uploaded_photos: photosGrid(normalizedPhotos),
+        uploaded_video: videoBlock(normalizedVideo),
+        music_embed: musicEmbed(gift.musicLink || ''),
+        date_invite_section: inviteSection(gift.dateInviteText || ''),
+        map_memory_1_location: esc(pickFirstValue(gift.mapMemory1Location, gift.map_memory_1_location, 'The Lighthouse Cafe')),
+        map_memory_1_title: esc(pickFirstValue(gift.mapMemory1Title, gift.map_memory_1_title, 'პირველი ნოტები')),
+        map_memory_1_content: esc(pickFirstValue(gift.mapMemory1Content, gift.map_memory_1_content, 'აქ, სადაც ჯაზი სუნთქავს... შენ მასწავლე, რომ ვნებას საზღვრები არ აქვს.')),
+        map_memory_2_location: esc(pickFirstValue(gift.mapMemory2Location, gift.map_memory_2_location, 'Griffith Observatory')),
+        map_memory_2_title: esc(pickFirstValue(gift.mapMemory2Title, gift.map_memory_2_title, 'ცეკვა ვარსკვლავებს შორის')),
+        map_memory_2_content: esc(pickFirstValue(gift.mapMemory2Content, gift.map_memory_2_content, 'აქ ჩვენი ისტორია რეალობას გასცდა. პლანეტარიუმის ცაზე ავიჭერით.')),
+        map_memory_3_location: esc(pickFirstValue(gift.mapMemory3Location, gift.map_memory_3_location, 'Colorado Street Bridge')),
+        map_memory_3_title: esc(pickFirstValue(gift.mapMemory3Title, gift.map_memory_3_title, 'ოცნებების ხიდი')),
+        map_memory_3_content: esc(pickFirstValue(gift.mapMemory3Content, gift.map_memory_3_content, 'შენ დამინახე მაშინაც, როცა მე საკუთარ თავს ვერ ვხედავდი. მადლობა რწმენისთვის.')),
+        map_memory_4_location: esc(pickFirstValue(gift.mapMemory4Location, gift.map_memory_4_location, 'Date Invitation')),
+        map_memory_4_title: esc(pickFirstValue(gift.mapMemory4Title, gift.map_memory_4_title, 'პაემანზე მოწვევა')),
+        map_memory_4_content: esc(pickFirstValue(gift.mapMemory4Content, gift.map_memory_4_content, gift.dateInviteText)),
+        map_from_name: esc(pickFirstValue(gift.senderName, gift.sender_name)),
+        map_to_name: esc(pickFirstValue(gift.recipientName, gift.recipient_name)),
+        map_footer_text: esc(pickFirstValue(gift.finalMessage, gift.final_message, 'გილოცავ 8 მარტს, ჩემო ვარსკვლავო!')),
+        video_placeholder: normalizedVideo ? '' : 'ვიდეო არ არის ატვირთული',
+        music_placeholder: gift.musicLink ? esc(gift.musicLink) : 'მუსიკის ბმული არ არის დამატებული',
+        photo_1: normalizedPhotos?.[0] ? '' : 'ფოტო #1',
+        photo_2: normalizedPhotos?.[1] ? '' : 'ფოტო #2',
+        photo_3: normalizedPhotos?.[2] ? '' : 'ფოტო #3',
+        photo_4: normalizedPhotos?.[3] ? '' : 'ფოტო #4',
+        photo_5: normalizedPhotos?.[4] ? '' : 'ფოტო #5'
+      });
+
+      document.open();
+      document.write(html);
+      document.close();
+
+      // Retry hydration because template scripts/paint timing can delay target nodes.
+      const runHydration = () => hydrateUploadedMedia(gift);
+      runHydration();
+      setTimeout(runHydration, 60);
+      setTimeout(runHydration, 180);
+      setTimeout(runHydration, 420);
+      startMediaSelfHeal(gift);
+      applyEmojiFavicon('📩');
+
+      document.title = `${pickFirstValue(gift.recipientName, gift.recipient_name, 'Gift')} | ${slug}`;
+    }
+
+    renderGift().catch((e) => {
+      console.error(e);
+      const el = document.getElementById('loading');
+      if (el) el.textContent = 'შეცდომა გვერდის ჩატვირთვისას';
+    });
+  </script>
+</body>
+</html>

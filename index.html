@@ -647,27 +647,26 @@
 
     .portfolio-carousel { width: 100%; }
     .embla {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+      overflow: visible;
       border-radius: 20px;
     }
     .embla::-webkit-scrollbar { display: none; }
     .embla__container {
-      display: flex;
-      touch-action: pan-y pinch-zoom;
-      padding-left: 15%;
-      padding-right: 15%;
-      gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+      gap: 24px;
+      touch-action: auto;
+      padding-left: 0;
+      padding-right: 0;
     }
+    @media (min-width: 768px) { .embla__container { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1100px) { .embla__container { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     .embla__slide {
-      flex: 0 0 70%;
+      flex: 0 0 auto;
       min-width: 0;
       padding-left: 0;
       transform: translateZ(0);
-      scroll-snap-align: center;
+      scroll-snap-align: unset;
     }
     .embla-controls {
       display: flex;
@@ -731,6 +730,16 @@
       cursor: pointer;
     }
     .embla-toggle:hover { background: rgba(255,255,255,0.16); }
+
+.embla-controls { display: none !important; }
+.port-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms ease; }
+.port-card:hover .port-media { transform: scale(1.1); }
+.port-actions { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
+.port-view-link { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); text-decoration: none; transition: color .25s ease; }
+.port-view-link:hover { color: #fff; }
+.port-arrow-btn { width: 46px; height: 46px; border-radius: 999px; border: none; background: #fff; color: #0f172a; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: all .3s ease; }
+.port-arrow-btn:hover { background: #22d3ee; color: #fff; transform: translateY(-2px); }
+
 
     /* --- PERSONAL WEBSITE 3D SECTION --- */
     .pw3d-shell {
@@ -1464,7 +1473,7 @@
     "description": "საიტების დამზადება, ვებსაიტების გაკეთება",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://identisite.imed.com.ge/portfolio.html",
+      "target": "https://identisite.imed.com.ge/portfolio/",
       "query-input": "required name=search_term_string"
     }
   }
@@ -1507,26 +1516,26 @@
 <!-- ========== NAVBAR ========== -->
 <nav id="navbar">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
+    <a href="/" class="nav-logo">
       <div class="nav-logo-mark" data-site-logo-box><span>I</span></div>
       <span class="nav-logo-text">IDENTISITE</span>
     </a>
     <div class="nav-links">
-      <a href="index.html" class="nav-link" data-lang="ka">მთავარი</a>
-      <a href="about.html" class="nav-link" data-lang="ka">ჩვენ შესახებ</a>
-      <a href="services.html" class="nav-link" data-lang="ka">სერვისები</a>
-      <a href="portfolio.html" class="nav-link" data-lang="ka">პორტფოლიო</a>
-      <a href="process.html" class="nav-link" data-lang="ka">პროცესი</a>
-      <a href="blog.html" class="nav-link" data-lang="ka">სიახლეები</a>
-      <a href="contact.html" class="nav-link" data-lang="ka">კონტაქტი</a>
+      <a href="/" class="nav-link" data-lang="ka">მთავარი</a>
+      <a href="/about/" class="nav-link" data-lang="ka">ჩვენ შესახებ</a>
+      <a href="/services/" class="nav-link" data-lang="ka">სერვისები</a>
+      <a href="/portfolio/" class="nav-link" data-lang="ka">პორტფოლიო</a>
+      <a href="/process/" class="nav-link" data-lang="ka">პროცესი</a>
+      <a href="/blog/" class="nav-link" data-lang="ka">სიახლეები</a>
+      <a href="/contact/" class="nav-link" data-lang="ka">კონტაქტი</a>
     </div>
     <div class="nav-actions">
       <button id="langSwitch" class="lang-btn" aria-label="Switch language">EN</button>
-      <a href="contact.html" class="btn-primary" style="display:none" id="navCta">
+      <a href="/contact/" class="btn-primary" style="display:none" id="navCta">
         <span data-lang="ka">დავიწყოთ</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a href="contact.html" class="btn-primary" id="navCtaDesktop">
+      <a href="/contact/" class="btn-primary" id="navCtaDesktop">
         <span data-lang="ka">დავიწყოთ</span>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
@@ -1542,15 +1551,15 @@
 
 <!-- Mobile Menu -->
 <div id="mobileMenu" aria-hidden="true">
-  <a href="index.html" class="mobile-nav-link" data-lang="ka">მთავარი</a>
-  <a href="about.html" class="mobile-nav-link" data-lang="ka">ჩვენ შესახებ</a>
-  <a href="services.html" class="mobile-nav-link" data-lang="ka">სერვისები</a>
-  <a href="portfolio.html" class="mobile-nav-link" data-lang="ka">პორტფოლიო</a>
-  <a href="process.html" class="mobile-nav-link" data-lang="ka">პროცესი</a>
-  <a href="blog.html" class="mobile-nav-link" data-lang="ka">სიახლეები</a>
-  <a href="contact.html" class="mobile-nav-link" data-lang="ka">კონტაქტი</a>
+  <a href="/" class="mobile-nav-link" data-lang="ka">მთავარი</a>
+  <a href="/about/" class="mobile-nav-link" data-lang="ka">ჩვენ შესახებ</a>
+  <a href="/services/" class="mobile-nav-link" data-lang="ka">სერვისები</a>
+  <a href="/portfolio/" class="mobile-nav-link" data-lang="ka">პორტფოლიო</a>
+  <a href="/process/" class="mobile-nav-link" data-lang="ka">პროცესი</a>
+  <a href="/blog/" class="mobile-nav-link" data-lang="ka">სიახლეები</a>
+  <a href="/contact/" class="mobile-nav-link" data-lang="ka">კონტაქტი</a>
   <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
-    <a href="contact.html" class="btn-primary" data-lang="ka" style="flex:1;justify-content:center">დავიწყოთ</a>
+    <a href="/contact/" class="btn-primary" data-lang="ka" style="flex:1;justify-content:center">დავიწყოთ</a>
   </div>
 </div>
 
@@ -1578,11 +1587,11 @@
         იდენტობა რომელიც საიტად იქცევა — ვქმნით ციფრულ გამოცდილებას, რომელიც თქვენს ბრენდს გამოარჩევს და შედეგს მოგიტანთ.
       </p>
       <div class="hero-ctas reveal reveal-delay-3">
-        <a href="contact.html" class="btn-primary" style="padding:16px 32px;font-size:15px">
+        <a href="/contact/" class="btn-primary" style="padding:16px 32px;font-size:15px">
           <span data-lang="ka">დავიწყოთ პროექტი</span>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M8 1l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="portfolio.html" class="btn-secondary" style="padding:16px 32px;font-size:15px">
+        <a href="/portfolio/" class="btn-secondary" style="padding:16px 32px;font-size:15px">
           <span data-lang="ka">ვნახოთ ნამუშევრები</span>
         </a>
       </div>
@@ -1807,7 +1816,7 @@
           <div class="service-feature" data-lang="ka">უნიკალური დიზაინი</div>
           <div class="service-feature" data-lang="ka">SEO ოპტიმიზაცია</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1823,7 +1832,7 @@
           <div class="service-feature" data-lang="ka">გადახდის ინტეგრაცია</div>
           <div class="service-feature" data-lang="ka">ადმინ პანელი</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1839,7 +1848,7 @@
           <div class="service-feature" data-lang="ka">A/B ტესტირება</div>
           <div class="service-feature" data-lang="ka">სწრაფი ჩატვირთვა</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1855,7 +1864,7 @@
           <div class="service-feature">Wireframing</div>
           <div class="service-feature" data-lang="ka">პროტოტიპირება</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1871,7 +1880,7 @@
           <div class="service-feature" data-lang="ka">მონაცემების მიგრაცია</div>
           <div class="service-feature" data-lang="ka">პერფორმანსის გაუმჯობესება</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -1887,7 +1896,7 @@
           <div class="service-feature" data-lang="ka">საკვანძო სიტყვების კვლევა</div>
           <div class="service-feature" data-lang="ka">ტექნიკური SEO</div>
         </div>
-        <a href="contact.html" class="service-link">
+        <a href="/contact/" class="service-link">
           <span data-lang="ka">შეკვეთა</span>
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
@@ -2140,7 +2149,7 @@
       <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">სასარგებლო ინფორმაცია ვებსაიტების, დიზაინის და ბიზნესის ზრდის შესახებ</p>
     </div>
     <div id="blogGrid" class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-      <a href="news-8-marti.html" class="blog-card glass" target="_blank" rel="noopener noreferrer">
+      <a href="/news-8-marti/" class="blog-card glass" target="_blank" rel="noopener noreferrer">
         <div class="blog-image" style="background-image:url(https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80)"></div>
         <div class="blog-body">
           <div class="blog-meta"><span>8 მარტი, 2026</span><div class="blog-meta-sep"></div><span data-lang="ka">4 წუთი</span></div>
@@ -2186,17 +2195,17 @@
     <article id="blog-post-1" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
       <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">2026 წლის ვებ დიზაინის ტრენდები</h3>
       <p style="color:var(--text-secondary);line-height:1.8">მთავარი აქცენტი კეთდება მკაფიო მესიჯინგზე, მაღალი კონტრასტის CTA-ებზე, სწრაფ ჩატვირთვაზე და ნდობის ელემენტებზე. ტრენდული ვიზუალი კარგია მხოლოდ მაშინ, როცა კონვერსიასაც ზრდის.</p>
-      <a href="blog.html" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
+      <a href="/blog/" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
     </article>
     <article id="blog-post-2" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
       <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">SEO ოპტიმიზაციის საფუძვლები</h3>
       <p style="color:var(--text-secondary);line-height:1.8">SEO იწყება სწორი საკვანძო ფრაზებით, semantic HTML-ით, mobile-first გამოცდილებით და სტაბილური სიჩქარით. სწორი სტრუქტურა პირდაპირ აისახება ორგანულ ტრაფიკზე.</p>
-      <a href="blog.html" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
+      <a href="/blog/" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
     </article>
     <article id="blog-post-3" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;background:var(--bg-surface)">
       <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">E-commerce წარმატების საიდუმლო</h3>
       <p style="color:var(--text-secondary);line-height:1.8">პროდუქტის გვერდი, checkout-ის სისწრაფე და სოციალური მტკიცებულება განსაზღვრავს შედეგს. ნაკლები ნაბიჯი ყიდვამდე და მკაფიო შეთავაზება მეტ გაყიდვას ნიშნავს.</p>
-      <a href="blog.html" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
+      <a href="/blog/" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
     </article>
   </div>
 </section>
@@ -2348,7 +2357,7 @@
   <div class="footer-inner">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-logo" data-site-logo-box>
+        <a href="/" class="footer-logo" data-site-logo-box>
           <div class="nav-logo-mark"><span>I</span></div>
           <span class="nav-logo-text">IDENTISITE</span>
         </a>
@@ -2361,19 +2370,19 @@
       <div class="footer-col">
         <h4 data-lang="ka">სერვისები</h4>
         <ul class="footer-links">
-          <li><a href="services.html" data-lang="ka">კორპორატიული საიტები</a></li>
-          <li><a href="services.html">E-commerce</a></li>
-          <li><a href="services.html">UI/UX დიზაინი</a></li>
-          <li><a href="services.html" data-lang="ka">SEO ოპტიმიზაცია</a></li>
+          <li><a href="/services/" data-lang="ka">კორპორატიული საიტები</a></li>
+          <li><a href="/services/">E-commerce</a></li>
+          <li><a href="/services/">UI/UX დიზაინი</a></li>
+          <li><a href="/services/" data-lang="ka">SEO ოპტიმიზაცია</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4 data-lang="ka">კომპანია</h4>
         <ul class="footer-links">
-          <li><a href="about.html" data-lang="ka">ჩვენ შესახებ</a></li>
-          <li><a href="portfolio.html" data-lang="ka">პორტფოლიო</a></li>
-          <li><a href="blog.html" data-lang="ka">სიახლეები</a></li>
-          <li><a href="contact.html" data-lang="ka">კონტაქტი</a></li>
+          <li><a href="/about/" data-lang="ka">ჩვენ შესახებ</a></li>
+          <li><a href="/portfolio/" data-lang="ka">პორტფოლიო</a></li>
+          <li><a href="/blog/" data-lang="ka">სიახლეები</a></li>
+          <li><a href="/contact/" data-lang="ka">კონტაქტი</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -2388,8 +2397,8 @@
     <div class="footer-bottom">
       <p class="footer-copy" data-lang="ka">© 2026 IDENTISITE. ყველა უფლება დაცულია.</p>
       <div class="footer-legal">
-        <a href="privacy.html" data-lang="ka">კონფიდენციალურობა</a>
-        <a href="terms.html" data-lang="ka">პირობები</a>
+        <a href="/privacy/" data-lang="ka">კონფიდენციალურობა</a>
+        <a href="/terms/" data-lang="ka">პირობები</a>
       </div>
     </div>
   </div>
@@ -2814,7 +2823,7 @@
           ${item.feature_1?`<div class="service-feature">${item.feature_1}</div>`:''}
           ${item.feature_2?`<div class="service-feature">${item.feature_2}</div>`:''}
         </div>
-        <a href="contact.html" class="service-link"><span>${item.cta_text||'შეკვეთა'}</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="/contact/" class="service-link"><span>${item.cta_text||'შეკვეთა'}</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>`).join('');
   }
 
@@ -2831,33 +2840,47 @@
   }
 
   function renderPortfolio() {
-    const items = getCmsList('portfolio');
-    const grid = document.getElementById('portfolioGrid');
-    if (!grid || !items.length) {
-      initPortfolioCarousel();
-      return;
-    }
-    grid.innerHTML = items.map(item => {
-      const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
-      const target = (item.project_url || '').trim();
-      const hasLink = Boolean(target);
-      const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
-      const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
-      const arrow = hasLink
-        ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
-        : ``;
-      return `<div class="embla__slide"><div class="port-card" style="${bg}">
-          ${media}
-          ${arrow}
-          <div class="port-overlay"><div class="port-info">
-            <div class="port-cat">${item.category||''}</div>
-            <div class="port-title">${item.title||''}</div>
-            <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
-          </div></div>
-        </div></div>`;
-    }).join('');
-    initPortfolioCarousel();
-  }
+  const items = getCmsList('portfolio');
+  const grid = document.getElementById('portfolioGrid');
+  if (!grid) return;
+
+  const fallback = [
+    { title: 'E-commerce Platform', category: 'Web Store', image: 'https://picsum.photos/seed/shop/800/600', project_url: '#' },
+    { title: 'Corporate Identity', category: 'Branding', image: 'https://picsum.photos/seed/brand/800/600', project_url: '#' },
+    { title: 'SaaS Dashboard', category: 'UI/UX Design', image: 'https://picsum.photos/seed/dash/800/600', project_url: '#' },
+    { title: 'Mobile App Design', category: 'Mobile App', image: 'https://picsum.photos/seed/app/800/600', project_url: '#' },
+    { title: 'Real Estate Portal', category: 'Web Portal', image: 'https://picsum.photos/seed/estate/800/600', project_url: '#' },
+    { title: 'Portfolio Website', category: 'Personal Site', image: 'https://picsum.photos/seed/port/800/600', project_url: '#' }
+  ];
+
+  const list = items.length ? items : fallback;
+
+  grid.innerHTML = list.map((item, idx) => {
+    const chips = String(item.tech_stack || '').split(',').map(x => x.trim()).filter(Boolean);
+    const target = String(item.project_url || '#').trim() || '#';
+    const image = String(item.image || ('https://picsum.photos/seed/p' + idx + '/800/600'));
+    const tagsHtml = chips.map(c => '<span class="port-tag">' + c + '</span>').join('');
+    return '<div class="embla__slide">' +
+      '<div class="port-card glass" style="position:relative;">' +
+      '<img loading="lazy" src="' + image + '" alt="' + (item.title || 'Project image') + '" class="port-media" referrerpolicy="no-referrer">' +
+      '<div class="port-overlay"><div class="port-info">' +
+      '<div class="port-cat">' + (item.category || '') + '</div>' +
+      '<div class="port-title">' + (item.title || '') + '</div>' +
+      '<div class="port-tags">' + tagsHtml + '</div>' +
+      '<div class="port-actions">' +
+      '<a href="' + target + '" class="port-arrow-btn" aria-label="Open project" target="_blank" rel="noopener noreferrer">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+      '</a>' +
+      '<a href="' + target + '" class="port-view-link" target="_blank" rel="noopener noreferrer">პროექტის ნახვა</a>' +
+      '</div>' +
+      '</div></div>' +
+      '</div></div>';
+  }).join('');
+
+  const controls = document.querySelector('.embla-controls');
+  if (controls) controls.style.display = 'none';
+}
+
 
   let portfolioIndex = 0;
   let portfolioAutoplayTimer = null;
@@ -3057,7 +3080,7 @@
     const cards = document.getElementById('blogGrid');
     const details = document.getElementById('blogDetails');
     if (!cards || !details || !items.length) return;
-    const special = `<a href="news-8-marti.html" class="blog-card glass" target="_blank" rel="noopener noreferrer">
+    const special = `<a href="/news-8-marti/" class="blog-card glass" target="_blank" rel="noopener noreferrer">
       <div class="blog-image" style="background-image:url(https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80)"></div>
       <div class="blog-body">
         <div class="blog-meta"><span>8 მარტი, 2026</span><div class="blog-meta-sep"></div><span>4 წუთი</span></div>
@@ -3080,7 +3103,7 @@
       return `<article id="${slug}" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
         <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">${item.title||''}</h3>
         <p style="color:var(--text-secondary);line-height:1.8">${item.content||item.excerpt||''}</p>
-        <a href="blog.html" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px">სიახლეებში დაბრუნება</a>
+        <a href="/blog/" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px">სიახლეებში დაბრუნება</a>
       </article>`;
     }).join('');
   }

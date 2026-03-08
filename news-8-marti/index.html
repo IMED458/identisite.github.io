@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="ka" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>8 მარტის პერსონალური საიტის შეკვეთა</title>
+  <link rel="icon" type="image/png" href="/favicon-32x32.png?v=20260305">
+  <link rel="shortcut icon" href="/favicon.ico?v=20260305">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png?v=20260305">
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png?v=20260305">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Noto Sans Georgian', sans-serif; }
+  </style>
+</head>
+<body class="h-full bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-800">
+  <div id="loadingOverlay" class="fixed inset-0 z-[100] hidden items-center justify-center bg-white/80 backdrop-blur-sm">
+    <div class="text-center">
+      <div class="text-6xl mb-4 animate-bounce">⏳</div>
+      <p class="text-lg font-semibold">იგზავნება...</p>
+      <p class="text-sm text-slate-600 mt-1">გთხოვთ დაელოდოთ რამდენიმე წამი</p>
+    </div>
+  </div>
+
+  <header class="py-14 px-6 bg-gradient-to-br from-pink-50 via-white to-rose-50 border-b border-slate-200">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="inline-flex px-3 py-1 rounded-full text-xs font-semibold bg-pink-100 text-pink-700 mb-4">ახალი ფორმატი</p>
+      <h1 class="text-4xl md:text-5xl font-bold">8 მარტის პერსონალური საიტის შეკვეთა</h1>
+      <p class="text-slate-600 mt-4 text-lg">დემოებიდან აირჩიე შაბლონი, გამოგვიგზავნე მასალა და საიტს ჩვენ ხელით დაგიმზადებთ.</p>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-6 py-10 space-y-10">
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+      <h2 class="text-2xl font-bold mb-2">შაბლონის დემოები</h2>
+      <p class="text-slate-600 mb-6">ნახე სამივე ვერსია და ფორმაში მიუთითე რომელი გინდა.</p>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <article class="rounded-2xl border border-slate-200 p-5 bg-gradient-to-br from-rose-50 to-pink-50">
+          <h3 class="font-semibold text-xl">შეყვარებულის შაბლონი</h3>
+          <p class="text-sm text-slate-600 mt-2">რომანტიკული, რბილი ფერები და ემოციური ანიმაციები.</p>
+          <a href="./templates/girlfriend.html" target="_blank" rel="noopener" class="inline-flex mt-4 px-4 py-2 rounded-lg bg-rose-600 text-white font-medium hover:bg-rose-700">დემო ნახვა</a>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 p-5 bg-gradient-to-br from-amber-50 to-orange-50">
+          <h3 class="font-semibold text-xl">მეუღლის შაბლონი</h3>
+          <p class="text-sm text-slate-600 mt-2">ელეგანტური, თბილი ტონები და კლასიკური ვიზუალი.</p>
+          <a href="./templates/wife.html" target="_blank" rel="noopener" class="inline-flex mt-4 px-4 py-2 rounded-lg bg-amber-600 text-white font-medium hover:bg-amber-700">დემო ნახვა</a>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 p-5 bg-gradient-to-br from-slate-900 to-slate-700 text-white">
+          <h3 class="font-semibold text-xl">The Map of Stars</h3>
+          <p class="text-sm text-slate-200 mt-2">კინემატოგრაფიული ღამის თემა ვარსკვლავურ გზასთან.</p>
+          <a href="./templates/map-of-stars.html" target="_blank" rel="noopener" class="inline-flex mt-4 px-4 py-2 rounded-lg bg-amber-500 text-slate-900 font-medium hover:bg-amber-400">დემო ნახვა</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="bg-white border border-slate-200 rounded-2xl p-6 md:p-8 shadow-sm">
+      <h2 class="text-2xl font-bold mb-2">შეკვეთის ფორმა</h2>
+      <p class="text-slate-600 mb-6">ფორმაში ჩაწერე ტექსტები, ატვირთე ფოტო/ვიდეო და გადახდის ქვითარი. ყველაფერი მოვა მეილზე: <strong>identisitee@gmail.com</strong>.</p>
+      <div class="mb-6 inline-flex items-center gap-3 rounded-xl bg-rose-600 text-white px-5 py-3 shadow-lg">
+        <span class="text-sm uppercase tracking-wide font-semibold opacity-90">ფასი</span>
+        <span class="text-2xl font-extrabold leading-none">25 ლარი</span>
+      </div>
+
+      <form id="orderForm"
+            action="https://formsubmit.co/identisitee@gmail.com"
+            method="POST"
+            enctype="multipart/form-data"
+            class="space-y-5">
+
+        <input type="hidden" name="_subject" value="8 მარტის პერსონალური საიტის ახალი შეკვეთა">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" id="nextUrl" value="">
+
+        <div class="grid md:grid-cols-3 gap-4">
+          <div>
+            <label class="block mb-1 font-medium">შემკვეთის სახელი *</label>
+            <input name="client_name" required class="w-full border rounded-xl px-4 py-3">
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">ტელეფონი *</label>
+            <input name="client_phone" required class="w-full border rounded-xl px-4 py-3">
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">ელფოსტა *</label>
+            <input type="email" name="client_email" required class="w-full border rounded-xl px-4 py-3">
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-4">
+          <div>
+            <label class="block mb-1 font-medium">[ვის უძღვნის: სახელი] *</label>
+            <input name="recipient_name" required class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: ნინო">
+          </div>
+          <div>
+            <label class="block mb-1 font-medium">[ვინ უძღვნის: სახელი] *</label>
+            <input name="sender_name" required class="w-full border rounded-xl px-4 py-3" placeholder="მაგ: გიორგი">
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-2 font-medium">რომელი შაბლონი გინდა? *</label>
+          <div class="grid md:grid-cols-3 gap-3">
+            <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
+              <input type="radio" name="template_choice" value="შეყვარებულის შაბლონი" required>
+              <span>შეყვარებულის შაბლონი</span>
+            </label>
+            <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
+              <input type="radio" name="template_choice" value="მეუღლის შაბლონი" required>
+              <span>მეუღლის შაბლონი</span>
+            </label>
+            <label class="flex items-center gap-3 border rounded-xl p-3 cursor-pointer">
+              <input type="radio" name="template_choice" value="The Map of Stars" required>
+              <span>The Map of Stars</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="genericFields" class="space-y-5">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-1 font-medium">მთავარი სათაური (მაგ: ჩემო სიყვარულო)</label>
+              <input name="hero_title" class="w-full border rounded-xl px-4 py-3">
+            </div>
+            <div>
+              <label class="block mb-1 font-medium">ქვესათაური</label>
+              <input name="hero_subtitle" class="w-full border rounded-xl px-4 py-3">
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-medium">სიყვარულის ტექსტი / წერილი *</label>
+            <textarea name="love_message" rows="5" required class="w-full border rounded-xl px-4 py-3"></textarea>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-1 font-medium">ჩვენი ისტორია / მოგონება</label>
+              <textarea name="story_or_memory" rows="4" class="w-full border rounded-xl px-4 py-3"></textarea>
+            </div>
+            <div>
+              <label class="block mb-1 font-medium">მიზეზები (შეგიძლია ერთიც მიუთითო)</label>
+              <textarea name="reasons" rows="4" class="w-full border rounded-xl px-4 py-3" placeholder="მაგ:\n1) ...\n2) ..."></textarea>
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-1 font-medium">საბოლოო ტექსტი</label>
+              <textarea name="final_message" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+            </div>
+            <div>
+              <label class="block mb-1 font-medium">პაემანზე მოწვევის ტექსტი (არჩევითი)</label>
+              <textarea name="date_invite_text" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-1 font-medium">სიმღერის ლინკი (YouTube/Spotify)</label>
+            <input name="music_link" class="w-full border rounded-xl px-4 py-3" placeholder="https://...">
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block mb-1 font-medium">ფოტოები (მაქს 15) *</label>
+              <input type="file" name="photos" multiple accept="image/*,.heic,.HEIC,.heif,.HEIF" required class="w-full border rounded-xl px-4 py-3">
+              <p class="text-xs text-slate-500 mt-1">თუ ფაილები ძალიან დიდია, გამოგზავნე ნაკლებ-ნაკლებად ან ZIP-ად.</p>
+            </div>
+            <div>
+              <label class="block mb-1 font-medium">ვიდეო (არჩევითი, 1 ფაილი)</label>
+              <input type="file" name="video" accept="video/*" class="w-full border rounded-xl px-4 py-3">
+            </div>
+          </div>
+        </div>
+
+        <div id="mapFields" class="hidden rounded-2xl border border-amber-200 bg-amber-50/40 p-4 md:p-6 space-y-4">
+          <p class="font-semibold text-amber-900">The Map of Stars ფორმა</p>
+          <p class="text-sm text-slate-700">ამ შაბლონზე ივსება მხოლოდ ვარსკვლავური მოგონებები, ქრონოლოგიურად.</p>
+
+          <p class="text-sm text-slate-700">სახელები შეავსე ზემოთ მოცემულ ორ ველში: „ვინ უძღვნის“ და „ვის უძღვნის“.</p>
+
+          <div class="space-y-3">
+            <p class="font-medium">Memory Sections (ქრონოლოგიურად)</p>
+
+            <div class="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <p class="text-sm font-semibold text-slate-700">ვარსკვლავი 1</p>
+              <input name="map_memory_1_location" class="w-full border rounded-xl px-4 py-3" placeholder="ლოკაცია (მაგ: Lighthouse Cafe)">
+              <input name="map_memory_1_title" class="w-full border rounded-xl px-4 py-3" placeholder="დაარქვი სახელი დღეს:">
+              <textarea name="map_memory_1_content" rows="3" class="w-full border rounded-xl px-4 py-3" placeholder="ჩაწერე მოგონების შინაარსი:"></textarea>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <p class="text-sm font-semibold text-slate-700">ვარსკვლავი 2</p>
+              <input name="map_memory_2_location" class="w-full border rounded-xl px-4 py-3" placeholder="ლოკაცია">
+              <input name="map_memory_2_title" class="w-full border rounded-xl px-4 py-3" placeholder="დაარქვი სახელი დღეს:">
+              <textarea name="map_memory_2_content" rows="3" class="w-full border rounded-xl px-4 py-3" placeholder="ჩაწერე მოგონების შინაარსი:"></textarea>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <p class="text-sm font-semibold text-slate-700">ვარსკვლავი 3</p>
+              <input name="map_memory_3_location" class="w-full border rounded-xl px-4 py-3" placeholder="ლოკაცია">
+              <input name="map_memory_3_title" class="w-full border rounded-xl px-4 py-3" placeholder="დაარქვი სახელი დღეს:">
+              <textarea name="map_memory_3_content" rows="3" class="w-full border rounded-xl px-4 py-3" placeholder="ჩაწერე მოგონების შინაარსი:"></textarea>
+            </div>
+
+            <div class="rounded-xl border border-slate-200 bg-white p-4 space-y-3">
+              <p class="text-sm font-semibold text-slate-700">ბოლო ვარსკვლავი (პაემანზე მოწვევა)</p>
+              <input name="map_memory_4_location" class="w-full border rounded-xl px-4 py-3" placeholder="ლოკაცია (არჩევითი)">
+              <input name="map_memory_4_title" class="w-full border rounded-xl px-4 py-3" placeholder="დაარქვი სახელი დღეს:">
+              <textarea name="map_memory_4_content" rows="3" class="w-full border rounded-xl px-4 py-3" placeholder="ჩაწერე მოგონების შინაარსი:"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="font-semibold mb-2">გადახდის რეკვიზიტები</p>
+          <p class="mb-3 text-sm text-slate-700">გადასახდელი თანხა: <strong class="text-rose-700">25 ლარი</strong></p>
+          <div class="grid md:grid-cols-2 gap-4 mb-3">
+            <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex w-10 h-10 rounded-xl bg-blue-700 text-white items-center justify-center font-bold">TBC</span>
+                  <div>
+                    <p class="font-semibold">TBC Bank</p>
+                    <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
+                  </div>
+                </div>
+                <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE13TB7685145063300013">კოპირება</button>
+              </div>
+              <p class="mt-3 text-sm text-slate-600">IBAN:</p>
+              <p class="font-mono text-sm break-all">GE13TB7685145063300013</p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 p-4 bg-slate-50">
+              <div class="flex items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <span class="inline-flex w-10 h-10 rounded-xl bg-emerald-700 text-white items-center justify-center font-bold">BOG</span>
+                  <div>
+                    <p class="font-semibold">Bank of Georgia</p>
+                    <p class="text-xs text-slate-500">გადახდა გადარიცხვით</p>
+                  </div>
+                </div>
+                <button type="button" class="copy-iban-btn px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-sm" data-iban="GE08BG0000000526079778">კოპირება</button>
+              </div>
+              <p class="mt-3 text-sm text-slate-600">IBAN:</p>
+              <p class="font-mono text-sm break-all">GE08BG0000000526079778</p>
+            </article>
+          </div>
+          <label class="block mb-1 font-medium">გადახდის დამადასტურებელი ქვითარი *</label>
+          <input type="file" name="payment_receipt" accept="image/*,.pdf" required class="w-full border rounded-xl px-4 py-3">
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium">დამატებითი კომენტარი</label>
+          <textarea name="notes" rows="3" class="w-full border rounded-xl px-4 py-3"></textarea>
+        </div>
+
+        <button id="submitBtn" type="submit" class="w-full md:w-auto px-8 py-4 rounded-xl bg-slate-900 text-white font-semibold hover:bg-slate-700">ფორმის გაგზავნა</button>
+        <p id="statusText" class="text-sm text-slate-600"></p>
+      </form>
+    </section>
+  </main>
+
+  <script type="module">
+    import { uploadGiftAsset } from './assets/js/firebase-data.js';
+
+    const form = document.getElementById('orderForm');
+    const statusText = document.getElementById('statusText');
+    const submitBtn = document.getElementById('submitBtn');
+    const overlay = document.getElementById('loadingOverlay');
+    const nextInput = document.getElementById('nextUrl');
+    const copyBtns = document.querySelectorAll('.copy-iban-btn');
+    const genericFields = document.getElementById('genericFields');
+    const mapFields = document.getElementById('mapFields');
+    const templateRadios = form.querySelectorAll('input[name="template_choice"]');
+    const photosInput = form.querySelector('input[name="photos"]');
+    const videoInput = form.querySelector('input[name="video"]');
+    const loveMessageInput = form.querySelector('textarea[name="love_message"]');
+    const mapRequiredFields = form.querySelectorAll(
+      'input[name^="map_memory_"], textarea[name^="map_memory_"]'
+    );
+
+    const url = new URL(window.location.href);
+    const sent = url.searchParams.get('sent') === '1';
+    if (sent) {
+      statusText.textContent = '✅ შეკვეთა წარმატებით გაიგზავნა. მალე დაგიკავშირდებით.';
+      statusText.className = 'text-sm text-green-700';
+    }
+
+    const next = new URL(window.location.href);
+    next.searchParams.set('sent', '1');
+    nextInput.value = next.toString();
+
+    copyBtns.forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const iban = btn.getAttribute('data-iban') || '';
+        if (!iban) return;
+        try {
+          await navigator.clipboard.writeText(iban);
+          const old = btn.textContent;
+          btn.textContent = 'დაკოპირდა ✅';
+          setTimeout(() => {
+            btn.textContent = old;
+          }, 1200);
+        } catch (_) {
+          btn.textContent = 'ვერ დაკოპირდა';
+        }
+      });
+    });
+
+    function isMapTemplateSelected() {
+      const selected = form.querySelector('input[name="template_choice"]:checked');
+      return selected && selected.value === 'The Map of Stars';
+    }
+
+    function setRequired(el, required) {
+      if (!el) return;
+      el.required = required;
+      el.disabled = false;
+    }
+
+    function toggleTemplateFields() {
+      const isMap = isMapTemplateSelected();
+
+      genericFields.classList.toggle('hidden', isMap);
+      mapFields.classList.toggle('hidden', !isMap);
+
+      setRequired(loveMessageInput, !isMap);
+      setRequired(photosInput, !isMap);
+      mapRequiredFields.forEach((field) => setRequired(field, isMap));
+      if (isMap) {
+        if (photosInput) photosInput.value = '';
+        if (videoInput) videoInput.value = '';
+      }
+    }
+
+    templateRadios.forEach((radio) => {
+      radio.addEventListener('change', toggleTemplateFields);
+    });
+    toggleTemplateFields();
+
+    async function uploadWithRetry(orderId, file, kind, retries = 3) {
+      let lastErr;
+      for (let i = 1; i <= retries; i++) {
+        try {
+          return await uploadGiftAsset(orderId, file, kind);
+        } catch (err) {
+          lastErr = err;
+          if (i < retries) {
+            await new Promise((resolve) => setTimeout(resolve, i * 700));
+          }
+        }
+      }
+      throw lastErr || new Error('upload failed');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      statusText.textContent = 'იგზავნება...';
+      statusText.className = 'text-sm text-slate-600';
+      submitBtn.disabled = true;
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      try {
+        const fd = new FormData(form);
+        const orderId = `order-${Date.now()}`;
+
+        const isMapTemplate = isMapTemplateSelected();
+        const photoFiles = isMapTemplate ? [] : Array.from(form.querySelector('input[name="photos"]').files || []);
+        const videoFile = isMapTemplate ? null : (form.querySelector('input[name="video"]').files || [])[0] || null;
+        const receiptFile = (form.querySelector('input[name="payment_receipt"]').files || [])[0] || null;
+
+        if (photoFiles.length > 15) {
+          throw new Error('ფოტოების მაქსიმალური რაოდენობა არის 15');
+        }
+
+        const photoLinks = [];
+        for (let i = 0; i < photoFiles.length; i++) {
+          statusText.textContent = `იტვირთება ფოტო ${i + 1}/${photoFiles.length}...`;
+          const link = await uploadWithRetry(orderId, photoFiles[i], 'photos', 3);
+          photoLinks.push(link);
+        }
+
+        let videoLink = '';
+        if (videoFile) {
+          statusText.textContent = 'იტვირთება ვიდეო...';
+          videoLink = await uploadWithRetry(orderId, videoFile, 'video', 3);
+        }
+
+        let receiptLink = '';
+        if (receiptFile) {
+          statusText.textContent = 'იტვირთება ქვითარი...';
+          receiptLink = await uploadWithRetry(orderId, receiptFile, 'receipt', 3);
+        }
+
+        statusText.textContent = 'იგზავნება მეილი...';
+
+        const perPhotoFields = {};
+        for (let i = 0; i < 15; i++) {
+          perPhotoFields[`photo_${i + 1}`] = photoLinks[i] || '-';
+        }
+
+        const emailPayload = {
+          _subject: '8 მარტის პერსონალური საიტის ახალი შეკვეთა',
+          client_name: fd.get('client_name') || '',
+          client_phone: fd.get('client_phone') || '',
+          client_email: fd.get('client_email') || '',
+          recipient_name: fd.get('recipient_name') || '',
+          sender_name: fd.get('sender_name') || '',
+          template_choice: fd.get('template_choice') || '',
+          hero_title: fd.get('hero_title') || '',
+          hero_subtitle: fd.get('hero_subtitle') || '',
+          love_message: fd.get('love_message') || '',
+          story_or_memory: fd.get('story_or_memory') || '',
+          reasons: fd.get('reasons') || '',
+          final_message: fd.get('final_message') || '',
+          date_invite_text: fd.get('date_invite_text') || '',
+          music_link: fd.get('music_link') || '',
+          notes: fd.get('notes') || '',
+          map_memory_1_location: fd.get('map_memory_1_location') || '',
+          map_memory_1_title: fd.get('map_memory_1_title') || '',
+          map_memory_1_content: fd.get('map_memory_1_content') || '',
+          map_memory_2_location: fd.get('map_memory_2_location') || '',
+          map_memory_2_title: fd.get('map_memory_2_title') || '',
+          map_memory_2_content: fd.get('map_memory_2_content') || '',
+          map_memory_3_location: fd.get('map_memory_3_location') || '',
+          map_memory_3_title: fd.get('map_memory_3_title') || '',
+          map_memory_3_content: fd.get('map_memory_3_content') || '',
+          map_memory_4_location: fd.get('map_memory_4_location') || '',
+          map_memory_4_title: fd.get('map_memory_4_title') || '',
+          map_memory_4_content: fd.get('map_memory_4_content') || '',
+          map_memories_timeline: [
+            {
+              location: fd.get('map_memory_1_location') || '',
+              title: fd.get('map_memory_1_title') || '',
+              content: fd.get('map_memory_1_content') || ''
+            },
+            {
+              location: fd.get('map_memory_2_location') || '',
+              title: fd.get('map_memory_2_title') || '',
+              content: fd.get('map_memory_2_content') || ''
+            },
+            {
+              location: fd.get('map_memory_3_location') || '',
+              title: fd.get('map_memory_3_title') || '',
+              content: fd.get('map_memory_3_content') || ''
+            },
+            {
+              location: fd.get('map_memory_4_location') || '',
+              title: fd.get('map_memory_4_title') || '',
+              content: fd.get('map_memory_4_content') || ''
+            }
+          ].filter((item) => item.location || item.title || item.content).map((item, idx) =>
+            `${idx + 1}) [${item.location || '-'}] ${item.title || '-'} — ${item.content || '-'}`
+          ).join('\n'),
+          order_id: orderId,
+          photos_count: String(photoLinks.length),
+          photos_links: photoLinks.length ? photoLinks.join(' | ') : '-',
+          photos_links_json: photoLinks.length ? JSON.stringify(photoLinks) : '[]',
+          video_link: videoLink || '-',
+          payment_receipt_link: receiptLink || '-',
+          ...perPhotoFields
+        };
+
+        const emailResponse = await fetch('https://formsubmit.co/ajax/identisitee@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify(emailPayload)
+        });
+
+        const emailResult = await emailResponse.json().catch(() => ({}));
+        if (!emailResponse.ok || emailResult.success === 'false' || emailResult.success === false) {
+          throw new Error(emailResult.message || 'მეილის გაგზავნა ვერ მოხერხდა');
+        }
+
+        window.location.href = nextInput.value;
+      } catch (err) {
+        statusText.textContent = err?.message || 'შეცდომა გაგზავნისას';
+        statusText.className = 'text-sm text-red-700';
+      } finally {
+        submitBtn.disabled = false;
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+      }
+    });
+  </script>
+</body>
+</html>
