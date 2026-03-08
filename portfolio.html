@@ -566,6 +566,7 @@
       background: linear-gradient(135deg, rgba(99,102,241,0.06) 0%, transparent 60%);
       opacity: 0;
       transition: opacity 0.4s ease;
+      pointer-events: none;
     }
     .service-card:hover { transform: translateY(-8px); border-color: rgba(99,102,241,0.35) !important; }
     .service-card:hover::before { opacity: 1; }
@@ -602,6 +603,8 @@
       flex-shrink: 0;
     }
     .service-link {
+      position: relative;
+      z-index: 2;
       display: inline-flex;
       align-items: center;
       gap: 6px;
