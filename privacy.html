@@ -640,76 +640,119 @@
     .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
     .why-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
 
-        /* --- PORTFOLIO --- */
+    /* --- PORTFOLIO --- */
+    .portfolio-head {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+    .portfolio-head p {
+      max-width: 520px;
+      color: var(--text-secondary);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+    }
     .port-card {
       position: relative;
-      border-radius: 20px;
-      overflow: hidden;
       aspect-ratio: 4/3;
-      cursor: default;
-      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--bg-elevated);
+      box-shadow: 0 24px 52px rgba(8, 12, 28, 0.24);
+      border: 1px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transform: translateY(0);
+      transition: transform .55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .55s ease;
     }
-    .port-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 24px 64px rgba(0,0,0,0.5); }
+    .port-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 26px 64px rgba(8, 12, 28, 0.34);
+    }
+    .port-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s ease;
+    }
+    .port-card:hover .port-image { transform: scale(1.08); }
     .port-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(7,7,14,0.95) 0%, rgba(7,7,14,0.3) 60%, transparent 100%);
-      opacity: 0;
-      transition: opacity 0.4s ease;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       padding: 28px;
+      background: linear-gradient(0deg, rgba(7,10,24,.85), rgba(7,10,24,.85));
+      opacity: 0;
+      transition: opacity .45s ease;
     }
     .port-card:hover .port-overlay { opacity: 1; }
-    .port-info { transform: translateY(12px); transition: transform 0.4s ease; }
-    .port-card:hover .port-info { transform: translateY(0); }
-    .port-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-    .port-cat { font-size: 12px; color: var(--accent-secondary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
-    .port-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-    .port-tag {
-      padding: 4px 10px;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(8px);
-      border-radius: 100px;
+    .port-cat {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent-secondary);
+      margin-bottom: 8px;
+    }
+    .port-title {
+      font-size: 27px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 10px;
+      font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
+    }
+    .port-desc {
+      color: rgba(255,255,255,.72);
+      font-size: 13px;
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .port-open-detail {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 0;
+      background: transparent;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+      width: max-content;
     }
     .port-arrow {
       position: absolute;
-      top: 20px; right: 20px;
-      width: 36px; height: 36px;
+      top: 18px;
+      right: 18px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.12);
-      backdrop-filter: blur(8px);
       display: flex;
       align-items: center;
       justify-content: center;
-      opacity: 1;
-      transform: scale(1);
-      z-index: 4;
+      background: rgba(255,255,255,0.95);
+      color: var(--bg-main);
       text-decoration: none;
-      transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.25);
-    }
-    .port-card:hover .port-arrow { transform: scale(1.06); }
-    .port-arrow:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.45); }
-    .port-readmore-btn {
-      margin-top: 12px;
-      padding: 8px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.28);
-      background: rgba(255,255,255,0.12);
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .03em;
-      cursor: pointer;
+      z-index: 5;
       transition: all .25s ease;
     }
-    .port-readmore-btn:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
-
+    .port-arrow:hover {
+      background: var(--accent-primary);
+      color: #fff;
+      transform: translateY(-1px) scale(1.04);
+    }
     .portfolio-modal {
       position: fixed;
       inset: 0;
@@ -717,124 +760,94 @@
       display: none;
       align-items: center;
       justify-content: center;
-      background: rgba(3, 7, 18, 0.76);
-      padding: 20px;
-      backdrop-filter: blur(6px);
+      padding: 16px;
+      background: rgba(6, 10, 24, 0.88);
+      backdrop-filter: blur(10px);
     }
     .portfolio-modal.open { display: flex; }
     .portfolio-modal-card {
-      width: min(720px, 100%);
-      max-height: 82vh;
+      width: min(1120px, 100%);
+      max-height: 90vh;
       overflow: auto;
-      border-radius: 18px;
-      border: 1px solid var(--border);
+      border-radius: 40px;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 32px 90px rgba(0,0,0,0.48);
       background: var(--bg-elevated);
-      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
-      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
-    .portfolio-modal-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
+    .portfolio-modal-media {
+      min-height: 360px;
+      background: linear-gradient(135deg, #3730a3, #6366f1);
+    }
+    .portfolio-modal-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .portfolio-modal-body {
+      padding: 40px 40px 36px;
+      position: relative;
+      overflow-y: auto;
     }
     .portfolio-modal-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border-subtle);
       background: var(--bg-surface);
       color: var(--text-primary);
+      font-size: 18px;
       cursor: pointer;
+      transition: all .25s ease;
     }
-
-    .portfolio-carousel { width: 100%; }
-    .embla {
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-      border-radius: 20px;
+    .portfolio-modal-close:hover {
+      background: var(--accent-primary);
+      color: #fff;
     }
-    .embla::-webkit-scrollbar { display: none; }
-    .embla__container {
+    .portfolio-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 22px 0;
+      padding: 18px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .portfolio-meta-item {
       display: flex;
-      touch-action: pan-y pinch-zoom;
-      padding-left: 15%;
-      padding-right: 15%;
-      gap: 16px;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-secondary);
+      font-size: 13px;
     }
-    .embla__slide {
-      flex: 0 0 70%;
-      min-width: 0;
-      padding-left: 0;
-      transform: translateZ(0);
-      scroll-snap-align: center;
+    .portfolio-features {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      list-style: none;
+      padding: 0;
     }
-    .embla-controls {
+    .portfolio-features li {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-top: 28px;
-      max-width: 420px;
-      margin-left: auto;
-      margin-right: auto;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--text-secondary);
+      font-size: 14px;
+      line-height: 1.55;
     }
-    .embla-dots { display: flex; justify-content: center; gap: 8px; }
-    .embla-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 999px;
-      border: 2px solid var(--border);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.25s ease;
+    .portfolio-features li::before {
+      content: "✓";
+      color: var(--accent-primary);
+      font-weight: 700;
+      line-height: 1;
+      margin-top: 2px;
     }
-    .embla-dot:hover { background: rgba(255,255,255,0.2); }
-    .embla-dot.active { background: var(--text-primary); border-color: var(--text-primary); }
-    .embla-progress {
-      border-radius: 999px;
-      border: 2px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      height: 8px;
-      width: 160px;
-      max-width: 90%;
-      overflow: hidden;
-      position: relative;
-      transition: opacity 0.3s ease;
-    }
-    .embla-progress-bar {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -100%;
-      width: 100%;
-      background: var(--text-primary);
-      animation-name: autoplay-progress;
-      animation-timing-function: linear;
-      animation-iteration-count: 1;
-      animation-play-state: paused;
-    }
-    @keyframes autoplay-progress {
-      from { transform: translateX(0); }
-      to { transform: translateX(100%); }
-    }
-    .embla-toggle {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.08);
-      color: var(--text-primary);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .embla-toggle:hover { background: rgba(255,255,255,0.16); }
 
     /* --- PERSONAL WEBSITE 3D SECTION --- */
     .pw3d-shell {
@@ -1220,35 +1233,114 @@
     .testi-role { font-size: 12px; color: var(--text-muted); }
 
     /* --- BLOG --- */
-    .blog-card {
-      border-radius: 20px;
-      overflow: hidden;
-      transition: all 0.4s ease;
-      text-decoration: none;
-      display: block;
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
     }
-    .blog-card:hover { transform: translateY(-8px); }
-    .blog-card:hover .blog-title { color: #a5b4fc; }
+    .blog-card {
+      border-radius: 40px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: #fff;
+      transition: all 0.5s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      box-shadow: 0 12px 32px rgba(9,13,30,0.04);
+    }
+    .blog-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 52px rgba(9,13,30,0.12);
+    }
+    .blog-card:hover .blog-title { color: var(--accent-primary); }
     .blog-image {
-      aspect-ratio: 16/9;
-      background-size: cover;
-      background-position: center;
+      height: 260px;
       position: relative;
       overflow: hidden;
     }
-    .blog-image::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 50%, rgba(7,7,14,0.6));
+    .blog-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .7s ease;
     }
-    .blog-body { padding: 28px; }
-    .blog-meta { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--text-muted); margin-bottom: 12px; font-weight: 500; }
+    .blog-card:hover .blog-image img { transform: scale(1.08); }
+    .blog-category {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+    .blog-body {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 18px;
+    }
+    .blog-meta {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+    }
     .blog-meta-sep { width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%; }
-    .blog-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; color: var(--text-primary); transition: color 0.3s ease; line-height: 1.4; }
-    .blog-excerpt { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
-    .blog-read { font-size: 13px; font-weight: 600; color: var(--accent-primary); display: flex; align-items: center; gap: 6px; transition: gap 0.25s ease; }
-    .blog-card:hover .blog-read { gap: 10px; }
+    .blog-title {
+      font-size: 30px;
+      font-weight: 800;
+      margin: 0;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+      line-height: 1.2;
+      font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
+    }
+    .blog-excerpt { font-size: 15px; color: var(--text-secondary); line-height: 1.72; margin: 0; }
+    .blog-bottom {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .blog-open-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: transparent;
+      color: var(--text-primary);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 0;
+    }
+    .blog-open-btn:hover { color: var(--accent-primary); }
+    .blog-author {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
     .blog-card.blog-btn {
       width: 100%;
       border: 0;
@@ -1272,14 +1364,16 @@
     }
     .blog-modal.open { display: flex; }
     .blog-modal-card {
-      width: min(820px, 100%);
-      max-height: 86vh;
-      overflow: auto;
-      border-radius: 18px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
+      width: min(980px, 100%);
+      max-height: 90vh;
+      overflow: hidden;
+      border-radius: 40px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: #fff;
       box-shadow: 0 24px 80px rgba(0,0,0,0.42);
-      padding: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
     .blog-modal-head {
       display: flex;
@@ -1289,20 +1383,116 @@
       margin-bottom: 12px;
     }
     .blog-modal-close {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-surface);
-      color: var(--text-primary);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,255,255,0.9);
+      color: #1e293b;
       cursor: pointer;
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 10;
     }
-    .blog-modal-content p { margin: 0 0 12px; line-height: 1.8; color: var(--text-secondary); }
+    .blog-modal-close:hover {
+      background: var(--accent-primary);
+      color: #fff;
+    }
+    .blog-modal-image {
+      height: 320px;
+      overflow: hidden;
+    }
+    .blog-modal-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .blog-modal-scroll {
+      overflow-y: auto;
+      padding: 34px 34px 30px;
+    }
+    .blog-modal-content p { margin: 0 0 12px; line-height: 1.85; color: var(--text-secondary); font-size: 17px; }
     .blog-modal-content h2,
     .blog-modal-content h3,
     .blog-modal-content h4 { margin: 16px 0 10px; color: var(--text-primary); }
     .blog-modal-content ul,
     .blog-modal-content ol { margin: 0 0 12px 20px; color: var(--text-secondary); line-height: 1.8; }
+    .blog-modal-top-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .blog-modal-chip {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      background: rgba(79,70,229,.1);
+      color: var(--accent-primary);
+    }
+    .blog-modal-title {
+      font-size: clamp(30px, 3vw, 46px);
+      line-height: 1.14;
+      margin: 0 0 16px;
+      color: var(--text-primary);
+      font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
+    }
+    .blog-modal-author-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      margin-bottom: 22px;
+    }
+    .blog-author-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#6366f1,#22d3ee);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+    }
+    .blog-modal-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      padding-top: 18px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+    .blog-share-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .blog-share-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(15,23,42,0.04);
+      color: var(--text-secondary);
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .blog-share-btn:hover {
+      background: var(--accent-primary);
+      color: #fff;
+    }
 
     /* --- CONTACT FORM --- */
     .form-group { display: flex; flex-direction: column; gap: 8px; }
@@ -1549,6 +1739,15 @@
       .hero-visual { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
+      .portfolio-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .portfolio-modal-card { grid-template-columns: 1fr; border-radius: 28px; }
+      .portfolio-modal-media { min-height: 260px; max-height: 320px; }
+      .portfolio-modal-body { padding: 28px 24px 24px; }
+      .blog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .blog-title { font-size: 24px; }
+      .blog-modal-card { border-radius: 26px; }
+      .blog-modal-image { height: 250px; }
+      .blog-modal-scroll { padding: 22px 20px 20px; }
       .process-step { grid-template-columns: 1fr; }
       .process-line { display: none; }
       .process-number-wrap { justify-content: flex-start; padding-top: 0; margin-bottom: 16px; }
@@ -1569,10 +1768,25 @@
       .hero-title { font-size: 2.15rem; }
       .footer-grid { grid-template-columns: 1fr; gap: 32px; }
       .footer-bottom { flex-direction: column; text-align: center; }
-      .embla__slide { flex-basis: 82%; }
-      .embla-controls { max-width: 100%; }
-      .embla-progress { width: 120px; }
-      .embla__container { padding-left: 9%; padding-right: 9%; }
+      .portfolio-grid { grid-template-columns: 1fr; gap: 16px; }
+      .port-title { font-size: 24px; }
+      .portfolio-head { margin-bottom: 36px; }
+      .portfolio-head p { font-size: 15px; }
+      .portfolio-modal { padding: 10px; }
+      .portfolio-modal-card { border-radius: 22px; max-height: 92vh; }
+      .portfolio-meta-grid,
+      .portfolio-features { grid-template-columns: 1fr; }
+      #portfolioModalTitle { font-size: 30px !important; }
+      .blog-grid { grid-template-columns: 1fr; gap: 16px; }
+      .blog-card { border-radius: 24px; }
+      .blog-image { height: 220px; }
+      .blog-body { padding: 20px; }
+      .blog-title { font-size: 22px; }
+      .blog-modal { padding: 10px; }
+      .blog-modal-card { border-radius: 20px; max-height: 92vh; }
+      .blog-modal-image { height: 210px; }
+      .blog-modal-title { font-size: 30px; }
+      .blog-modal-author-row { flex-wrap: wrap; }
       #about, #services, #portfolio, #process, #testimonials, #blog, #contact, #why-us {
         display: block;
       }
@@ -2123,78 +2337,12 @@
 <!-- ========== PORTFOLIO ========== -->
 <section id="portfolio" class="section" style="background:var(--bg-surface)">
   <div class="section-inner">
-    <div class="section-header">
-      <div class="section-label reveal" data-lang="ka">პორტფოლიო</div>
-      <h2 class="section-title reveal reveal-delay-1" data-lang="ka">ჩვენი ნამუშევრები</h2>
-      <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">გაეცანით ჩვენს წარმატებულ პროექტებს</p>
+    <div class="portfolio-head">
+      <div class="section-label reveal" data-lang="ka">ჩვენი ნამუშევრები</div>
+      <h2 class="section-title reveal reveal-delay-1" data-lang="ka">შერჩეული პროექტები</h2>
+      <p class="reveal reveal-delay-2" data-lang="ka">ჩვენი ნამუშევრები საუბრობენ ჩვენს ხარისხზე და მიდგომაზე.</p>
     </div>
-    <div class="portfolio-carousel reveal">
-      <div class="embla" id="portfolioEmbla">
-        <div id="portfolioGrid" class="embla__container">
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#3730a3,#6366f1)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">კორპორატიული ვებსაიტი</div>
-                <div class="port-title">TechCorp Website</div>
-                <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">Tailwind</span><span class="port-tag">Node.js</span></div>
-              </div></div>
-            </div>
-          </div>
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#0e7490,#22d3ee)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">ონლაინ მაღაზია</div>
-                <div class="port-title">StyleShop E-commerce</div>
-                <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">Stripe</span><span class="port-tag">PostgreSQL</span></div>
-              </div></div>
-            </div>
-          </div>
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#92400e,#f59e0b)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">მობილური აპლიკაცია</div>
-                <div class="port-title">FoodDelivery App</div>
-                <div class="port-tags"><span class="port-tag">React Native</span><span class="port-tag">Firebase</span></div>
-              </div></div>
-            </div>
-          </div>
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#9d174d,#f43f5e)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">სამედიცინო პლატფორმა</div>
-                <div class="port-title">HealthCare Portal</div>
-                <div class="port-tags"><span class="port-tag">Vue.js</span><span class="port-tag">Laravel</span></div>
-              </div></div>
-            </div>
-          </div>
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#064e3b,#10b981)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">სასწავლო პლატფორმა</div>
-                <div class="port-title">EduLearn Platform</div>
-                <div class="port-tags"><span class="port-tag">Next.js</span><span class="port-tag">MongoDB</span></div>
-              </div></div>
-            </div>
-          </div>
-          <div class="embla__slide">
-            <div class="port-card" style="background:linear-gradient(135deg,#4c1d95,#8b5cf6)">
-              <div class="port-overlay"><div class="port-info">
-                <div class="port-cat" data-lang="ka">უძრავი ქონების პორტალი</div>
-                <div class="port-title">RealEstate Pro</div>
-                <div class="port-tags"><span class="port-tag">React</span><span class="port-tag">GraphQL</span></div>
-              </div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="embla-controls">
-        <div id="portfolioDots" class="embla-dots"></div>
-        <div id="portfolioProgressWrap" class="embla-progress">
-          <div id="portfolioProgressBar" class="embla-progress-bar"></div>
-        </div>
-        <button id="portfolioAutoplayToggle" type="button" class="embla-toggle" aria-label="Pause autoplay" title="Pause autoplay">❚❚</button>
-      </div>
-    </div>
+    <div id="portfolioGrid" class="portfolio-grid reveal"></div>
   </div>
 </section>
 
@@ -2319,70 +2467,12 @@
 <!-- ========== BLOG ========== -->
 <section id="blog" class="section">
   <div class="section-inner">
-    <div class="section-header">
-      <div class="section-label reveal" data-lang="ka">სიახლეები</div>
-      <h2 class="section-title reveal reveal-delay-1" data-lang="ka">სიახლეები და სტატიები</h2>
-      <p class="section-subtitle reveal reveal-delay-2" data-lang="ka">სასარგებლო ინფორმაცია ვებსაიტების, დიზაინის და ბიზნესის ზრდის შესახებ</p>
+    <div class="portfolio-head">
+      <div class="section-label reveal" data-lang="ka">სიახლეები და სტატიები</div>
+      <h2 class="section-title reveal reveal-delay-1" data-lang="ka">ბლოგი</h2>
+      <p class="reveal reveal-delay-2" data-lang="ka">გაეცანით უახლეს ტრენდებს და რჩევებს ციფრული სამყაროდან.</p>
     </div>
-    <div id="blogGrid" class="reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
-      <a href="/news-8-marti/" class="blog-card glass" target="_blank" rel="noopener noreferrer">
-        <div class="blog-image" style="background-image:url(https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80)"></div>
-        <div class="blog-body">
-          <div class="blog-meta"><span>8 მარტი, 2026</span><div class="blog-meta-sep"></div><span data-lang="ka">4 წუთი</span></div>
-          <div class="blog-title" data-lang="ka">8 მარტის უნიკალური საჩუქარი</div>
-          <div class="blog-excerpt" data-lang="ka">აჩუქე საყვარელ ადამიანს პერსონალური ვებგვერდი — ემოციური, დასამახსოვრებელი და სრულიად უნიკალური ციფრული საჩუქარი.</div>
-          <div class="blog-read"><span data-lang="ka">ვრცლად</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </a>
-      <a href="#blog-post-1" class="blog-card glass">
-        <div class="blog-image" style="background:linear-gradient(135deg,#3730a3,#6366f1)"></div>
-        <div class="blog-body">
-          <div class="blog-meta"><span>15 იანვარი, 2026</span><div class="blog-meta-sep"></div><span data-lang="ka">5 წუთი</span></div>
-          <div class="blog-title" data-lang="ka">2026 წლის ვებ დიზაინის ტრენდები</div>
-          <div class="blog-excerpt" data-lang="ka">რა ტენდენციები განსაზღვრავს ვებ დიზაინის მომავალს და როგორ გამოიყენოთ ისინი...</div>
-          <div class="blog-read"><span data-lang="ka">წაიკითხე მეტი</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </a>
-      <a href="#blog-post-2" class="blog-card glass">
-        <div class="blog-image" style="background:linear-gradient(135deg,#0e7490,#22d3ee)"></div>
-        <div class="blog-body">
-          <div class="blog-meta"><span>10 იანვარი, 2026</span><div class="blog-meta-sep"></div><span data-lang="ka">7 წუთი</span></div>
-          <div class="blog-title" data-lang="ka">SEO ოპტიმიზაციის საფუძვლები</div>
-          <div class="blog-excerpt" data-lang="ka">როგორ გააუმჯობესოთ თქვენი ვებსაიტის პოზიციები Google-ში...</div>
-          <div class="blog-read"><span data-lang="ka">წაიკითხე მეტი</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </a>
-      <a href="#blog-post-3" class="blog-card glass" style="display:none" id="blogExtra">
-        <div class="blog-image" style="background:linear-gradient(135deg,#92400e,#f59e0b)"></div>
-        <div class="blog-body">
-          <div class="blog-meta"><span>5 იანვარი, 2026</span><div class="blog-meta-sep"></div><span data-lang="ka">6 წუთი</span></div>
-          <div class="blog-title" data-lang="ka">E-commerce წარმატების საიდუმლო</div>
-          <div class="blog-excerpt" data-lang="ka">რა ფაქტორები განსაზღვრავს ონლაინ მაღაზიის წარმატებას...</div>
-          <div class="blog-read"><span data-lang="ka">წაიკითხე მეტი</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- Blog Detail Articles (hidden on index, shown on blog page) -->
-<section style="padding:0" id="blogDetails">
-  <div style="max-width:1280px;margin:0 auto;padding:0 2rem">
-    <article id="blog-post-1" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
-      <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">2026 წლის ვებ დიზაინის ტრენდები</h3>
-      <p style="color:var(--text-secondary);line-height:1.8">მთავარი აქცენტი კეთდება მკაფიო მესიჯინგზე, მაღალი კონტრასტის CTA-ებზე, სწრაფ ჩატვირთვაზე და ნდობის ელემენტებზე. ტრენდული ვიზუალი კარგია მხოლოდ მაშინ, როცა კონვერსიასაც ზრდის.</p>
-      <a href="/?page=blog" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
-    </article>
-    <article id="blog-post-2" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
-      <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">SEO ოპტიმიზაციის საფუძვლები</h3>
-      <p style="color:var(--text-secondary);line-height:1.8">SEO იწყება სწორი საკვანძო ფრაზებით, semantic HTML-ით, mobile-first გამოცდილებით და სტაბილური სიჩქარით. სწორი სტრუქტურა პირდაპირ აისახება ორგანულ ტრაფიკზე.</p>
-      <a href="/?page=blog" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
-    </article>
-    <article id="blog-post-3" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;background:var(--bg-surface)">
-      <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">E-commerce წარმატების საიდუმლო</h3>
-      <p style="color:var(--text-secondary);line-height:1.8">პროდუქტის გვერდი, checkout-ის სისწრაფე და სოციალური მტკიცებულება განსაზღვრავს შედეგს. ნაკლები ნაბიჯი ყიდვამდე და მკაფიო შეთავაზება მეტ გაყიდვას ნიშნავს.</p>
-      <a href="/?page=blog" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px" data-lang="ka">სიახლეებში დაბრუნება</a>
-    </article>
+    <div id="blogGrid" class="blog-grid reveal"></div>
   </div>
 </section>
 
@@ -2530,23 +2620,75 @@
 
 <div id="portfolioModal" class="portfolio-modal" aria-hidden="true">
   <div class="portfolio-modal-card">
-    <div class="portfolio-modal-head">
-      <h3 id="portfolioModalTitle" style="font-size:24px;font-weight:800">Project</h3>
-      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
+    <div class="portfolio-modal-media">
+      <img id="portfolioModalImage" loading="lazy" src="" alt="Project image" style="display:none">
     </div>
-    <p id="portfolioModalCategory" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px"></p>
-    <p id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8;white-space:pre-line"></p>
+    <div class="portfolio-modal-body">
+      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
+      <p id="portfolioModalCategory" style="font-size:11px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;font-weight:700"></p>
+      <h3 id="portfolioModalTitle" style="font-size:42px;line-height:1.12;font-family:'Syne','Noto Sans Georgian',sans-serif;font-weight:800;margin-bottom:12px">Project</h3>
+      <p id="portfolioModalShort" style="font-size:15px;color:var(--text-secondary);line-height:1.75"></p>
+
+      <div class="portfolio-meta-grid">
+        <div class="portfolio-meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 2v3M16 2v3M3 10h18M5 5h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="portfolioModalDate"></span>
+        </div>
+        <div class="portfolio-meta-item">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 7l-8 8-4-4M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="portfolioModalClient"></span>
+        </div>
+      </div>
+
+      <h4 style="font-size:18px;font-weight:700;margin:8px 0 10px" data-lang="ka">პროექტის შესახებ</h4>
+      <div id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8"></div>
+
+      <h4 style="font-size:18px;font-weight:700;margin:20px 0 10px" data-lang="ka">ძირითადი მახასიათებლები</h4>
+      <ul id="portfolioModalFeatures" class="portfolio-features"></ul>
+
+      <a id="portfolioModalLink" href="#" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;margin-top:26px;padding:12px 20px;border-radius:14px;background:var(--accent-primary);color:#fff;text-decoration:none;font-weight:700">
+        <span data-lang="ka">საიტის ნახვა</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 15L15 1M15 1H8M15 1V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
   </div>
 </div>
 
 <div id="blogModal" class="blog-modal" aria-hidden="true">
   <div class="blog-modal-card">
-    <div class="blog-modal-head">
-      <h3 id="blogModalTitle" style="font-size:24px;font-weight:800">სიახლე</h3>
-      <button id="blogModalClose" class="blog-modal-close" aria-label="Close">✕</button>
+    <button id="blogModalClose" class="blog-modal-close" aria-label="Close">✕</button>
+    <div class="blog-modal-image">
+      <img id="blogModalImage" loading="lazy" src="" alt="Blog cover">
     </div>
-    <p id="blogModalMeta" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px"></p>
-    <div id="blogModalContent" class="blog-modal-content" style="font-size:15px"></div>
+    <div class="blog-modal-scroll">
+      <div class="blog-modal-top-meta">
+        <span id="blogModalCategory" class="blog-modal-chip"></span>
+        <div class="blog-meta">
+          <span id="blogModalDate"></span>
+          <div class="blog-meta-sep"></div>
+          <span id="blogModalReadTime"></span>
+        </div>
+      </div>
+      <h3 id="blogModalTitle" class="blog-modal-title">სიახლე</h3>
+      <div class="blog-modal-author-row">
+        <div class="blog-author-avatar" id="blogModalAuthorAvatar">ID</div>
+        <div style="display:flex;flex-direction:column">
+          <span style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em" data-lang="ka">ავტორი</span>
+          <strong id="blogModalAuthor" style="font-size:15px;color:var(--text-primary)"></strong>
+        </div>
+        <button class="blog-share-btn" id="blogModalShareBtn" type="button" style="margin-left:auto">SH</button>
+      </div>
+      <div id="blogModalContent" class="blog-modal-content" style="font-size:15px"></div>
+      <div class="blog-modal-actions">
+        <div class="blog-share-group">
+          <span style="font-size:12px;color:var(--text-muted);font-weight:700" data-lang="ka">გააზიარეთ:</span>
+          <button class="blog-share-btn" type="button">FB</button>
+          <button class="blog-share-btn" type="button">IN</button>
+          <button class="blog-share-btn" type="button">LI</button>
+        </div>
+        <button type="button" onclick="closeBlogModal()" style="padding:10px 18px;border-radius:12px;background:var(--accent-primary);color:#fff;border:0;font-weight:700;cursor:pointer" data-lang="ka">დახურვა</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2829,12 +2971,6 @@
     el.style.display = visible.includes(id) ? "" : "none";
   });
 
-  document.querySelectorAll(".blog-detail-article").forEach(a => {
-    a.style.display = "none";
-  });
-
-  const blogDetails = document.getElementById("blogDetails");
-  if (blogDetails) blogDetails.style.display = "none";
 }
 
   function sanitizeRichHtml(input) {
@@ -2889,14 +3025,56 @@
   const portfolioModal = document.getElementById('portfolioModal');
   const portfolioModalTitle = document.getElementById('portfolioModalTitle');
   const portfolioModalCategory = document.getElementById('portfolioModalCategory');
+  const portfolioModalShort = document.getElementById('portfolioModalShort');
+  const portfolioModalDate = document.getElementById('portfolioModalDate');
+  const portfolioModalClient = document.getElementById('portfolioModalClient');
+  const portfolioModalImage = document.getElementById('portfolioModalImage');
   const portfolioModalText = document.getElementById('portfolioModalText');
+  const portfolioModalFeatures = document.getElementById('portfolioModalFeatures');
+  const portfolioModalLink = document.getElementById('portfolioModalLink');
   const portfolioModalClose = document.getElementById('portfolioModalClose');
 
-  function openPortfolioModal(title, category, text) {
+  function openPortfolioModal(project) {
     if (!portfolioModal) return;
-    portfolioModalTitle.textContent = title || 'Project';
-    portfolioModalCategory.textContent = category || '';
-    portfolioModalText.innerHTML = renderRichText(text);
+    const title = project?.title || 'Project';
+    const category = project?.category || '';
+    const shortDescription = project?.description || '';
+    const fullDescription = project?.fullDescription || shortDescription || '';
+    const date = project?.date || 'N/A';
+    const client = project?.client || 'N/A';
+    const image = project?.image || '';
+    const link = project?.link || '';
+    const features = Array.isArray(project?.features) ? project.features : [];
+
+    portfolioModalTitle.textContent = title;
+    portfolioModalCategory.textContent = category;
+    if (portfolioModalShort) portfolioModalShort.textContent = shortDescription;
+    if (portfolioModalDate) portfolioModalDate.textContent = date;
+    if (portfolioModalClient) portfolioModalClient.textContent = client;
+    portfolioModalText.innerHTML = renderRichText(fullDescription);
+    if (portfolioModalFeatures) {
+      portfolioModalFeatures.innerHTML = features.length
+        ? features.map((feature) => `<li>${feature}</li>`).join('')
+        : '<li>დეტალები დაემატება მალე</li>';
+    }
+    if (portfolioModalLink) {
+      if (link) {
+        portfolioModalLink.href = link;
+        portfolioModalLink.style.display = 'inline-flex';
+      } else {
+        portfolioModalLink.removeAttribute('href');
+        portfolioModalLink.style.display = 'none';
+      }
+    }
+    if (portfolioModalImage) {
+      if (image) {
+        portfolioModalImage.src = image;
+        portfolioModalImage.style.display = 'block';
+      } else {
+        portfolioModalImage.removeAttribute('src');
+        portfolioModalImage.style.display = 'none';
+      }
+    }
     portfolioModal.classList.add('open');
     portfolioModal.setAttribute('aria-hidden', 'false');
   }
@@ -2920,15 +3098,30 @@
   // ---- BLOG MODAL ----
   const blogModal = document.getElementById('blogModal');
   const blogModalTitle = document.getElementById('blogModalTitle');
-  const blogModalMeta = document.getElementById('blogModalMeta');
+  const blogModalImage = document.getElementById('blogModalImage');
+  const blogModalCategory = document.getElementById('blogModalCategory');
+  const blogModalDate = document.getElementById('blogModalDate');
+  const blogModalReadTime = document.getElementById('blogModalReadTime');
+  const blogModalAuthor = document.getElementById('blogModalAuthor');
+  const blogModalAuthorAvatar = document.getElementById('blogModalAuthorAvatar');
+  const blogModalShareBtn = document.getElementById('blogModalShareBtn');
   const blogModalContent = document.getElementById('blogModalContent');
   const blogModalClose = document.getElementById('blogModalClose');
 
-  function openBlogModal(title, meta, content) {
+  function openBlogModal(post) {
     if (!blogModal) return;
-    blogModalTitle.textContent = title || 'სიახლე';
-    blogModalMeta.textContent = meta || '';
-    blogModalContent.innerHTML = renderRichText(content);
+    blogModalTitle.textContent = post?.title || 'სიახლე';
+    if (blogModalImage) blogModalImage.src = post?.image || 'https://picsum.photos/seed/design/1200/700';
+    if (blogModalCategory) blogModalCategory.textContent = post?.category || '';
+    if (blogModalDate) blogModalDate.textContent = post?.date || '';
+    if (blogModalReadTime) blogModalReadTime.textContent = post?.readTime || '';
+    if (blogModalAuthor) blogModalAuthor.textContent = post?.author || '';
+    if (blogModalAuthorAvatar) {
+      const author = String(post?.author || 'ID').trim();
+      const initials = author.split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]).join('').toUpperCase();
+      blogModalAuthorAvatar.textContent = initials || 'ID';
+    }
+    blogModalContent.innerHTML = renderRichText(post?.content || post?.excerpt || '');
     blogModal.classList.add('open');
     blogModal.setAttribute('aria-hidden', 'false');
   }
@@ -2941,6 +3134,20 @@
   if (blogModal) {
     blogModal.addEventListener('click', (e) => {
       if (e.target === blogModal) closeBlogModal();
+    });
+  }
+  if (blogModalShareBtn) {
+    blogModalShareBtn.addEventListener('click', async () => {
+      const title = blogModalTitle?.textContent || document.title;
+      const text = blogModalCategory?.textContent || '';
+      const url = window.location.href;
+      try {
+        if (navigator.share) {
+          await navigator.share({ title, text, url });
+          return;
+        }
+        await navigator.clipboard.writeText(url);
+      } catch {}
     });
   }
 
@@ -3013,33 +3220,27 @@
   });
 
   document.addEventListener('click', (e) => {
-    const link = e.target.closest('a.blog-card[href^="#"], .blog-readmore-btn');
+    const link = e.target.closest('.blog-open-btn, .blog-readmore-btn');
     if (!link) return;
     e.preventDefault();
-    const title = link.getAttribute('data-blog-title') || '';
-    const meta = link.getAttribute('data-blog-meta') || '';
-    const content = link.getAttribute('data-blog-content') || '';
-    if (title || content) {
-      openBlogModal(title, meta, content);
-      return;
-    }
-    const hash = link.getAttribute('href') || '';
-    if (!hash.startsWith('#')) return;
-    const article = document.querySelector(hash);
-    if (!article) return;
-    const artTitle = article.querySelector('h3')?.textContent || 'სიახლე';
-    const artText = article.querySelector('p')?.innerHTML || '';
-    openBlogModal(artTitle, '', artText);
+    const raw = link.getAttribute('data-blog') || link.closest('.blog-card')?.getAttribute('data-blog') || '';
+    if (!raw) return;
+    try {
+      openBlogModal(JSON.parse(raw));
+    } catch {}
   });
 
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.port-readmore-btn');
+    const btn = e.target.closest('.portfolio-open-detail, .port-card');
     if (!btn) return;
-    openPortfolioModal(
-      btn.getAttribute('data-port-title') || '',
-      btn.getAttribute('data-port-category') || '',
-      btn.getAttribute('data-port-text') || ''
-    );
+    if (e.target.closest('.port-arrow')) return;
+    const card = btn.closest('.port-card');
+    if (!card) return;
+    const raw = card.getAttribute('data-project') || '';
+    if (!raw) return;
+    try {
+      openPortfolioModal(JSON.parse(raw));
+    } catch {}
   });
   // ---- CONTACT FORM ----
   document.getElementById('contactForm').addEventListener('submit', async e => {
@@ -3210,178 +3411,50 @@
   function renderPortfolio() {
     const items = getCmsList('portfolio');
     const grid = document.getElementById('portfolioGrid');
-    if (!grid || !items.length) {
-      initPortfolioCarousel();
+    if (!grid) return;
+    if (!items.length) {
+      grid.innerHTML = '';
       return;
     }
-    grid.innerHTML = items.map(item => {
-      const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
-      const target = (item.project_url || '').trim();
-      const hasLink = Boolean(target);
-      const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
-      const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
-      const fullText = (item.full_description || item.short_description || item.description || '').trim();
-      const arrow = hasLink
-        ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
-        : ``;
-      return `<div class="embla__slide"><div class="port-card" style="${bg}">
-          ${media}
-          ${arrow}
-          <div class="port-overlay"><div class="port-info">
-            <div class="port-cat">${item.category||''}</div>
-            <div class="port-title">${item.title||''}</div>
-            <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
-            ${fullText ? `<button type="button" class="port-readmore-btn" data-port-title="${escAttr(item.title || '')}" data-port-category="${escAttr(item.category || '')}" data-port-text="${escAttr(fullText)}">ვრცლად</button>` : ``}
-          </div></div>
-        </div></div>`;
+
+    grid.innerHTML = items.map((item) => {
+      const title = item.title || '';
+      const category = item.category || '';
+      const description = item.short_description || item.description || '';
+      const fullDescription = item.full_description || description || '';
+      const techStack = (item.tech_stack || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const image = item.image || '';
+      const link = (item.project_url || '').trim();
+      const date = item.date || item.project_date || '';
+      const client = item.client || item.client_name || '';
+      const fallbackImage = 'https://picsum.photos/seed/identisite-portfolio/800/600';
+      const projectData = escAttr(JSON.stringify({
+        title,
+        category,
+        description,
+        fullDescription,
+        date,
+        client,
+        link,
+        image: image || fallbackImage,
+        features: techStack
+      }));
+
+      return `<div class="port-card reveal" data-project="${projectData}">
+        <img loading="lazy" src="${image || fallbackImage}" alt="${escAttr(title)}" class="port-image" referrerpolicy="no-referrer">
+        ${link ? `<a href="${escAttr(link)}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ''}
+        <div class="port-overlay">
+          <div class="port-cat">${category}</div>
+          <div class="port-title">${title}</div>
+          <p class="port-desc">${description}</p>
+          <button type="button" class="portfolio-open-detail">ვრცლად <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 15L15 1M15 1H8M15 1V8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>`;
     }).join('');
-    initPortfolioCarousel();
-  }
 
-
-  let portfolioIndex = 0;
-  let portfolioAutoplayTimer = null;
-  let portfolioAutoplayPlaying = true;
-  const PORTFOLIO_AUTOPLAY_DELAY = 3000;
-  let portfolioScrollRaf = null;
-
-  function getPortfolioSlides() {
-    return Array.from(document.querySelectorAll('#portfolioGrid .embla__slide'));
-  }
-
-  function updatePortfolioDots() {
-    const dots = document.querySelectorAll('#portfolioDots .embla-dot');
-    dots.forEach((dot, i) => dot.classList.toggle('active', i === portfolioIndex));
-  }
-
-  function renderPortfolioDots() {
-    const dotsWrap = document.getElementById('portfolioDots');
-    const slides = getPortfolioSlides();
-    if (!dotsWrap) return;
-    dotsWrap.innerHTML = slides.map((_, i) => `<button type="button" class="embla-dot${i === portfolioIndex ? ' active' : ''}" data-index="${i}" aria-label="Go to slide ${i + 1}"></button>`).join('');
-    dotsWrap.querySelectorAll('.embla-dot').forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const idx = Number(dot.getAttribute('data-index') || 0);
-        onPortfolioAutoplayButtonClick(() => scrollToPortfolioSlide(idx));
-      });
+    grid.querySelectorAll('.reveal').forEach((el) => {
+      try { revealObserver.observe(el); } catch {}
     });
-  }
-
-  function restartPortfolioProgress() {
-    const wrap = document.getElementById('portfolioProgressWrap');
-    const bar = document.getElementById('portfolioProgressBar');
-    if (!wrap || !bar) return;
-    wrap.style.opacity = portfolioAutoplayPlaying ? '1' : '0';
-    bar.style.animationName = 'none';
-    bar.style.animationPlayState = 'paused';
-    if (!portfolioAutoplayPlaying) return;
-    void bar.offsetWidth;
-    bar.style.animationDuration = `${PORTFOLIO_AUTOPLAY_DELAY}ms`;
-    bar.style.animationName = 'autoplay-progress';
-    bar.style.animationPlayState = 'running';
-  }
-
-  function updatePortfolioAutoplayButton() {
-    const btn = document.getElementById('portfolioAutoplayToggle');
-    if (!btn) return;
-    if (portfolioAutoplayPlaying) {
-      btn.textContent = '❚❚';
-      btn.setAttribute('aria-label', 'Pause autoplay');
-      btn.setAttribute('title', 'Pause autoplay');
-    } else {
-      btn.textContent = '▶';
-      btn.setAttribute('aria-label', 'Play autoplay');
-      btn.setAttribute('title', 'Play autoplay');
-    }
-  }
-
-  function scrollToPortfolioSlide(index, smooth = true) {
-    const embla = document.getElementById('portfolioEmbla');
-    const slides = getPortfolioSlides();
-    if (!embla || !slides.length) return;
-    const max = slides.length - 1;
-    portfolioIndex = ((index % slides.length) + slides.length) % slides.length;
-    const targetSlide = slides[Math.min(max, portfolioIndex)];
-    const targetLeft = Math.max(0, targetSlide.offsetLeft - (embla.clientWidth - targetSlide.clientWidth) / 2);
-    embla.scrollTo({ left: targetLeft, behavior: smooth ? 'smooth' : 'auto' });
-    updatePortfolioDots();
-    restartPortfolioProgress();
-  }
-
-  function clearPortfolioAutoplay() {
-    if (portfolioAutoplayTimer) {
-      clearInterval(portfolioAutoplayTimer);
-      portfolioAutoplayTimer = null;
-    }
-  }
-
-  function startPortfolioAutoplay() {
-    clearPortfolioAutoplay();
-    const slides = getPortfolioSlides();
-    if (!portfolioAutoplayPlaying || slides.length <= 1) {
-      restartPortfolioProgress();
-      return;
-    }
-    portfolioAutoplayTimer = setInterval(() => {
-      scrollToPortfolioSlide(portfolioIndex + 1);
-    }, PORTFOLIO_AUTOPLAY_DELAY);
-    restartPortfolioProgress();
-  }
-
-  function onPortfolioAutoplayButtonClick(callback) {
-    if (portfolioAutoplayPlaying) {
-      startPortfolioAutoplay();
-    }
-    callback();
-  }
-
-  function bindPortfolioScrollSync() {
-    const embla = document.getElementById('portfolioEmbla');
-    if (!embla) return;
-    embla.addEventListener('scroll', () => {
-      if (portfolioScrollRaf) cancelAnimationFrame(portfolioScrollRaf);
-      portfolioScrollRaf = requestAnimationFrame(() => {
-        const slides = getPortfolioSlides();
-        if (!slides.length) return;
-        const left = embla.scrollLeft;
-        let closest = 0;
-        let dist = Number.POSITIVE_INFINITY;
-        slides.forEach((slide, i) => {
-          const slideCenter = slide.offsetLeft + (slide.clientWidth / 2);
-          const viewportCenter = left + (embla.clientWidth / 2);
-          const d = Math.abs(slideCenter - viewportCenter);
-          if (d < dist) { dist = d; closest = i; }
-        });
-        if (closest !== portfolioIndex) {
-          portfolioIndex = closest;
-          updatePortfolioDots();
-        }
-      });
-    }, { passive: true });
-  }
-
-  function initPortfolioCarousel() {
-    const slides = getPortfolioSlides();
-    if (!slides.length) return;
-    portfolioIndex = 0;
-    renderPortfolioDots();
-    scrollToPortfolioSlide(0, false);
-    const toggle = document.getElementById('portfolioAutoplayToggle');
-    if (toggle && !toggle.dataset.bound) {
-      toggle.dataset.bound = '1';
-      toggle.addEventListener('click', () => {
-        portfolioAutoplayPlaying = !portfolioAutoplayPlaying;
-        updatePortfolioAutoplayButton();
-        startPortfolioAutoplay();
-      });
-    }
-    const embla = document.getElementById('portfolioEmbla');
-    if (embla && !embla.dataset.bound) {
-      embla.dataset.bound = '1';
-      bindPortfolioScrollSync();
-    }
-    updatePortfolioAutoplayButton();
-    startPortfolioAutoplay();
   }
 
   function renderWhyUs() {
@@ -3435,36 +3508,54 @@
   function renderBlog() {
     const items = getCmsList('blog');
     const cards = document.getElementById('blogGrid');
-    const details = document.getElementById('blogDetails');
-    if (!cards || !details || !items.length) return;
-    const special = `<a href="/news-8-marti/" class="blog-card glass" target="_blank" rel="noopener noreferrer">
-      <div class="blog-image" style="background-image:url(https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80)"></div>
-      <div class="blog-body">
-        <div class="blog-meta"><span>8 მარტი, 2026</span><div class="blog-meta-sep"></div><span>4 წუთი</span></div>
-        <div class="blog-title">8 მარტის უნიკალური საჩუქარი</div>
-        <div class="blog-excerpt">აჩუქე საყვარელ ადამიანს პერსონალური ვებგვერდი — ემოციური, დასამახსოვრებელი და სრულიად უნიკალური ციფრული საჩუქარი.</div>
-        <div class="blog-read"><span>ვრცლად</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div></a>`;
-    cards.innerHTML = special + items.map((item, i) => {
-      const slug = item.id||`blog-post-${i+1}`;
-      const media = item.image?`<div class="blog-image" style="background-image:url('${item.image}')"></div>`:`<div class="blog-image" style="background:linear-gradient(135deg,#3730a3,#6366f1)"></div>`;
-      const meta = `${item.date||''}${item.read_time ? ` • ${item.read_time}` : ''}`.trim();
-      const full = (item.content || item.excerpt || '');
-      return `<button type="button" class="blog-card blog-btn glass blog-readmore-btn" data-blog-title="${escAttr(item.title||'')}" data-blog-meta="${escAttr(meta)}" data-blog-content="${escAttr(full)}">${media}<div class="blog-body">
-        <div class="blog-meta"><span>${item.date||''}</span><div class="blog-meta-sep"></div><span>${item.read_time||''}</span></div>
-        <div class="blog-title">${item.title||''}</div>
-        <div class="blog-excerpt">${item.excerpt||''}</div>
-        <div class="blog-read"><span>ვრცლად</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div></button>`;
-    }).join('');
-    details.innerHTML = items.map((item, i) => {
-      const slug = item.id||`blog-post-${i+1}`;
-      return `<article id="${slug}" class="blog-detail-article" style="padding:40px;border:1px solid var(--border-subtle);border-radius:16px;margin-bottom:16px;background:var(--bg-surface)">
-        <h3 style="font-size:22px;font-weight:700;margin-bottom:12px">${item.title||''}</h3>
-        <p style="color:var(--text-secondary);line-height:1.8">${item.content||item.excerpt||''}</p>
-        <a href="/?page=blog" style="display:inline-flex;margin-top:16px;color:var(--accent-primary);font-weight:600;text-decoration:none;font-size:14px">სიახლეებში დაბრუნება</a>
+    if (!cards) return;
+    if (!items.length) {
+      cards.innerHTML = '';
+      return;
+    }
+
+    cards.innerHTML = items.map((item, i) => {
+      const post = {
+        id: item.id || (i + 1),
+        title: item.title || '',
+        excerpt: item.excerpt || '',
+        content: item.content || item.excerpt || '',
+        image: item.image || `https://picsum.photos/seed/blog-${i + 1}/800/500`,
+        date: item.date || '',
+        author: item.author || 'IDENTISITE Team',
+        readTime: item.read_time || item.readTime || '',
+        category: item.category || 'ბლოგი'
+      };
+      return `<article class="blog-card reveal">
+        <div class="blog-image">
+          <img loading="lazy" src="${escAttr(post.image)}" alt="${escAttr(post.title)}" referrerpolicy="no-referrer">
+          <span class="blog-category">${post.category}</span>
+        </div>
+        <div class="blog-body">
+          <div class="blog-meta">
+            <span>${post.date}</span>
+            <div class="blog-meta-sep"></div>
+            <span>${post.readTime}</span>
+          </div>
+          <h3 class="blog-title">${post.title}</h3>
+          <p class="blog-excerpt">${post.excerpt}</p>
+          <div class="blog-bottom">
+            <button type="button" class="blog-open-btn blog-readmore-btn" data-blog="${escAttr(JSON.stringify(post))}">
+              ვრცლად
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <span class="blog-author">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              ${post.author}
+            </span>
+          </div>
+        </div>
       </article>`;
     }).join('');
+
+    cards.querySelectorAll('.reveal').forEach((el) => {
+      try { revealObserver.observe(el); } catch {}
+    });
   }
 
   function renderFaq() {
@@ -3515,6 +3606,11 @@
       if (w) w.style.gridTemplateColumns = '1fr 1fr';
       if (t) t.style.gridTemplateColumns = '1fr 1fr 1fr';
       if (b) b.style.gridTemplateColumns = '1fr 1fr';
+    } else {
+      if (g) g.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      if (w) w.style.gridTemplateColumns = 'repeat(4, 1fr)';
+      if (t) t.style.gridTemplateColumns = 'repeat(3, 1fr)';
+      if (b) b.style.gridTemplateColumns = 'repeat(3, 1fr)';
     }
   }
   setServiceGridCols();
