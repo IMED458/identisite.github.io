@@ -1304,12 +1304,12 @@
       font-size: 30px;
       font-weight: 800;
       margin: 0;
-      color: var(--text-primary);
+      color: #0f172a;
       transition: color 0.3s ease;
       line-height: 1.2;
       font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
     }
-    .blog-excerpt { font-size: 15px; color: var(--text-secondary); line-height: 1.72; margin: 0; }
+    .blog-excerpt { font-size: 15px; color: #475569; line-height: 1.72; margin: 0; }
     .blog-bottom {
       margin-top: auto;
       padding-top: 18px;
@@ -1325,7 +1325,7 @@
       gap: 8px;
       border: 0;
       background: transparent;
-      color: var(--text-primary);
+      color: #0f172a;
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;
@@ -1336,7 +1336,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      color: var(--text-muted);
+      color: #64748b;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: .08em;
@@ -1414,12 +1414,12 @@
       overflow-y: auto;
       padding: 34px 34px 30px;
     }
-    .blog-modal-content p { margin: 0 0 12px; line-height: 1.85; color: var(--text-secondary); font-size: 17px; }
+    .blog-modal-content p { margin: 0 0 12px; line-height: 1.85; color: #334155; font-size: 17px; }
     .blog-modal-content h2,
     .blog-modal-content h3,
-    .blog-modal-content h4 { margin: 16px 0 10px; color: var(--text-primary); }
+    .blog-modal-content h4 { margin: 16px 0 10px; color: #0f172a; }
     .blog-modal-content ul,
-    .blog-modal-content ol { margin: 0 0 12px 20px; color: var(--text-secondary); line-height: 1.8; }
+    .blog-modal-content ol { margin: 0 0 12px 20px; color: #334155; line-height: 1.8; }
     .blog-modal-top-meta {
       display: flex;
       align-items: center;
@@ -1441,7 +1441,7 @@
       font-size: clamp(30px, 3vw, 46px);
       line-height: 1.14;
       margin: 0 0 16px;
-      color: var(--text-primary);
+      color: #0f172a;
       font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
     }
     .blog-modal-author-row {
@@ -3510,23 +3510,66 @@
     const items = getCmsList('blog');
     const cards = document.getElementById('blogGrid');
     if (!cards) return;
-    if (!items.length) {
+    const specialPost = {
+      id: 'news-8-marti',
+      title: '8 მარტის უნიკალური საჩუქარი',
+      excerpt: 'აჩუქე საყვარელ ადამიანს პერსონალური ვებგვერდი — ემოციური, დასამახსოვრებელი და სრულიად უნიკალური ციფრული საჩუქარი.',
+      content: '8 მარტის სპეციალური შეთავაზება: შეუკვეთე პერსონალური ვებგვერდი და გააოცე საყვარელი ადამიანი უნიკალური ციფრული საჩუქრით.',
+      image: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=800&q=80',
+      date: '8 მარტი, 2026',
+      author: 'IDENTISITE Team',
+      readTime: '4 წთ',
+      category: 'სიახლე',
+      href: '/news-8-marti/'
+    };
+    const normalized = items.map((item, i) => ({
+      id: item.id || (i + 1),
+      title: item.title || '',
+      excerpt: item.excerpt || '',
+      content: item.content || item.excerpt || '',
+      image: item.image || `https://picsum.photos/seed/blog-${i + 1}/800/500`,
+      date: item.date || '',
+      author: item.author || 'IDENTISITE Team',
+      readTime: item.read_time || item.readTime || '',
+      category: item.category || 'ბლოგი'
+    }));
+    const alreadyHasSpecial = normalized.some((p) => (p.title || '').trim() === specialPost.title);
+    const blogPosts = alreadyHasSpecial ? normalized : [specialPost, ...normalized];
+
+    if (!blogPosts.length) {
       cards.innerHTML = '';
       return;
     }
 
-    cards.innerHTML = items.map((item, i) => {
-      const post = {
-        id: item.id || (i + 1),
-        title: item.title || '',
-        excerpt: item.excerpt || '',
-        content: item.content || item.excerpt || '',
-        image: item.image || `https://picsum.photos/seed/blog-${i + 1}/800/500`,
-        date: item.date || '',
-        author: item.author || 'IDENTISITE Team',
-        readTime: item.read_time || item.readTime || '',
-        category: item.category || 'ბლოგი'
-      };
+    cards.innerHTML = blogPosts.map((post) => {
+      if (post.href) {
+        return `<article class="blog-card reveal">
+          <a href="${post.href}" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;display:block;height:100%">
+            <div class="blog-image">
+              <img loading="lazy" src="${escAttr(post.image)}" alt="${escAttr(post.title)}" referrerpolicy="no-referrer">
+              <span class="blog-category">${post.category}</span>
+            </div>
+            <div class="blog-body">
+              <div class="blog-meta">
+                <span>${post.date}</span>
+                <div class="blog-meta-sep"></div>
+                <span>${post.readTime}</span>
+              </div>
+              <h3 class="blog-title">${post.title}</h3>
+              <p class="blog-excerpt">${post.excerpt}</p>
+              <div class="blog-bottom">
+                <span class="blog-open-btn">ვრცლად
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M1 8h14M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <span class="blog-author">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M20 21a8 8 0 0 0-16 0M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                  ${post.author}
+                </span>
+              </div>
+            </div>
+          </a>
+        </article>`;
+      }
       return `<article class="blog-card reveal">
         <div class="blog-image">
           <img loading="lazy" src="${escAttr(post.image)}" alt="${escAttr(post.title)}" referrerpolicy="no-referrer">
