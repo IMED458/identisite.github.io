@@ -116,6 +116,29 @@ textarea {
   resize: vertical;
 }
 
+.rich-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 6px 0 8px;
+}
+
+.rich-btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rich-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
 button.primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;

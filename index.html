@@ -1249,6 +1249,60 @@
     .blog-excerpt { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px; }
     .blog-read { font-size: 13px; font-weight: 600; color: var(--accent-primary); display: flex; align-items: center; gap: 6px; transition: gap 0.25s ease; }
     .blog-card:hover .blog-read { gap: 10px; }
+    .blog-card.blog-btn {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 0;
+      cursor: pointer;
+      color: inherit;
+      font: inherit;
+    }
+    .blog-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1210;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(3, 7, 18, 0.76);
+      padding: 20px;
+      backdrop-filter: blur(6px);
+    }
+    .blog-modal.open { display: flex; }
+    .blog-modal-card {
+      width: min(820px, 100%);
+      max-height: 86vh;
+      overflow: auto;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.42);
+      padding: 24px;
+    }
+    .blog-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .blog-modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    .blog-modal-content p { margin: 0 0 12px; line-height: 1.8; color: var(--text-secondary); }
+    .blog-modal-content h2,
+    .blog-modal-content h3,
+    .blog-modal-content h4 { margin: 16px 0 10px; color: var(--text-primary); }
+    .blog-modal-content ul,
+    .blog-modal-content ol { margin: 0 0 12px 20px; color: var(--text-secondary); line-height: 1.8; }
 
     /* --- CONTACT FORM --- */
     .form-group { display: flex; flex-direction: column; gap: 8px; }
@@ -2485,6 +2539,17 @@
   </div>
 </div>
 
+<div id="blogModal" class="blog-modal" aria-hidden="true">
+  <div class="blog-modal-card">
+    <div class="blog-modal-head">
+      <h3 id="blogModalTitle" style="font-size:24px;font-weight:800">სიახლე</h3>
+      <button id="blogModalClose" class="blog-modal-close" aria-label="Close">✕</button>
+    </div>
+    <p id="blogModalMeta" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px"></p>
+    <div id="blogModalContent" class="blog-modal-content" style="font-size:15px"></div>
+  </div>
+</div>
+
 
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
@@ -2765,12 +2830,60 @@
   });
 
   document.querySelectorAll(".blog-detail-article").forEach(a => {
-    a.style.display = page === "blog" ? "block" : "none";
+    a.style.display = "none";
   });
 
   const blogDetails = document.getElementById("blogDetails");
-  if (blogDetails) blogDetails.style.display = page === "blog" ? "block" : "none";
+  if (blogDetails) blogDetails.style.display = "none";
 }
+
+  function sanitizeRichHtml(input) {
+    const allowed = new Set(['P', 'BR', 'STRONG', 'B', 'EM', 'I', 'U', 'H2', 'H3', 'H4', 'UL', 'OL', 'LI', 'A']);
+    const wrap = document.createElement('div');
+    wrap.innerHTML = String(input || '');
+
+    const cleanNode = (node) => {
+      if (node.nodeType === Node.TEXT_NODE) return;
+      if (node.nodeType !== Node.ELEMENT_NODE) {
+        node.remove();
+        return;
+      }
+      const el = node;
+      const tag = el.tagName.toUpperCase();
+      if (!allowed.has(tag)) {
+        const parent = el.parentNode;
+        while (el.firstChild) parent.insertBefore(el.firstChild, el);
+        el.remove();
+        return;
+      }
+      Array.from(el.attributes).forEach((attr) => {
+        const name = attr.name.toLowerCase();
+        if (tag === 'A' && name === 'href') return;
+        el.removeAttribute(attr.name);
+      });
+      if (tag === 'A') {
+        const href = (el.getAttribute('href') || '').trim();
+        if (!/^https?:\/\//i.test(href) && !/^mailto:/i.test(href) && !/^tel:/i.test(href)) {
+          el.removeAttribute('href');
+        } else {
+          el.setAttribute('target', '_blank');
+          el.setAttribute('rel', 'noopener noreferrer');
+        }
+      }
+      Array.from(el.childNodes).forEach(cleanNode);
+    };
+
+    Array.from(wrap.childNodes).forEach(cleanNode);
+    return wrap.innerHTML;
+  }
+
+  function renderRichText(input) {
+    const raw = String(input || '').trim();
+    if (!raw) return '';
+    if (/[<>]/.test(raw)) return sanitizeRichHtml(raw);
+    const paras = raw.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
+    return paras.map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+  }
 
   // ---- PORTFOLIO MODAL ----
   const portfolioModal = document.getElementById('portfolioModal');
@@ -2783,7 +2896,7 @@
     if (!portfolioModal) return;
     portfolioModalTitle.textContent = title || 'Project';
     portfolioModalCategory.textContent = category || '';
-    portfolioModalText.textContent = text || '';
+    portfolioModalText.innerHTML = renderRichText(text);
     portfolioModal.classList.add('open');
     portfolioModal.setAttribute('aria-hidden', 'false');
   }
@@ -2799,8 +2912,37 @@
     });
   }
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePortfolioModal();
+    if (e.key !== 'Escape') return;
+    closePortfolioModal();
+    closeBlogModal();
   });
+
+  // ---- BLOG MODAL ----
+  const blogModal = document.getElementById('blogModal');
+  const blogModalTitle = document.getElementById('blogModalTitle');
+  const blogModalMeta = document.getElementById('blogModalMeta');
+  const blogModalContent = document.getElementById('blogModalContent');
+  const blogModalClose = document.getElementById('blogModalClose');
+
+  function openBlogModal(title, meta, content) {
+    if (!blogModal) return;
+    blogModalTitle.textContent = title || 'სიახლე';
+    blogModalMeta.textContent = meta || '';
+    blogModalContent.innerHTML = renderRichText(content);
+    blogModal.classList.add('open');
+    blogModal.setAttribute('aria-hidden', 'false');
+  }
+  function closeBlogModal() {
+    if (!blogModal) return;
+    blogModal.classList.remove('open');
+    blogModal.setAttribute('aria-hidden', 'true');
+  }
+  if (blogModalClose) blogModalClose.addEventListener('click', closeBlogModal);
+  if (blogModal) {
+    blogModal.addEventListener('click', (e) => {
+      if (e.target === blogModal) closeBlogModal();
+    });
+  }
 
   // ---- NAVBAR SCROLL ----
   window.addEventListener('scroll', () => {
@@ -2870,51 +3012,24 @@
     });
   });
 
-  function isBlogPageNow() {
-    const params = new URLSearchParams(window.location.search);
-    const forced = (params.get('page') || '').toLowerCase();
-    if (forced === 'blog') return true;
-    const p = window.location.pathname.toLowerCase();
-    return p.endsWith('/blog/') || p.endsWith('/blog') || p.endsWith('/blog.html');
-  }
-
-  function openBlogDetailByHash(hash) {
-    if (!hash) return;
-    const id = hash.replace(/^#/, '');
-    if (!id) return;
-    const detailsWrap = document.getElementById('blogDetails');
-    const all = Array.from(document.querySelectorAll('.blog-detail-article'));
-    const target = document.getElementById(id);
-    if (!detailsWrap || !all.length || !target) return;
-    all.forEach((el) => {
-      el.classList.remove('visible');
-      el.style.display = 'none';
-    });
-    target.classList.add('visible');
-    target.style.display = 'block';
-    detailsWrap.style.display = 'block';
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
   document.addEventListener('click', (e) => {
-    const link = e.target.closest('a.blog-card[href^="#"]');
+    const link = e.target.closest('a.blog-card[href^="#"], .blog-readmore-btn');
     if (!link) return;
-    const hash = link.getAttribute('href') || '';
-    if (!hash) return;
-    if (!isBlogPageNow()) {
-      e.preventDefault();
-      window.location.href = `/?page=blog${hash}`;
+    e.preventDefault();
+    const title = link.getAttribute('data-blog-title') || '';
+    const meta = link.getAttribute('data-blog-meta') || '';
+    const content = link.getAttribute('data-blog-content') || '';
+    if (title || content) {
+      openBlogModal(title, meta, content);
       return;
     }
-    e.preventDefault();
-    history.replaceState(null, '', `/?page=blog${hash}`);
-    openBlogDetailByHash(hash);
-  });
-
-  window.addEventListener('load', () => {
-    if (isBlogPageNow() && window.location.hash) {
-      openBlogDetailByHash(window.location.hash);
-    }
+    const hash = link.getAttribute('href') || '';
+    if (!hash.startsWith('#')) return;
+    const article = document.querySelector(hash);
+    if (!article) return;
+    const artTitle = article.querySelector('h3')?.textContent || 'სიახლე';
+    const artText = article.querySelector('p')?.innerHTML || '';
+    openBlogModal(artTitle, '', artText);
   });
 
   document.addEventListener('click', (e) => {
@@ -3083,6 +3198,15 @@
     }).join('');
     grid.innerHTML = half + half;
   }
+
+  function escAttr(v) {
+    return String(v || '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
+
   function renderPortfolio() {
     const items = getCmsList('portfolio');
     const grid = document.getElementById('portfolioGrid');
@@ -3107,7 +3231,7 @@
             <div class="port-cat">${item.category||''}</div>
             <div class="port-title">${item.title||''}</div>
             <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
-            ${fullText ? `<button type="button" class="port-readmore-btn" data-port-title="${(item.title || '').replace(/"/g, '&quot;')}" data-port-category="${(item.category || '').replace(/"/g, '&quot;')}" data-port-text="${fullText.replace(/"/g, '&quot;')}">ვრცლად</button>` : ``}
+            ${fullText ? `<button type="button" class="port-readmore-btn" data-port-title="${escAttr(item.title || '')}" data-port-category="${escAttr(item.category || '')}" data-port-text="${escAttr(fullText)}">ვრცლად</button>` : ``}
           </div></div>
         </div></div>`;
     }).join('');
@@ -3324,12 +3448,14 @@
     cards.innerHTML = special + items.map((item, i) => {
       const slug = item.id||`blog-post-${i+1}`;
       const media = item.image?`<div class="blog-image" style="background-image:url('${item.image}')"></div>`:`<div class="blog-image" style="background:linear-gradient(135deg,#3730a3,#6366f1)"></div>`;
-      return `<a href="#${slug}" class="blog-card glass">${media}<div class="blog-body">
+      const meta = `${item.date||''}${item.read_time ? ` • ${item.read_time}` : ''}`.trim();
+      const full = (item.content || item.excerpt || '');
+      return `<button type="button" class="blog-card blog-btn glass blog-readmore-btn" data-blog-title="${escAttr(item.title||'')}" data-blog-meta="${escAttr(meta)}" data-blog-content="${escAttr(full)}">${media}<div class="blog-body">
         <div class="blog-meta"><span>${item.date||''}</span><div class="blog-meta-sep"></div><span>${item.read_time||''}</span></div>
         <div class="blog-title">${item.title||''}</div>
         <div class="blog-excerpt">${item.excerpt||''}</div>
         <div class="blog-read"><span>ვრცლად</span><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div></a>`;
+      </div></button>`;
     }).join('');
     details.innerHTML = items.map((item, i) => {
       const slug = item.id||`blog-post-${i+1}`;

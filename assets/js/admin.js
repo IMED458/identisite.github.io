@@ -70,6 +70,68 @@ function setSettings(payload) {
   localStorage.setItem('identisite_settings', JSON.stringify(payload));
 }
 
+function escapeHtml(str = '') {
+  return String(str)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
+}
+
+function wrapSelection(textarea, before, after = '', placeholder = 'ტექსტი') {
+  textarea.focus();
+  const start = textarea.selectionStart ?? 0;
+  const end = textarea.selectionEnd ?? 0;
+  const selected = textarea.value.slice(start, end) || placeholder;
+  const wrapped = `${before}${selected}${after}`;
+  textarea.setRangeText(wrapped, start, end, 'end');
+  textarea.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function insertStructuredList(textarea, type) {
+  textarea.focus();
+  const start = textarea.selectionStart ?? 0;
+  const end = textarea.selectionEnd ?? 0;
+  const selected = textarea.value.slice(start, end).trim();
+  const lines = (selected || 'პუნქტი 1\nპუნქტი 2')
+    .split('\n')
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .map((x) => `<li>${escapeHtml(x)}</li>`);
+  const block = type === 'ol' ? `<ol>\n${lines.join('\n')}\n</ol>` : `<ul>\n${lines.join('\n')}\n</ul>`;
+  textarea.setRangeText(block, start, end, 'end');
+  textarea.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function buildRichToolbar(textarea) {
+  if (!textarea || textarea.dataset.richReady === '1') return;
+  textarea.dataset.richReady = '1';
+
+  const toolbar = document.createElement('div');
+  toolbar.className = 'rich-toolbar';
+  const actions = [
+    { label: 'B', fn: () => wrapSelection(textarea, '<strong>', '</strong>') },
+    { label: 'H2', fn: () => wrapSelection(textarea, '<h2>', '</h2>') },
+    { label: 'H3', fn: () => wrapSelection(textarea, '<h3>', '</h3>') },
+    { label: '• List', fn: () => insertStructuredList(textarea, 'ul') },
+    { label: '1. List', fn: () => insertStructuredList(textarea, 'ol') },
+    { label: 'P', fn: () => wrapSelection(textarea, '<p>', '</p>') },
+    { label: 'BR', fn: () => wrapSelection(textarea, '<br>', '', '') }
+  ];
+  actions.forEach((action) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'rich-btn';
+    btn.textContent = action.label;
+    btn.addEventListener('click', action.fn);
+    toolbar.appendChild(btn);
+  });
+  textarea.parentNode.insertBefore(toolbar, textarea);
+}
+
+function initRichEditors() {
+  document.querySelectorAll('textarea[data-rich="true"]').forEach((ta) => buildRichToolbar(ta));
+}
+
 const DEFAULT_MAX_IMAGE_CHARS = 700000;
 
 function readFileAsDataUrlRaw(file) {
@@ -301,7 +363,8 @@ function openTab(kind) {
 
 function listMarkup(item) {
   const main = item.title || item.name || item.question || item.hero_title || item.id;
-  const sub = item.short_description || item.full_description || item.description || item.role || item.position || item.category || item.excerpt || item.answer || item.quote || '';
+  const rawSub = item.short_description || item.full_description || item.description || item.role || item.position || item.category || item.excerpt || item.answer || item.quote || '';
+  const sub = String(rawSub).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   const meta = item.date || item.read_time ? `${item.date || ''} ${item.read_time || ''}`.trim() : '';
   return `<article class="list-item">
     <div class="row">
@@ -496,6 +559,7 @@ function dashboardFlow() {
   bindTabs();
   bindForms();
   bindListActions();
+  initRichEditors();
   openTab('settings');
 
   (async () => {
