@@ -1279,7 +1279,7 @@
       font-weight: 800;
       letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--text-primary);
+      color: #0f172a;
     }
     .blog-body {
       padding: 30px;
@@ -1294,12 +1294,12 @@
       align-items: center;
       flex-wrap: wrap;
       font-size: 11px;
-      color: var(--text-muted);
+      color: #64748b;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: .09em;
     }
-    .blog-meta-sep { width: 3px; height: 3px; background: var(--text-muted); border-radius: 50%; }
+    .blog-meta-sep { width: 3px; height: 3px; background: #94a3b8; border-radius: 50%; }
     .blog-title {
       font-size: 30px;
       font-weight: 800;
@@ -1427,6 +1427,8 @@
       flex-wrap: wrap;
       margin-bottom: 12px;
     }
+    .blog-modal-top-meta .blog-meta { color: #64748b; }
+    .blog-modal-top-meta .blog-meta-sep { background: #94a3b8; }
     .blog-modal-chip {
       padding: 8px 14px;
       border-radius: 999px;
@@ -1453,6 +1455,7 @@
       border-bottom: 1px solid rgba(0,0,0,0.08);
       margin-bottom: 22px;
     }
+    .blog-modal-author-row strong { color: #0f172a; }
     .blog-author-avatar {
       width: 42px;
       height: 42px;
@@ -3015,11 +3018,30 @@
   }
 
   function renderRichText(input) {
-    const raw = String(input || '').trim();
+    const raw = String(input || '')
+      .replace(/\\n/g, '\n')
+      .replace(/\r\n?/g, '\n')
+      .trim();
     if (!raw) return '';
     if (/[<>]/.test(raw)) return sanitizeRichHtml(raw);
-    const paras = raw.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
-    return paras.map((p) => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+    const blocks = raw.split(/\n{2,}/).map((b) => b.trim()).filter(Boolean);
+
+    return blocks.map((block) => {
+      const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+      if (!lines.length) return '';
+
+      const ordered = lines.every((l) => /^\d+[.)]\s+/.test(l));
+      if (ordered) {
+        return `<ol>${lines.map((l) => `<li>${l.replace(/^\d+[.)]\s+/, '')}</li>`).join('')}</ol>`;
+      }
+
+      const unordered = lines.every((l) => /^[-*•]\s+/.test(l));
+      if (unordered) {
+        return `<ul>${lines.map((l) => `<li>${l.replace(/^[-*•]\s+/, '')}</li>`).join('')}</ul>`;
+      }
+
+      return lines.map((line) => `<p>${line}</p>`).join('');
+    }).join('');
   }
 
   // ---- PORTFOLIO MODAL ----
