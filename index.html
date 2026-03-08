@@ -637,7 +637,7 @@
     .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
     .why-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
 
-    /* --- PORTFOLIO --- */
+        /* --- PORTFOLIO --- */
     .port-card {
       position: relative;
       border-radius: 20px;
@@ -695,26 +695,27 @@
 
     .portfolio-carousel { width: 100%; }
     .embla {
-      overflow: visible;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
       border-radius: 20px;
     }
     .embla::-webkit-scrollbar { display: none; }
     .embla__container {
-      display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-      gap: 24px;
-      touch-action: auto;
-      padding-left: 0;
-      padding-right: 0;
+      display: flex;
+      touch-action: pan-y pinch-zoom;
+      padding-left: 15%;
+      padding-right: 15%;
+      gap: 16px;
     }
-    @media (min-width: 768px) { .embla__container { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1100px) { .embla__container { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     .embla__slide {
-      flex: 0 0 auto;
+      flex: 0 0 70%;
       min-width: 0;
       padding-left: 0;
       transform: translateZ(0);
-      scroll-snap-align: unset;
+      scroll-snap-align: center;
     }
     .embla-controls {
       display: flex;
@@ -778,81 +779,6 @@
       cursor: pointer;
     }
     .embla-toggle:hover { background: rgba(255,255,255,0.16); }
-
-.embla-controls { display: none !important; }
-.port-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms ease; }
-.port-card:hover .port-media { transform: scale(1.1); }
-.port-actions { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
-.port-view-link { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); text-decoration: none; transition: color .25s ease; }
-.port-view-link:hover { color: #fff; }
-.port-arrow-btn { width: 46px; height: 46px; border-radius: 999px; border: none; background: #fff; color: #0f172a; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: all .3s ease; }
-.port-arrow-btn:hover { background: #22d3ee; color: #fff; transform: translateY(-2px); }
-.port-readmore-btn {
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all .25s ease;
-}
-.port-readmore-btn:hover { background: rgba(255,255,255,0.2); }
-.portfolio-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 220;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(5,7,12,0.72);
-  backdrop-filter: blur(5px);
-  padding: 20px;
-}
-.portfolio-modal.open { display: flex; }
-.portfolio-modal-card {
-  width: min(760px, 100%);
-  max-height: 85vh;
-  overflow: auto;
-  border-radius: 18px;
-  border: 1px solid var(--border);
-  background: var(--bg-surface);
-  padding: 24px;
-}
-.portfolio-modal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-.portfolio-modal-close {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  border: 1px solid var(--border-subtle);
-  background: transparent;
-  color: var(--text-primary);
-  cursor: pointer;
-}
-.hero-wire {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.45;
-}
-.hero-wire path {
-  stroke-dasharray: 420;
-  stroke-dashoffset: 420;
-  animation: wire-draw 3s ease-in-out infinite alternate;
-}
-@keyframes wire-draw {
-  from { stroke-dashoffset: 420; opacity: 0.2; }
-  to { stroke-dashoffset: 0; opacity: 0.9; }
-}
-
 
     /* --- PERSONAL WEBSITE 3D SECTION --- */
     .pw3d-shell {
@@ -1146,6 +1072,7 @@
     }
 
     /* --- PROCESS TIMELINE --- */
+
     .process-grid { position: relative; }
     .process-line {
       position: absolute;
@@ -2162,6 +2089,7 @@
 </section>
 
 <!-- ========== PROCESS ========== -->
+
 <section id="process" class="section">
   <div class="glow-blob" style="width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.08),transparent);bottom:0;left:50%;transform:translateX(-50%)"></div>
   <div class="section-inner">
@@ -2490,16 +2418,6 @@
 
 </main>
 
-<div id="portfolioModal" class="portfolio-modal" aria-hidden="true">
-  <div class="portfolio-modal-card">
-    <div class="portfolio-modal-head">
-      <h3 id="portfolioModalTitle" style="font-size:24px;font-weight:800">Project</h3>
-      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
-    </div>
-    <p id="portfolioModalCategory" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px"></p>
-    <p id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8"></p>
-  </div>
-</div>
 
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
@@ -2786,35 +2704,6 @@
   const blogDetails = document.getElementById("blogDetails");
   if (blogDetails) blogDetails.style.display = page === "blog" ? "block" : "none";
 }
-  // ---- PORTFOLIO MODAL ----
-  const portfolioModal = document.getElementById('portfolioModal');
-  const portfolioModalTitle = document.getElementById('portfolioModalTitle');
-  const portfolioModalCategory = document.getElementById('portfolioModalCategory');
-  const portfolioModalText = document.getElementById('portfolioModalText');
-  const portfolioModalClose = document.getElementById('portfolioModalClose');
-
-  function openPortfolioModal(title, category, text) {
-    if (!portfolioModal) return;
-    portfolioModalTitle.textContent = title || 'Project';
-    portfolioModalCategory.textContent = category || '';
-    portfolioModalText.textContent = text || '';
-    portfolioModal.classList.add('open');
-    portfolioModal.setAttribute('aria-hidden', 'false');
-  }
-  function closePortfolioModal() {
-    if (!portfolioModal) return;
-    portfolioModal.classList.remove('open');
-    portfolioModal.setAttribute('aria-hidden', 'true');
-  }
-  if (portfolioModalClose) portfolioModalClose.addEventListener('click', closePortfolioModal);
-  if (portfolioModal) {
-    portfolioModal.addEventListener('click', (e) => {
-      if (e.target === portfolioModal) closePortfolioModal();
-    });
-  }
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closePortfolioModal();
-  });
 
   // ---- NAVBAR SCROLL ----
   window.addEventListener('scroll', () => {
@@ -2883,17 +2772,6 @@
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
-
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.port-readmore-btn');
-    if (!btn) return;
-    openPortfolioModal(
-      btn.getAttribute('data-port-title') || '',
-      btn.getAttribute('data-port-category') || '',
-      btn.getAttribute('data-port-text') || ''
-    );
-  });
-
   // ---- CONTACT FORM ----
   document.getElementById('contactForm').addEventListener('submit', async e => {
     e.preventDefault();
@@ -3051,50 +2929,33 @@
     }).join('');
     grid.innerHTML = half + half;
   }
-
   function renderPortfolio() {
     const items = getCmsList('portfolio');
     const grid = document.getElementById('portfolioGrid');
-    if (!grid) return;
-
-    const fallback = [
-      { title: 'E-commerce Platform', category: 'Web Store', image: 'https://picsum.photos/seed/shop/800/600', project_url: '#', short_description: 'ონლაინ გაყიდვების პლატფორმა.', full_description: 'დიზაინი, კატალოგი, checkout და ადმინისტრირების პანელი ერთი სტაბილური ეკოსისტემით.' },
-      { title: 'Corporate Identity', category: 'Branding', image: 'https://picsum.photos/seed/brand/800/600', project_url: '#', short_description: 'კორპორატიული ციფრული იდენტობა.', full_description: 'ბრენდის ხედვის შესაბამისად შექმნილი თანამედროვე ვებ-პრეზენტაცია.' },
-      { title: 'SaaS Dashboard', category: 'UI/UX Design', image: 'https://picsum.photos/seed/dash/800/600', project_url: '#', short_description: 'ანალიტიკის დეშბორდი.', full_description: 'ინტერაქციული გრაფიკები, როლებზე დაფუძნებული წვდომები და სწრაფი UX.' },
-      { title: 'Mobile App Design', category: 'Mobile App', image: 'https://picsum.photos/seed/app/800/600', project_url: '#', short_description: 'მობილური UX/UI კონცეფცია.', full_description: 'iOS/Android-სთვის ადაპტირებული ვიზუალური ენა და UX-flow.' },
-      { title: 'Real Estate Portal', category: 'Web Portal', image: 'https://picsum.photos/seed/estate/800/600', project_url: '#', short_description: 'უძრავი ქონების პორტალი.', full_description: 'ფილტრები, რუკის ინტეგრაცია, განცხადებების მართვა და SEO სტრუქტურა.' },
-      { title: 'Portfolio Website', category: 'Personal Site', image: 'https://picsum.photos/seed/port/800/600', project_url: '#', short_description: 'პერსონალური პორტფოლიო.', full_description: 'კონტენტის მოქნილი მართვა, სწრაფი ჩატვირთვა და პრემიუმ ვიზუალი.' }
-    ];
-
-    const list = items.length ? items : fallback;
-
-    grid.innerHTML = list.map((item, idx) => {
-      const chips = String(item.tech_stack || '').split(',').map(x => x.trim()).filter(Boolean);
-      const target = String(item.project_url || '#').trim() || '#';
-      const image = String(item.image || ('https://picsum.photos/seed/p' + idx + '/800/600'));
-      const tagsHtml = chips.map(c => '<span class="port-tag">' + c + '</span>').join('');
-      const shortText = String(item.short_description || item.description || '');
-      const fullText = String(item.full_description || item.description || shortText || 'აღწერა მალე დაემატება.');
-      return '<div class="embla__slide">' +
-        '<div class="port-card glass" style="position:relative;">' +
-        '<img loading="lazy" src="' + image + '" alt="' + (item.title || 'Project image') + '" class="port-media" referrerpolicy="no-referrer">' +
-        '<div class="port-overlay"><div class="port-info">' +
-        '<div class="port-cat">' + (item.category || '') + '</div>' +
-        '<div class="port-title">' + (item.title || '') + '</div>' +
-        (shortText ? '<p style="font-size:13px;color:rgba(255,255,255,.78);margin:8px 0 0;line-height:1.5">' + shortText + '</p>' : '') +
-        '<div class="port-tags">' + tagsHtml + '</div>' +
-        '<div class="port-actions">' +
-        '<a href="' + target + '" class="port-arrow-btn" aria-label="Open project" target="_blank" rel="noopener noreferrer">' +
-        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-        '</a>' +
-        '<button type="button" class="port-readmore-btn" data-port-title="' + (item.title || '') + '" data-port-category="' + (item.category || '') + '" data-port-text="' + fullText.replace(/"/g, '&quot;') + '">ვრცლად</button>' +
-        '</div>' +
-        '</div></div>' +
-        '</div></div>';
+    if (!grid || !items.length) {
+      initPortfolioCarousel();
+      return;
+    }
+    grid.innerHTML = items.map(item => {
+      const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
+      const target = (item.project_url || '').trim();
+      const hasLink = Boolean(target);
+      const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
+      const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
+      const arrow = hasLink
+        ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
+        : ``;
+      return `<div class="embla__slide"><div class="port-card" style="${bg}">
+          ${media}
+          ${arrow}
+          <div class="port-overlay"><div class="port-info">
+            <div class="port-cat">${item.category||''}</div>
+            <div class="port-title">${item.title||''}</div>
+            <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
+          </div></div>
+        </div></div>`;
     }).join('');
-
-    const controls = document.querySelector('.embla-controls');
-    if (controls) controls.style.display = 'none';
+    initPortfolioCarousel();
   }
 
 

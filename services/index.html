@@ -589,7 +589,7 @@
     .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
     .why-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
 
-    /* --- PORTFOLIO --- */
+        /* --- PORTFOLIO --- */
     .port-card {
       position: relative;
       border-radius: 20px;
@@ -647,26 +647,27 @@
 
     .portfolio-carousel { width: 100%; }
     .embla {
-      overflow: visible;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
       border-radius: 20px;
     }
     .embla::-webkit-scrollbar { display: none; }
     .embla__container {
-      display: grid;
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-      gap: 24px;
-      touch-action: auto;
-      padding-left: 0;
-      padding-right: 0;
+      display: flex;
+      touch-action: pan-y pinch-zoom;
+      padding-left: 15%;
+      padding-right: 15%;
+      gap: 16px;
     }
-    @media (min-width: 768px) { .embla__container { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-    @media (min-width: 1100px) { .embla__container { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     .embla__slide {
-      flex: 0 0 auto;
+      flex: 0 0 70%;
       min-width: 0;
       padding-left: 0;
       transform: translateZ(0);
-      scroll-snap-align: unset;
+      scroll-snap-align: center;
     }
     .embla-controls {
       display: flex;
@@ -731,17 +732,299 @@
     }
     .embla-toggle:hover { background: rgba(255,255,255,0.16); }
 
-.embla-controls { display: none !important; }
-.port-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 700ms ease; }
-.port-card:hover .port-media { transform: scale(1.1); }
-.port-actions { display: flex; align-items: center; gap: 14px; margin-top: 16px; }
-.port-view-link { font-size: 13px; font-weight: 700; color: rgba(255,255,255,.75); text-decoration: none; transition: color .25s ease; }
-.port-view-link:hover { color: #fff; }
-.port-arrow-btn { width: 46px; height: 46px; border-radius: 999px; border: none; background: #fff; color: #0f172a; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: all .3s ease; }
-.port-arrow-btn:hover { background: #22d3ee; color: #fff; transform: translateY(-2px); }
-
+    /* --- PERSONAL WEBSITE 3D SECTION --- */
+    .pw3d-shell {
+      position: relative;
+      border-radius: 24px;
+      padding: 18px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(99,102,241,0.28), transparent 40%),
+        radial-gradient(circle at 86% 78%, rgba(34,211,238,0.22), transparent 40%),
+        linear-gradient(140deg, #0b1020 0%, #121a33 48%, #0c1326 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      min-height: 460px;
+    }
+    .pw3d-scene {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      min-height: 420px;
+      transform-style: preserve-3d;
+      perspective: 1200px;
+      border-radius: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(3,8,22,0.8) 0%, rgba(3,8,22,0.45) 42%, rgba(3,8,22,0.85) 100%);
+      isolation: isolate;
+    }
+    .pw3d-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(165,180,252,0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(165,180,252,0.09) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: 0.28;
+      transform: translateZ(-120px) rotateX(60deg) scale(1.35);
+      transform-origin: bottom center;
+      animation: pw3d-grid-drift 12s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes pw3d-grid-drift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 0 48px, 48px 0; }
+    }
+    .pw3d-device {
+      position: absolute;
+      left: 50%;
+      top: 52%;
+      width: min(62%, 640px);
+      transform: translate3d(-50%, -50%, 45px) rotateY(-12deg) rotateX(7deg);
+      border-radius: 24px;
+      background: linear-gradient(150deg, rgba(19,24,43,0.95), rgba(11,15,29,0.95));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow:
+        0 28px 72px rgba(0,0,0,0.45),
+        0 0 0 1px rgba(99,102,241,0.24) inset;
+      padding: 22px;
+      transition: transform 0.25s ease;
+    }
+    .pw3d-device-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .pw3d-device-dots { display: flex; gap: 6px; }
+    .pw3d-device-dots span {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+    }
+    .pw3d-screen {
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 16px;
+      background: linear-gradient(150deg, rgba(99,102,241,0.15), rgba(34,211,238,0.11));
+      min-height: 210px;
+    }
+    .pw3d-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e2e8f0;
+      background: rgba(15,23,42,0.5);
+      border: 1px solid rgba(255,255,255,0.14);
+      margin-bottom: 12px;
+    }
+    .pw3d-title {
+      font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
+      font-size: clamp(20px, 2.4vw, 30px);
+      line-height: 1.16;
+      letter-spacing: -0.02em;
+      color: #f8fafc;
+      margin-bottom: 10px;
+    }
+    .pw3d-text {
+      font-size: 14px;
+      color: #cbd5e1;
+      line-height: 1.68;
+      max-width: 96%;
+    }
+    .pw3d-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .pw3d-metric {
+      border-radius: 12px;
+      padding: 10px;
+      background: rgba(15,23,42,0.45);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .pw3d-metric strong {
+      display: block;
+      font-size: 16px;
+      color: #f8fafc;
+      margin-bottom: 2px;
+    }
+    .pw3d-metric span { font-size: 11px; color: #cbd5e1; }
+    .pw3d-card {
+      position: absolute;
+      border-radius: 16px;
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(15,23,42,0.62);
+      box-shadow: 0 16px 42px rgba(0,0,0,0.34);
+      backdrop-filter: blur(14px);
+      transition: transform 0.25s ease;
+      will-change: transform;
+      min-height: 108px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pw3d-card-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+    }
+    .pw3d-card-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(165,180,252,0.45), rgba(34,211,238,0.35));
+      border: 1px solid rgba(255,255,255,0.4);
+      color: #f8fafc;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .pw3d-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.35;
+      color: #e2e8f0;
+      letter-spacing: 0.01em;
+    }
+    .pw3d-card-sm { width: min(22%, 220px); }
+    .pw3d-card-lg { width: min(24%, 240px); }
+    .pw3d-card-a {
+      left: 5%;
+      top: 10%;
+      transform: translate3d(0, 0, 80px) rotateY(16deg) rotateX(-8deg);
+      animation: pw3d-float-a 6.2s ease-in-out infinite;
+    }
+    .pw3d-card-b {
+      right: 5%;
+      top: 12%;
+      transform: translate3d(0, 0, 60px) rotateY(-15deg) rotateX(7deg);
+      animation: pw3d-float-b 6.8s ease-in-out infinite;
+    }
+    .pw3d-card-c {
+      right: 12%;
+      bottom: 11%;
+      transform: translate3d(0, 0, 70px) rotateY(-11deg) rotateX(6deg);
+      animation: pw3d-float-c 7.4s ease-in-out infinite;
+    }
+    .pw3d-cards {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .pw3d-cards .pw3d-card { pointer-events: auto; }
+    @keyframes pw3d-float-a {
+      0%,100% { transform: translate3d(0,0,80px) rotateY(16deg) rotateX(-8deg); }
+      50% { transform: translate3d(0,-12px,80px) rotateY(19deg) rotateX(-10deg); }
+    }
+    @keyframes pw3d-float-b {
+      0%,100% { transform: translate3d(0,0,60px) rotateY(-15deg) rotateX(7deg); }
+      50% { transform: translate3d(0,-14px,60px) rotateY(-18deg) rotateX(9deg); }
+    }
+    @keyframes pw3d-float-c {
+      0%,100% { transform: translate3d(0,0,70px) rotateY(-11deg) rotateX(6deg); }
+      50% { transform: translate3d(0,-11px,70px) rotateY(-14deg) rotateX(8deg); }
+    }
+    .pw3d-tag {
+      display: inline-flex;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #e0e7ff;
+      background: rgba(99,102,241,0.25);
+      border: 1px solid rgba(129,140,248,0.5);
+    }
+    .pw3d-tag-a {
+      background: linear-gradient(135deg, rgba(99,102,241,0.45), rgba(34,211,238,0.28));
+      border-color: rgba(165,180,252,0.7);
+    }
+    .pw3d-tag-b {
+      background: linear-gradient(135deg, rgba(16,185,129,0.34), rgba(6,182,212,0.28));
+      border-color: rgba(94,234,212,0.65);
+    }
+    .pw3d-tag-c {
+      background: linear-gradient(135deg, rgba(244,114,182,0.34), rgba(139,92,246,0.32));
+      border-color: rgba(233,213,255,0.65);
+    }
+    @media (max-width: 1024px) {
+      .pw3d-shell { min-height: 420px; }
+      .pw3d-scene { min-height: 360px; }
+      .pw3d-device { width: min(72%, 580px); }
+      .pw3d-card-sm { width: min(28%, 180px); }
+      .pw3d-card-lg { width: min(30%, 190px); }
+      .pw3d-card-name { font-size: 12px; }
+    }
+    @media (max-width: 768px) {
+      .pw3d-shell { padding: 10px; min-height: auto; }
+      .pw3d-scene {
+        min-height: auto;
+        aspect-ratio: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding: 10px;
+        overflow: hidden;
+      }
+      .pw3d-grid { display: none; }
+      .pw3d-device {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 88%;
+        max-width: none;
+        margin: 0 auto;
+        transform: none !important;
+        padding: 14px;
+      }
+      .pw3d-screen { min-height: 170px; padding: 12px; }
+      .pw3d-title { font-size: 19px; }
+      .pw3d-text { font-size: 12px; }
+      .pw3d-cards {
+        position: relative;
+        inset: auto;
+        width: 88%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .pw3d-card {
+        position: relative;
+        left: auto;
+        right: auto;
+        top: auto;
+        bottom: auto;
+        width: 100%;
+        padding: 10px;
+        border-radius: 12px;
+        min-height: 72px;
+        transform: none !important;
+        animation: none !important;
+      }
+      .pw3d-card-sm, .pw3d-card-lg { width: 100%; }
+      .pw3d-card-icon { width: 24px; height: 24px; border-radius: 8px; }
+      .pw3d-card-name { font-size: 11px; }
+      .pw3d-tag { margin-top: 6px; padding: 4px 9px; font-size: 10px; }
+      .pw3d-metrics { grid-template-columns: 1fr; gap: 7px; }
+    }
 
     /* --- PROCESS TIMELINE --- */
+
     .process-grid { position: relative; }
     .process-line {
       position: absolute;
@@ -1607,6 +1890,7 @@
 </section>
 
 <!-- ========== PROCESS ========== -->
+
 <section id="process" class="section">
   <div class="glow-blob" style="width:400px;height:400px;background:radial-gradient(circle,rgba(99,102,241,0.08),transparent);bottom:0;left:50%;transform:translateX(-50%)"></div>
   <div class="section-inner">
@@ -2438,48 +2722,34 @@
     }).join('');
     grid.innerHTML = half + half;
   }
-
   function renderPortfolio() {
-  const items = getCmsList('portfolio');
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
-
-  const fallback = [
-    { title: 'E-commerce Platform', category: 'Web Store', image: 'https://picsum.photos/seed/shop/800/600', project_url: '#' },
-    { title: 'Corporate Identity', category: 'Branding', image: 'https://picsum.photos/seed/brand/800/600', project_url: '#' },
-    { title: 'SaaS Dashboard', category: 'UI/UX Design', image: 'https://picsum.photos/seed/dash/800/600', project_url: '#' },
-    { title: 'Mobile App Design', category: 'Mobile App', image: 'https://picsum.photos/seed/app/800/600', project_url: '#' },
-    { title: 'Real Estate Portal', category: 'Web Portal', image: 'https://picsum.photos/seed/estate/800/600', project_url: '#' },
-    { title: 'Portfolio Website', category: 'Personal Site', image: 'https://picsum.photos/seed/port/800/600', project_url: '#' }
-  ];
-
-  const list = items.length ? items : fallback;
-
-  grid.innerHTML = list.map((item, idx) => {
-    const chips = String(item.tech_stack || '').split(',').map(x => x.trim()).filter(Boolean);
-    const target = String(item.project_url || '#').trim() || '#';
-    const image = String(item.image || ('https://picsum.photos/seed/p' + idx + '/800/600'));
-    const tagsHtml = chips.map(c => '<span class="port-tag">' + c + '</span>').join('');
-    return '<div class="embla__slide">' +
-      '<div class="port-card glass" style="position:relative;">' +
-      '<img loading="lazy" src="' + image + '" alt="' + (item.title || 'Project image') + '" class="port-media" referrerpolicy="no-referrer">' +
-      '<div class="port-overlay"><div class="port-info">' +
-      '<div class="port-cat">' + (item.category || '') + '</div>' +
-      '<div class="port-title">' + (item.title || '') + '</div>' +
-      '<div class="port-tags">' + tagsHtml + '</div>' +
-      '<div class="port-actions">' +
-      '<a href="' + target + '" class="port-arrow-btn" aria-label="Open project" target="_blank" rel="noopener noreferrer">' +
-      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '</a>' +
-      '<a href="' + target + '" class="port-view-link" target="_blank" rel="noopener noreferrer">პროექტის ნახვა</a>' +
-      '</div>' +
-      '</div></div>' +
-      '</div></div>';
-  }).join('');
-
-  const controls = document.querySelector('.embla-controls');
-  if (controls) controls.style.display = 'none';
-}
+    const items = getCmsList('portfolio');
+    const grid = document.getElementById('portfolioGrid');
+    if (!grid || !items.length) {
+      initPortfolioCarousel();
+      return;
+    }
+    grid.innerHTML = items.map(item => {
+      const chips = (item.tech_stack||'').split(',').map(x=>x.trim()).filter(Boolean);
+      const target = (item.project_url || '').trim();
+      const hasLink = Boolean(target);
+      const bg = item.image?'':`background:linear-gradient(135deg,#3730a3,#6366f1);`;
+      const media = item.image?`<img loading="lazy" src="${item.image}" alt="${item.title||''}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;padding:0">`:``; 
+      const arrow = hasLink
+        ? `<a href="${target}" class="port-arrow" aria-label="Open project" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 13L13 1M13 1H5M13 1v8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>`
+        : ``;
+      return `<div class="embla__slide"><div class="port-card" style="${bg}">
+          ${media}
+          ${arrow}
+          <div class="port-overlay"><div class="port-info">
+            <div class="port-cat">${item.category||''}</div>
+            <div class="port-title">${item.title||''}</div>
+            <div class="port-tags">${chips.map(c=>`<span class="port-tag">${c}</span>`).join('')}</div>
+          </div></div>
+        </div></div>`;
+    }).join('');
+    initPortfolioCarousel();
+  }
 
 
   let portfolioIndex = 0;
