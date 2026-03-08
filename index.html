@@ -2869,6 +2869,54 @@
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
+
+  function isBlogPageNow() {
+    const params = new URLSearchParams(window.location.search);
+    const forced = (params.get('page') || '').toLowerCase();
+    if (forced === 'blog') return true;
+    const p = window.location.pathname.toLowerCase();
+    return p.endsWith('/blog/') || p.endsWith('/blog') || p.endsWith('/blog.html');
+  }
+
+  function openBlogDetailByHash(hash) {
+    if (!hash) return;
+    const id = hash.replace(/^#/, '');
+    if (!id) return;
+    const detailsWrap = document.getElementById('blogDetails');
+    const all = Array.from(document.querySelectorAll('.blog-detail-article'));
+    const target = document.getElementById(id);
+    if (!detailsWrap || !all.length || !target) return;
+    all.forEach((el) => {
+      el.classList.remove('visible');
+      el.style.display = 'none';
+    });
+    target.classList.add('visible');
+    target.style.display = 'block';
+    detailsWrap.style.display = 'block';
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a.blog-card[href^="#"]');
+    if (!link) return;
+    const hash = link.getAttribute('href') || '';
+    if (!hash) return;
+    if (!isBlogPageNow()) {
+      e.preventDefault();
+      window.location.href = `/?page=blog${hash}`;
+      return;
+    }
+    e.preventDefault();
+    history.replaceState(null, '', `/?page=blog${hash}`);
+    openBlogDetailByHash(hash);
+  });
+
+  window.addEventListener('load', () => {
+    if (isBlogPageNow() && window.location.hash) {
+      openBlogDetailByHash(window.location.hash);
+    }
+  });
+
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.port-readmore-btn');
     if (!btn) return;
