@@ -84,6 +84,7 @@
       overflow-x: hidden;
       line-height: 1.6;
     }
+    body.site-loading { overflow: hidden; }
 
     h1, h2, h3, h4, h5 {
       font-family: 'Syne', 'Noto Sans Georgian', sans-serif;
@@ -150,9 +151,12 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      transition: all 0.4s ease;
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       padding: 0 2rem;
+      transform: translateY(-100px);
+      opacity: 0;
     }
+    body.page-ready #navbar { transform: translateY(0); opacity: 1; }
     #navbar.scrolled {
       background: rgba(7, 7, 14, 0.85);
       backdrop-filter: blur(24px);
@@ -276,6 +280,7 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 32px var(--glow-primary);
     }
+    .btn-primary:active { transform: scale(0.95); }
     .btn-secondary {
       display: inline-flex;
       align-items: center;
@@ -297,6 +302,7 @@
       background: rgba(99, 102, 241, 0.08);
       transform: translateY(-2px);
     }
+    .btn-secondary:active { transform: scale(0.95); }
     .mobile-btn {
       display: none;
       background: transparent;
@@ -305,6 +311,55 @@
       cursor: pointer;
       padding: 8px;
       border-radius: 10px;
+    }
+    #pageLoader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 18px;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    #pageLoader.hidden { opacity: 0; transform: scale(1.08); pointer-events: none; }
+    .loader-logo {
+      width: 66px; height: 66px;
+      display: grid; place-items: center;
+      border-radius: 16px;
+      border: 1px solid rgba(99,102,241,0.35);
+      color: white;
+      font-family: 'Syne', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+      box-shadow: 0 8px 24px rgba(79,70,229,0.35);
+      animation: loader-pop 0.5s ease both;
+    }
+    .loader-progress {
+      width: 180px;
+      height: 2px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-progress-bar {
+      position: absolute;
+      inset: 0;
+      width: 0;
+      background: var(--accent-secondary);
+      animation: loader-fill 1s 0.5s ease forwards;
+    }
+    @keyframes loader-pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    @keyframes loader-fill {
+      from { width: 0; }
+      to { width: 100%; }
     }
 
     /* --- SECTION LABEL --- */
@@ -398,7 +453,11 @@
       letter-spacing: -0.04em;
       margin-bottom: 24px;
       color: var(--text-primary);
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    body.page-ready .hero-title { opacity: 1; transform: translateY(0); }
     .hero-divider {
       width: 80px;
       height: 2px;
@@ -413,7 +472,8 @@
       margin-bottom: 40px;
       font-weight: 300;
     }
-    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 56px; opacity: 0; transform: translateY(28px); transition: opacity 0.8s 0.35s cubic-bezier(0.16,1,0.3,1), transform 0.8s 0.35s cubic-bezier(0.16,1,0.3,1); }
+    body.page-ready .hero-ctas { opacity: 1; transform: translateY(0); }
     .hero-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -438,7 +498,11 @@
     .float-card {
       position: absolute;
       border-radius: 16px;
+      opacity: 0;
+      transform: translateY(40px) scale(0.85);
+      transition: opacity 1s cubic-bezier(0.16,1,0.3,1), transform 1s cubic-bezier(0.16,1,0.3,1);
     }
+    body.page-ready .float-card { opacity: 1; transform: translateY(0) scale(1); }
     @keyframes float-a {
       0%, 100% { transform: translateY(0px) rotate(-1deg); }
       50% { transform: translateY(-16px) rotate(-1deg); }
@@ -739,6 +803,71 @@
 .port-view-link:hover { color: #fff; }
 .port-arrow-btn { width: 46px; height: 46px; border-radius: 999px; border: none; background: #fff; color: #0f172a; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; transition: all .3s ease; }
 .port-arrow-btn:hover { background: #22d3ee; color: #fff; transform: translateY(-2px); }
+.port-readmore-btn {
+  border: 1px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .25s ease;
+}
+.port-readmore-btn:hover { background: rgba(255,255,255,0.2); }
+.portfolio-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 220;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5,7,12,0.72);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+}
+.portfolio-modal.open { display: flex; }
+.portfolio-modal-card {
+  width: min(760px, 100%);
+  max-height: 85vh;
+  overflow: auto;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  padding: 24px;
+}
+.portfolio-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.portfolio-modal-close {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+.hero-wire {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.45;
+}
+.hero-wire path {
+  stroke-dasharray: 420;
+  stroke-dashoffset: 420;
+  animation: wire-draw 3s ease-in-out infinite alternate;
+}
+@keyframes wire-draw {
+  from { stroke-dashoffset: 420; opacity: 0.2; }
+  to { stroke-dashoffset: 0; opacity: 0.9; }
+}
 
 
     /* --- PERSONAL WEBSITE 3D SECTION --- */
@@ -1063,6 +1192,16 @@
       padding-top: 32px;
       position: relative;
     }
+    .process-number-wrap::after {
+      content: '';
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(79,70,229,0.35);
+      z-index: 0;
+      animation: process-ping 2s infinite;
+    }
     .process-number {
       width: 48px; height: 48px;
       border-radius: 50%;
@@ -1078,6 +1217,11 @@
       z-index: 2;
       position: relative;
       flex-shrink: 0;
+    }
+    @keyframes process-ping {
+      0% { transform: scale(1); opacity: .22; }
+      70% { transform: scale(1.3); opacity: 0; }
+      100% { transform: scale(1.3); opacity: 0; }
     }
     .process-empty { }
     .process-step h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
@@ -1511,7 +1655,11 @@
   }
   </script>
 </head>
-<body>
+<body class="site-loading">
+<div id="pageLoader" aria-label="Page loading">
+  <div class="loader-logo">I</div>
+  <div class="loader-progress"><div class="loader-progress-bar"></div></div>
+</div>
 
 <!-- ========== NAVBAR ========== -->
 <nav id="navbar">
@@ -1599,6 +1747,16 @@
 
     <!-- Hero Visual -->
     <div class="hero-visual">
+      <svg class="hero-wire" viewBox="0 0 1000 520" fill="none" aria-hidden="true">
+        <path d="M70 160C220 80 320 260 470 190C610 125 690 300 930 220" stroke="url(#heroWireGrad)" stroke-width="2"/>
+        <defs>
+          <linearGradient id="heroWireGrad" x1="70" y1="160" x2="930" y2="220" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366f1"/>
+            <stop offset="0.5" stop-color="#22d3ee"/>
+            <stop offset="1" stop-color="#a855f7"/>
+          </linearGradient>
+        </defs>
+      </svg>
       <!-- Floating card 1 -->
       <div class="float-card float-a glass" style="top:0;left:20px;width:240px;padding:20px;">
         <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
@@ -2352,6 +2510,17 @@
 
 </main>
 
+<div id="portfolioModal" class="portfolio-modal" aria-hidden="true">
+  <div class="portfolio-modal-card">
+    <div class="portfolio-modal-head">
+      <h3 id="portfolioModalTitle" style="font-size:24px;font-weight:800">Project</h3>
+      <button id="portfolioModalClose" class="portfolio-modal-close" aria-label="Close">✕</button>
+    </div>
+    <p id="portfolioModalCategory" style="font-size:12px;color:var(--accent-secondary);text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px"></p>
+    <p id="portfolioModalText" style="font-size:15px;color:var(--text-secondary);line-height:1.8"></p>
+  </div>
+</div>
+
 <!-- ========== FOOTER ========== -->
 <footer id="site-footer">
   <div class="footer-inner">
@@ -2585,8 +2754,17 @@
   }
 
   function applyPageLayout() {
-    const file = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
-    const page = file.replace('.html', '') || 'index';
+    const pathname = window.location.pathname.toLowerCase();
+    let page = 'index';
+    if (pathname.endsWith('/about/') || pathname.endsWith('/about')) page = 'about';
+    else if (pathname.endsWith('/services/') || pathname.endsWith('/services')) page = 'services';
+    else if (pathname.endsWith('/portfolio/') || pathname.endsWith('/portfolio')) page = 'portfolio';
+    else if (pathname.endsWith('/process/') || pathname.endsWith('/process')) page = 'process';
+    else if (pathname.endsWith('/blog/') || pathname.endsWith('/blog')) page = 'blog';
+    else if (pathname.endsWith('/contact/') || pathname.endsWith('/contact')) page = 'contact';
+    else if (pathname.endsWith('/privacy/') || pathname.endsWith('/privacy')) page = 'privacy';
+    else if (pathname.endsWith('/terms/') || pathname.endsWith('/terms')) page = 'terms';
+    else if (pathname.endsWith('.html')) page = pathname.split('/').pop().replace('.html', '') || 'index';
     const pageMap = {
       index: ['home', 'partners'],
       about: ['about'],
@@ -2612,6 +2790,47 @@
     const blogDetails = document.getElementById('blogDetails');
     if (blogDetails) blogDetails.style.display = page === 'blog' ? 'block' : 'none';
   }
+
+  // ---- PAGE LOADER ----
+  const pageLoader = document.getElementById('pageLoader');
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.body.classList.remove('site-loading');
+      document.body.classList.add('page-ready');
+      if (pageLoader) pageLoader.classList.add('hidden');
+      setTimeout(() => pageLoader && pageLoader.remove(), 900);
+    }, 950);
+  });
+
+  // ---- PORTFOLIO MODAL ----
+  const portfolioModal = document.getElementById('portfolioModal');
+  const portfolioModalTitle = document.getElementById('portfolioModalTitle');
+  const portfolioModalCategory = document.getElementById('portfolioModalCategory');
+  const portfolioModalText = document.getElementById('portfolioModalText');
+  const portfolioModalClose = document.getElementById('portfolioModalClose');
+
+  function openPortfolioModal(title, category, text) {
+    if (!portfolioModal) return;
+    portfolioModalTitle.textContent = title || 'Project';
+    portfolioModalCategory.textContent = category || '';
+    portfolioModalText.textContent = text || '';
+    portfolioModal.classList.add('open');
+    portfolioModal.setAttribute('aria-hidden', 'false');
+  }
+  function closePortfolioModal() {
+    if (!portfolioModal) return;
+    portfolioModal.classList.remove('open');
+    portfolioModal.setAttribute('aria-hidden', 'true');
+  }
+  if (portfolioModalClose) portfolioModalClose.addEventListener('click', closePortfolioModal);
+  if (portfolioModal) {
+    portfolioModal.addEventListener('click', (e) => {
+      if (e.target === portfolioModal) closePortfolioModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePortfolioModal();
+  });
 
   // ---- NAVBAR SCROLL ----
   window.addEventListener('scroll', () => {
@@ -2679,6 +2898,16 @@
       const target = document.querySelector(a.getAttribute('href'));
       if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
+  });
+
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.port-readmore-btn');
+    if (!btn) return;
+    openPortfolioModal(
+      btn.getAttribute('data-port-title') || '',
+      btn.getAttribute('data-port-category') || '',
+      btn.getAttribute('data-port-text') || ''
+    );
   });
 
   // ---- CONTACT FORM ----
@@ -2840,46 +3069,49 @@
   }
 
   function renderPortfolio() {
-  const items = getCmsList('portfolio');
-  const grid = document.getElementById('portfolioGrid');
-  if (!grid) return;
+    const items = getCmsList('portfolio');
+    const grid = document.getElementById('portfolioGrid');
+    if (!grid) return;
 
-  const fallback = [
-    { title: 'E-commerce Platform', category: 'Web Store', image: 'https://picsum.photos/seed/shop/800/600', project_url: '#' },
-    { title: 'Corporate Identity', category: 'Branding', image: 'https://picsum.photos/seed/brand/800/600', project_url: '#' },
-    { title: 'SaaS Dashboard', category: 'UI/UX Design', image: 'https://picsum.photos/seed/dash/800/600', project_url: '#' },
-    { title: 'Mobile App Design', category: 'Mobile App', image: 'https://picsum.photos/seed/app/800/600', project_url: '#' },
-    { title: 'Real Estate Portal', category: 'Web Portal', image: 'https://picsum.photos/seed/estate/800/600', project_url: '#' },
-    { title: 'Portfolio Website', category: 'Personal Site', image: 'https://picsum.photos/seed/port/800/600', project_url: '#' }
-  ];
+    const fallback = [
+      { title: 'E-commerce Platform', category: 'Web Store', image: 'https://picsum.photos/seed/shop/800/600', project_url: '#', short_description: 'ონლაინ გაყიდვების პლატფორმა.', full_description: 'დიზაინი, კატალოგი, checkout და ადმინისტრირების პანელი ერთი სტაბილური ეკოსისტემით.' },
+      { title: 'Corporate Identity', category: 'Branding', image: 'https://picsum.photos/seed/brand/800/600', project_url: '#', short_description: 'კორპორატიული ციფრული იდენტობა.', full_description: 'ბრენდის ხედვის შესაბამისად შექმნილი თანამედროვე ვებ-პრეზენტაცია.' },
+      { title: 'SaaS Dashboard', category: 'UI/UX Design', image: 'https://picsum.photos/seed/dash/800/600', project_url: '#', short_description: 'ანალიტიკის დეშბორდი.', full_description: 'ინტერაქციული გრაფიკები, როლებზე დაფუძნებული წვდომები და სწრაფი UX.' },
+      { title: 'Mobile App Design', category: 'Mobile App', image: 'https://picsum.photos/seed/app/800/600', project_url: '#', short_description: 'მობილური UX/UI კონცეფცია.', full_description: 'iOS/Android-სთვის ადაპტირებული ვიზუალური ენა და UX-flow.' },
+      { title: 'Real Estate Portal', category: 'Web Portal', image: 'https://picsum.photos/seed/estate/800/600', project_url: '#', short_description: 'უძრავი ქონების პორტალი.', full_description: 'ფილტრები, რუკის ინტეგრაცია, განცხადებების მართვა და SEO სტრუქტურა.' },
+      { title: 'Portfolio Website', category: 'Personal Site', image: 'https://picsum.photos/seed/port/800/600', project_url: '#', short_description: 'პერსონალური პორტფოლიო.', full_description: 'კონტენტის მოქნილი მართვა, სწრაფი ჩატვირთვა და პრემიუმ ვიზუალი.' }
+    ];
 
-  const list = items.length ? items : fallback;
+    const list = items.length ? items : fallback;
 
-  grid.innerHTML = list.map((item, idx) => {
-    const chips = String(item.tech_stack || '').split(',').map(x => x.trim()).filter(Boolean);
-    const target = String(item.project_url || '#').trim() || '#';
-    const image = String(item.image || ('https://picsum.photos/seed/p' + idx + '/800/600'));
-    const tagsHtml = chips.map(c => '<span class="port-tag">' + c + '</span>').join('');
-    return '<div class="embla__slide">' +
-      '<div class="port-card glass" style="position:relative;">' +
-      '<img loading="lazy" src="' + image + '" alt="' + (item.title || 'Project image') + '" class="port-media" referrerpolicy="no-referrer">' +
-      '<div class="port-overlay"><div class="port-info">' +
-      '<div class="port-cat">' + (item.category || '') + '</div>' +
-      '<div class="port-title">' + (item.title || '') + '</div>' +
-      '<div class="port-tags">' + tagsHtml + '</div>' +
-      '<div class="port-actions">' +
-      '<a href="' + target + '" class="port-arrow-btn" aria-label="Open project" target="_blank" rel="noopener noreferrer">' +
-      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '</a>' +
-      '<a href="' + target + '" class="port-view-link" target="_blank" rel="noopener noreferrer">პროექტის ნახვა</a>' +
-      '</div>' +
-      '</div></div>' +
-      '</div></div>';
-  }).join('');
+    grid.innerHTML = list.map((item, idx) => {
+      const chips = String(item.tech_stack || '').split(',').map(x => x.trim()).filter(Boolean);
+      const target = String(item.project_url || '#').trim() || '#';
+      const image = String(item.image || ('https://picsum.photos/seed/p' + idx + '/800/600'));
+      const tagsHtml = chips.map(c => '<span class="port-tag">' + c + '</span>').join('');
+      const shortText = String(item.short_description || item.description || '');
+      const fullText = String(item.full_description || item.description || shortText || 'აღწერა მალე დაემატება.');
+      return '<div class="embla__slide">' +
+        '<div class="port-card glass" style="position:relative;">' +
+        '<img loading="lazy" src="' + image + '" alt="' + (item.title || 'Project image') + '" class="port-media" referrerpolicy="no-referrer">' +
+        '<div class="port-overlay"><div class="port-info">' +
+        '<div class="port-cat">' + (item.category || '') + '</div>' +
+        '<div class="port-title">' + (item.title || '') + '</div>' +
+        (shortText ? '<p style="font-size:13px;color:rgba(255,255,255,.78);margin:8px 0 0;line-height:1.5">' + shortText + '</p>' : '') +
+        '<div class="port-tags">' + tagsHtml + '</div>' +
+        '<div class="port-actions">' +
+        '<a href="' + target + '" class="port-arrow-btn" aria-label="Open project" target="_blank" rel="noopener noreferrer">' +
+        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M7 17L17 7M17 7H9M17 7v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+        '</a>' +
+        '<button type="button" class="port-readmore-btn" data-port-title="' + (item.title || '') + '" data-port-category="' + (item.category || '') + '" data-port-text="' + fullText.replace(/"/g, '&quot;') + '">ვრცლად</button>' +
+        '</div>' +
+        '</div></div>' +
+        '</div></div>';
+    }).join('');
 
-  const controls = document.querySelector('.embla-controls');
-  if (controls) controls.style.display = 'none';
-}
+    const controls = document.querySelector('.embla-controls');
+    if (controls) controls.style.display = 'none';
+  }
 
 
   let portfolioIndex = 0;

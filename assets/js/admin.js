@@ -301,7 +301,7 @@ function openTab(kind) {
 
 function listMarkup(item) {
   const main = item.title || item.name || item.question || item.hero_title || item.id;
-  const sub = item.description || item.role || item.position || item.category || item.excerpt || item.answer || item.quote || '';
+  const sub = item.short_description || item.description || item.role || item.position || item.category || item.excerpt || item.answer || item.quote || '';
   const meta = item.date || item.read_time ? `${item.date || ''} ${item.read_time || ''}`.trim() : '';
   return `<article class="list-item">
     <div class="row">
